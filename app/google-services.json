@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "262269246255",
+    "project_id": "doctor-appointment-f5d32",
+    "storage_bucket": "doctor-appointment-f5d32.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:262269246255:android:900eee1468bbe485d2dfda",
+        "android_client_info": {
+          "package_name": "dev.edu.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzRcF0l9LjmJlwutlkdfhFc15v0mKo6mY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

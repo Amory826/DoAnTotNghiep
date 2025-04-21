@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="dev.edu.doctorappointment">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.DoctorAppointment"
+        tools:targetApi="31">
+        <activity
+            android:name=".Screen.Home.FavoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Screen.Home.SearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Screen.Home.Payment3Activity"
+            android:exported="false" />
+        <activity
+            android:name=".Screen.Home.MessengerActivity"
+            android:exported="false"
+            android:theme="@style/Theme.DoctorAppointment" />
+        <activity
+            android:name=".Screen.Home.Payment2Activity"
+            android:exported="false" />
+        <activity
+            android:name=".Screen.Home.PaymentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Screen.Home.AppointmentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Screen.Home.DetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Screen.Home.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Screen.Home.MessActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Screen.Home.BookingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Screen.Home.HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Screen.LoginRegister.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Screen.LoginRegister.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Screen.Splash.SplashActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".Screen.Splash.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
