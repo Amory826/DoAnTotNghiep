@@ -2,6 +2,7 @@ package dev.edu.app.Screen.LoginRegister;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 
@@ -58,16 +59,17 @@ public class LoginActivity extends AppCompatActivity {
             String email = binding.email.getText().toString();
             String password = binding.password.getText().toString();
             if(email.isEmpty()){
-                binding.email.setError("Email is required");
+                binding.email.setError("Vui lòng nhập email");
                 binding.email.requestFocus();
                 return;
             }
             if(password.isEmpty()){
-                binding.password.setError("Password is required");
+                binding.password.setError("Vui lòng nhập mật khẩu");
                 binding.password.requestFocus();
                 return;
             }
-            WaitDialog.show(this, "Loading...");
+            Log.d("LoginDebug", "User info: ");
+            WaitDialog.show(this, "Đang tải...");
 
             Query query = myRef.orderByChild("email").equalTo(email);
 
@@ -80,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                         String pass = userModel.getPassword();
                         if(pass.equals(password)){
                             WaitDialog.dismiss();
-                            TipDialog.show(LoginActivity.this, "Login Success", TipDialog.TYPE.SUCCESS);
+                            TipDialog.show(LoginActivity.this, "Đăng nhập thành công", TipDialog.TYPE.SUCCESS);
                             new Handler().postDelayed(() -> {
                                 dev.edu.app.Model.UserData userData = new dev.edu.app.Model.UserData(LoginActivity.this);
                                 userData.saveData("id", userModel.getKeyID());
@@ -94,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                             }, 1000L);
                         }else{
                             WaitDialog.dismiss();
-                            binding.password.setError("Wrong Password");
+                            binding.password.setError("Sai mật khẩu");
                             binding.password.requestFocus();
                         }
                     }else{

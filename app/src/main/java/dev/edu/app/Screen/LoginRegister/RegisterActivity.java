@@ -56,37 +56,37 @@ public class RegisterActivity extends AppCompatActivity {
             String phone = binding.phone.getText().toString();
             String rePassword = binding.repassword.getText().toString();
             if(email.isEmpty()){
-                binding.email.setError("Email is required");
+                binding.email.setError("Vui lòng nhập email");
                 binding.email.requestFocus();
                 return;
             }
             if(password.isEmpty()){
-                binding.password.setError("Password is required");
+                binding.password.setError("Vui lòng nhập mật khẩu");
                 binding.password.requestFocus();
                 return;
             }
             if(rePassword.isEmpty()){
-                binding.repassword.setError("Re-Password is required");
+                binding.repassword.setError("Vui lòng nhập lại mật khẩu");
                 binding.repassword.requestFocus();
                 return;
             }
             if(name.isEmpty()){
-                binding.fullname.setError("Full Name is required");
+                binding.fullname.setError("Vui lòng nhập họ tên");
                 binding.fullname.requestFocus();
                 return;
             }
             if(phone.isEmpty()){
-                binding.phone.setError("Phone is required");
+                binding.phone.setError("Vui lòng nhập số điện thoại");
                 binding.phone.requestFocus();
                 return;
             }
             if(!password.equals(rePassword)){
-                binding.repassword.setError("Password not match");
+                binding.repassword.setError("Hai mật khẩu không giống nhau");
                 binding.repassword.requestFocus();
                 return;
             }
 
-            WaitDialog.show(this, "Registering...");
+            WaitDialog.show(this, "Đăng ký...");
 
             UserModel userModel = new UserModel();
             userModel.setEmail(email);
