@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:background="@color/white">
 
         <TextView
             android:layout_width="match_parent"
@@ -26,7 +27,8 @@
             android:id="@+id/edtOldPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Old Password"
+            android:hint="Mật khẩu cũ"
+            android:textColorHint="@color/backgroundInfoHintText"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:padding="10dp"
@@ -37,7 +39,8 @@
             android:id="@+id/edtNewPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="New Password"
+            android:hint="Mật khẩu mới"
+            android:textColorHint="@color/backgroundInfoHintText"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:padding="10dp"
@@ -48,7 +51,8 @@
             android:id="@+id/edtConfirmPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Confirm Password"
+            android:hint="Xác nhận lại mật khẩu"
+            android:textColorHint="@color/backgroundInfoHintText"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:padding="10dp"
@@ -60,11 +64,11 @@
             android:id="@+id/btnChangePass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Change Password"
+            android:text="Thay đổi mật khẩu"
             android:textSize="20sp"
             android:textStyle="bold"
             android:background="@drawable/bg_edit"
-            android:textColor="#009966"
+            android:textColor="@color/backgroundInfoHintText"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"/>
 
@@ -72,11 +76,11 @@
             android:id="@+id/btnClose"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Close"
+            android:text="Hủy bỏ"
             android:textSize="20sp"
             android:textStyle="bold"
             android:background="@drawable/bg_edit"
-            android:textColor="#009966"
+            android:textColor="@color/backgroundInfoHintText"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"/>
 

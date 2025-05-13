@@ -2,6 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.DoctorAppointment" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/my_background_color</item>
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>

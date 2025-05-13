@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Screen.Home.ProfileActivity">
+    tools:context=".Screen.Home.ProfileActivity"
+    android:padding="4dp">
 
 
     <LinearLayout
@@ -37,7 +38,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayout"
         android:layout_marginTop="40dp"
-        app:cardCornerRadius="10dp">
+        app:cardCornerRadius="10dp"
+        android:layout_marginHorizontal="8dp"
+        android:background="@color/backgroundInfo"
+        >
 
         <TextView
             android:id="@+id/tvName"
@@ -47,7 +51,8 @@
             android:text="Name: Nguyen Van A"
             android:textColor="#009966"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            />
 
 
     </androidx.cardview.widget.CardView>
@@ -58,7 +63,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/cardView"
         android:layout_marginTop="40dp"
-        app:cardCornerRadius="10dp">
+        app:cardCornerRadius="10dp"
+        android:layout_marginHorizontal="8dp"
+        android:background="@color/backgroundInfo"
+        >
 
         <TextView
             android:id="@+id/tvEmail"
@@ -79,7 +87,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/cardView1"
         android:layout_marginTop="40dp"
-        app:cardCornerRadius="10dp">
+        app:cardCornerRadius="10dp"
+        android:layout_marginHorizontal="8dp"
+        android:background="@color/backgroundInfo"
+        >
 
         <TextView
             android:id="@+id/tvPhone"
@@ -103,7 +114,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/cardView2"
         android:layout_marginTop="40dp"
-        app:cardCornerRadius="10dp">
+        app:cardCornerRadius="10dp"
+        android:layout_marginHorizontal="8dp"
+        android:background="@color/backgroundInfo"
+
+        >
 
         <TextView
             android:layout_width="match_parent"
@@ -122,7 +137,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/payment"
         android:layout_marginTop="40dp"
-        app:cardCornerRadius="10dp">
+        app:cardCornerRadius="10dp"
+        android:background="@color/backgroundInfo"
+        android:layout_marginHorizontal="8dp"
+        >
 
         <TextView
             android:layout_width="match_parent"
@@ -141,7 +159,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/favorite"
         android:layout_marginTop="40dp"
-        app:cardCornerRadius="10dp">
+        app:cardCornerRadius="10dp"
+        android:background="@color/backgroundInfo"
+        android:layout_marginHorizontal="8dp"
+        >
 
         <TextView
             android:layout_width="match_parent"
@@ -160,13 +181,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/changePassword"
         android:layout_marginTop="40dp"
-        app:cardCornerRadius="10dp">
+        app:cardCornerRadius="10dp"
+        android:background="@color/backgroundInfo"
+        android:layout_marginHorizontal="8dp"
+        >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Thoát"
+            android:text="Đăng xuất"
             android:textColor="#009966"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -235,7 +259,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Home"
+            android:text="Trang chủ"
             android:textColor="#009966"
             android:textSize="15sp"
             android:textStyle="bold" />

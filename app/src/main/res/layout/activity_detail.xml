@@ -136,17 +136,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginVertical="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/et_message"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:layout_weight="1"
-                android:hint="Gửi tin nhắn..."
+                android:hint="@string/guiTinNhan"
+                android:layout_marginEnd="20dp"
                 android:padding="10dp"
                 android:textColorHint="#009966"
                 android:textColor="#009966"
@@ -237,7 +238,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/bgtext"
-                android:text="Đặt lịch hẹn"
+                android:text="@string/datLichHen"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
