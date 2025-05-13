@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.google.firebase.database.DataSnapshot;
@@ -79,7 +80,7 @@ public class SearchActivity extends AppCompatActivity {
                     binding.rvSearch.setNestedScrollingEnabled(false);
                     binding.rvSearch.setClipToPadding(false);
                     binding.rvSearch.setClipChildren(false);
-                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(SearchActivity.this, LinearLayout.VERTICAL, false);
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(SearchActivity.this, RecyclerView.VERTICAL, false);
                     binding.rvSearch.setLayoutManager(linearLayoutManager);
                 } else {
                     List<ServiceModel> filteredServices = new ArrayList<>();

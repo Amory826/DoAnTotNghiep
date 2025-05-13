@@ -44,4 +44,12 @@
     </string>
     <string name="guiTinNhan">Gửi tin nhắn...</string>
     <string name="datLichHen">Đặt lịch hẹn</string>
+    <string name="thanhToan">Thanh toán</string>
+    <string name="messenger">Messenger</string>
+    <string name="nhapTinNhan">Nhập tin nhắn ...</string>
+    <string name="doctor">Bác sĩ</string>
+    <string name="dichVu">Dịch vụ</string>
+    <string name="timKiem">Tìm kiếm</string>
+    <string name="lichSuThanhToan">Lịch sử thanh toán</string>
+    <string name="thongTinLichDaDat">Thông tin lịch đã đặt</string>
 </resources>

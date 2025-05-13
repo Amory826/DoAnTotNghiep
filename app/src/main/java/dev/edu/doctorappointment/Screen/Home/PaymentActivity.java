@@ -58,12 +58,12 @@ public class PaymentActivity extends AppCompatActivity {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         ServiceModel serviceModel = dataSnapshot.getValue(ServiceModel.class);
                         if (serviceModel.getName().equals(appointmentModel.getServiceId())) {
-                            binding.tvAmount.setText("$ " + serviceModel.getPrice());
-                            binding.tvMoney.setText("$ " + serviceModel.getPrice());
+                            binding.tvAmount.setText(serviceModel.getPrice() + " VND");
+                            binding.tvMoney.setText(serviceModel.getPrice()  + " VND");
                             binding.tvAddress.setText(appointmentModel.getClinicName());
                             binding.tvService.setText(appointmentModel.getServiceId());
                             binding.tvDate.setText(appointmentModel.getAppointmentTime() + "," + appointmentModel.getAppointmentSlot());
-                            binding.tvTotal.setText("$ " + serviceModel.getPrice());
+                            binding.tvTotal.setText(serviceModel.getPrice() + " VND");
                             binding.tvBooking.setText(new UserData(PaymentActivity.this).getData("name"));
                             FirebaseDatabase.getInstance().getReference("Doctors").addValueEventListener(new ValueEventListener() {
                                 @Override
@@ -117,7 +117,7 @@ public class PaymentActivity extends AppCompatActivity {
                 myRef.child(appointmentModel.getAppointmentId()).setValue(appointmentModel).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         WaitDialog.dismiss();
-                        TipDialog.show(this, "Payment Successful", TipDialog.TYPE.SUCCESS);
+                        TipDialog.show(this, "Thanh toán thành công", TipDialog.TYPE.SUCCESS);
                         new Handler().postDelayed(() -> {
                             Intent intent = new Intent(PaymentActivity.this, Payment2Activity.class);
                             intent.putExtra("doctor", binding.tvName.getText().toString());

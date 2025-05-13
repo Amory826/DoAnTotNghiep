@@ -121,7 +121,7 @@ public class AdapterDoctors extends RecyclerView.Adapter<AdapterDoctors.MyViewHo
 
     @Override
     public int getItemCount() {
-        return Math.min(doctors.size(), 4);
+        return doctors.size();
     }
 
     private void updateFavoriteDoctorsInFirebase(boolean isFavorite, DoctorsModel doctor, View v) {

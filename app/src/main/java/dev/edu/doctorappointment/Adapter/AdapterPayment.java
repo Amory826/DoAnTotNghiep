@@ -35,7 +35,7 @@ public class AdapterPayment extends RecyclerView.Adapter<AdapterPayment.ViewHold
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         // Payment ID bạn đã mua gói dịch vụ này với mã ID là: , số tiền bạn đã thanh toán là: , thời gian thanh toán: , trạng thái thanh toán: // dùng tiếng anh
 
-        String content = "Payment ID: " + paymentModel.getPaymentId() + ", you have purchased this service with ID: " + paymentModel.getAppointmentId() + ", the amount you have paid is: " + paymentModel.getAmount() + ", payment time: " + simpleDateFormat.format(Long.parseLong(paymentModel.getTimestamp()));
+        String content = "Mã thanh toán: " + paymentModel.getPaymentId() + ", Bạn đã thanh toán dịch vụ này bằng ID: " + paymentModel.getAppointmentId() + ", với số tiền đã trả là: " + paymentModel.getAmount() + ", vào thời gian: " + simpleDateFormat.format(Long.parseLong(paymentModel.getTimestamp()));
         holder.binding.tvContent.setText(content);
         holder.binding.tvStatus.setText("Payment status: " + paymentModel.getStatus());
     }

@@ -22,16 +22,17 @@
             android:layout_gravity="center"
             android:onClick="back"
             android:padding="10dp"
+            tools:ignore="OnClick"
             android:src="@drawable/back_ic" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Search"
+            android:text="@string/timKiem"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -57,14 +58,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Doctor"
+            android:text="@string/doctor"
             android:checked="true" />
         <RadioButton
             android:id="@+id/rbService"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Dịch vụ" />
+            android:text="@string/dichVu" />
     </RadioGroup>
 
     <androidx.recyclerview.widget.RecyclerView

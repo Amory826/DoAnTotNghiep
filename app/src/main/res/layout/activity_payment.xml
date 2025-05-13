@@ -36,7 +36,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="Thanh toan"
+                android:text="@string/thanhToan"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -269,7 +269,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@drawable/paynow"
+                android:background="@drawable/button_login"
+                android:text="@string/thanhToan"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
         </LinearLayout>

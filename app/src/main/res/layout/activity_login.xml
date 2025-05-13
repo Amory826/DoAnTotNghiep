@@ -13,7 +13,7 @@
     <RelativeLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/_60dp"
         android:background="@drawable/bgtext">
 
         <ImageView

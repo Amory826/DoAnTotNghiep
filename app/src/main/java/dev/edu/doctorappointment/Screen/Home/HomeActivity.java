@@ -14,6 +14,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -70,10 +71,12 @@ public class HomeActivity extends AppCompatActivity {
         adapterService = new AdapterService(services);
         binding.recyclerView.setAdapter(adapterService);
         binding.recyclerView.setHasFixedSize(true);
-        binding.recyclerView.setNestedScrollingEnabled(false);
+        binding.recyclerView.setNestedScrollingEnabled(true);
         binding.recyclerView.setClipToPadding(false);
         binding.recyclerView.setClipChildren(false);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+        
+        // Create a custom GridLayoutManager with 2 rows and horizontal scrolling
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false);
         binding.recyclerView.setLayoutManager(gridLayoutManager);
 
         // Setup Doctors RecyclerView
@@ -83,7 +86,7 @@ public class HomeActivity extends AppCompatActivity {
         binding.recyclerView2.setNestedScrollingEnabled(false);
         binding.recyclerView2.setClipToPadding(false);
         binding.recyclerView2.setClipChildren(false);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayout.VERTICAL, false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         binding.recyclerView2.setLayoutManager(linearLayoutManager);
     }
 

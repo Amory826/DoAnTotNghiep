@@ -11,7 +11,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_60dp"
         android:background="@drawable/bgtext"
         android:orientation="horizontal"
         android:padding="10dp">
@@ -23,7 +23,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Booking"
+            android:text="@string/thongTinLichDaDat"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />

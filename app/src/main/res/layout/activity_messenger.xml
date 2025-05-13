@@ -28,9 +28,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:gravity="right"
+            android:gravity="center"
             android:padding="10dp"
-            android:text="Messenger"
+            android:text="@string/messenger"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -55,12 +55,14 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/bgtext"
         android:orientation="horizontal"
+        android:gravity="center"
         android:padding="10dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/btn_image"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_margin="2dp"
             app:cardCornerRadius="30dp"
             app:cardElevation="5dp">
 
@@ -77,7 +79,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/bg_edit"
-            android:hint="Type a message"
+            android:hint="@string/nhapTinNhan"
+            android:layout_margin="8dp"
             android:padding="10dp" />
 
         <androidx.cardview.widget.CardView
