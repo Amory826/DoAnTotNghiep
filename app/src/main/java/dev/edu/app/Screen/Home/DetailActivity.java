@@ -87,6 +87,7 @@ public class DetailActivity extends AppCompatActivity {
             for (String serviceId : doctor.getServices()) {
                 services += serviceId + ", ";
             }
+            services = services.replaceAll(", $", "");
             if (!doctor.getProfilePicture().isEmpty()) {
                 Picasso.get().load(doctor.getProfilePicture()).into(binding.ivProfilePicture);
             } else {
@@ -98,8 +99,8 @@ public class DetailActivity extends AppCompatActivity {
             }
             binding.tvSpecialty.setText(services);
             binding.tvBirthYear.setText("Năm sinh: " + doctor.getBirthYear());
-            binding.tvGender.setText("Giới tính: " + doctor.getGender());
-            binding.tvClinicName.setText("Phòng khám: " + doctor.getClinicName());
+            binding.tvGender.setText(String.format("Giới tính: %s", doctor.getGender()));
+            binding.tvClinicName.setText(String.format("Vị trí: %s", doctor.getClinicName()));
             AdapterWorking adapterWorking = new AdapterWorking(doctor.getWorkingHours());
             binding.recyclerViewWorkingHours.setAdapter(adapterWorking);
             binding.recyclerViewWorkingHours.setHasFixedSize(true);

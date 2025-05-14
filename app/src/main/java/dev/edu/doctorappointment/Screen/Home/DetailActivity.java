@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 
@@ -15,6 +16,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -89,10 +91,12 @@ public class DetailActivity extends AppCompatActivity {
         if (getIntent().hasExtra("doctor")) {
             doctor = (DoctorsModel) getIntent().getSerializableExtra("doctor");
             binding.tvDoctorName.setText(doctor.getName());
-            String services = "";
+            String services = "Chuyên khoa: ";
             for (String serviceId : doctor.getServices()) {
                 services += serviceId + ", ";
             }
+            services = services.replaceAll(", $", "");
+            Log.d("12313", services);
             if (!doctor.getProfilePicture().isEmpty()) {
                 Picasso.get().load(doctor.getProfilePicture()).into(binding.ivProfilePicture);
             } else {
@@ -103,16 +107,16 @@ public class DetailActivity extends AppCompatActivity {
                 }
             }
             binding.tvSpecialty.setText(services);
-            binding.tvBirthYear.setText("Năm sinh: " + doctor.getBirthYear());
-            binding.tvGender.setText("Giới tính: " + doctor.getGender());
-            binding.tvClinicName.setText("Phòng khám: " + doctor.getClinicName());
+            binding.tvBirthYear.setText(String.format("Năm sinh: %d", doctor.getBirthYear()));
+            binding.tvGender.setText(String.format("Giới tính: %s", doctor.getGender()));
+            binding.tvClinicName.setText(String.format("Vị trí: %s", doctor.getClinicName()));
             AdapterWorking adapterWorking = new AdapterWorking(doctor.getWorkingHours());
             binding.recyclerViewWorkingHours.setAdapter(adapterWorking);
             binding.recyclerViewWorkingHours.setHasFixedSize(true);
             binding.recyclerViewWorkingHours.setNestedScrollingEnabled(false);
             binding.recyclerViewWorkingHours.setClipToPadding(false);
             binding.recyclerViewWorkingHours.setClipChildren(false);
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayout.HORIZONTAL, false);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
             binding.recyclerViewWorkingHours.setLayoutManager(linearLayoutManager);
             binding.tvAboutDoctor.setText(doctor.getDescription());
 

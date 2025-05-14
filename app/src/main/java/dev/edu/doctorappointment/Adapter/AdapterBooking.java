@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -64,7 +65,7 @@ public class AdapterBooking extends RecyclerView.Adapter<AdapterBooking.MyViewHo
         for (int i = 0; i < serviceModels.size(); i++) {
             if (serviceModels.get(i).getName().equals(appointmentModel.getServiceId())) {
                 holder.binding.tvService.setText(serviceModels.get(i).getName());
-                holder.binding.tvPrice.setText("$ " + serviceModels.get(i).getPrice());
+                holder.binding.tvPrice.setText(MessageFormat.format("{0} VND", serviceModels.get(i).getPrice()));
             }
         }
         holder.binding.tvDate.setText(appointmentModel.getAppointmentTime());
