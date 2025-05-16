@@ -1,6 +1,8 @@
 package dev.edu.doctorappointment.Model;
 
-public class ServiceModel {
+import java.io.Serializable;
+
+public class ServiceModel implements Serializable {
 
     public String name;
     public String keyID;

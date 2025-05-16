@@ -6,4 +6,5 @@
     <color name="backgroundInfo">#A8A5A5</color>
     <color name="backgroundInfoBlue">#00BBD3</color>
     <color name="backgroundInfoHintText">#8000BBD3</color>
+    <color name="backgroundTransfer">#00FFFFFF</color>
 </resources>

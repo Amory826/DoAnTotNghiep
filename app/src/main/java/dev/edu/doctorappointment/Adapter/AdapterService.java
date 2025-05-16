@@ -1,5 +1,6 @@
 package dev.edu.doctorappointment.Adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import dev.edu.doctorappointment.Model.ServiceModel;
+import dev.edu.doctorappointment.Screen.Home.DetailServiceActivity;
 import dev.edu.doctorappointment.databinding.ItemServiceBinding;
 
 public class AdapterService extends RecyclerView.Adapter<AdapterService.ViewHolder> {
@@ -33,6 +35,13 @@ public class AdapterService extends RecyclerView.Adapter<AdapterService.ViewHold
         ServiceModel service = services.get(position);
         holder.binding.tvService.setText(service.getName());
         Picasso.get().load(service.getIcon()).into(holder.binding.imgService);
+        
+        // Set click listener for the service item
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), DetailServiceActivity.class);
+            intent.putExtra("SERVICE_KEY", service);
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override

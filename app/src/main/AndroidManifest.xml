@@ -39,7 +39,7 @@
             android:name=".Screen.Home.DetailActivity"
             android:exported="false" />
         <activity
-            android:name=".Screen.Home.ProfileActivity"
+            android:name=".Screen.Home.DetailServiceActivity"
             android:exported="false" />
         <activity
             android:name=".Screen.Home.MessActivity"
