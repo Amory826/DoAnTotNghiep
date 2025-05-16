@@ -73,14 +73,23 @@ public class BookingActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 appointmentModels.clear();
+                String userId = userData.getData("id");
+                String userType = userData.getData("userType");
+                boolean isDoctor = userType != null && userType.equals("doctor");
+                
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     AppointmentModel model = dataSnapshot.getValue(AppointmentModel.class);
-                    assert model != null;
-                    if (model.getUserId().equals(userData.getData("id"))) {
-                        appointmentModels.add(model);
+                    if (model != null) {
+                        // If user is a doctor, show appointments where they are the doctor
+                        // If user is a patient, show appointments where they are the patient
+                        if ((isDoctor && model.getDoctorId().equals(userId)) || 
+                            (!isDoctor && model.getUserId().equals(userId))) {
+                            appointmentModels.add(model);
+                        }
                     }
                 }
-                //ddaor nguoc list
+                
+                // Sort most recent appointments first (reverse order)
                 for (int i = 0; i < appointmentModels.size() / 2; i++) {
                     AppointmentModel temp = appointmentModels.get(i);
                     appointmentModels.set(i, appointmentModels.get(appointmentModels.size() - 1 - i));

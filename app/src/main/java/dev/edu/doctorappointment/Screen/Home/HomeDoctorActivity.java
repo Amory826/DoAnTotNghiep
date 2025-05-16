@@ -123,7 +123,15 @@ public class HomeDoctorActivity extends AppCompatActivity {
         });
 
         binding.booking.setOnClickListener(v -> {
-            // For doctors, this might show a list of appointments or calendar
+            // For doctors, show all of their appointments
+            try {
+                Intent intent = new Intent(this, BookingActivity.class);
+                intent.putExtra("userType", "doctor");
+                startActivity(intent);
+            } catch (Exception e) {
+                Toast.makeText(this, "Không thể mở trang đặt lịch: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("NavigationError", "Error navigating to BookingActivity: " + e.getMessage());
+            }
         });
     }
 

@@ -167,11 +167,11 @@ public class DetailActivity extends AppCompatActivity {
                     String time = dialogBinding.spnTime.getSelectedItem().toString();
                     String date = dialogBinding.tvDate.getText().toString();
                     if (date.isEmpty() || date.equals("Choose Date")) {
-                        dialogBinding.tvDate.setError("Please enter date");
+                        dialogBinding.tvDate.setError("Vui lòng chọn ngày khám");
                         return;
                     }
                     if (time.isEmpty()) {
-                        TipDialog.show(this, "Please select time", TipDialog.TYPE.ERROR);
+                        TipDialog.show(this, "Vui lòng chọn thời gian thực hiện", TipDialog.TYPE.ERROR);
                         return;
                     }
                     WaitDialog.show(this, "Booking...", 0.1f);

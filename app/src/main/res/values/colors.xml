@@ -7,4 +7,5 @@
     <color name="backgroundInfoBlue">#00BBD3</color>
     <color name="backgroundInfoHintText">#8000BBD3</color>
     <color name="backgroundTransfer">#00FFFFFF</color>
+    <color name="holo_orange_dark">#ffff8800</color>
 </resources>
