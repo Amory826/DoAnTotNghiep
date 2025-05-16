@@ -53,4 +53,10 @@
     <string name="lichSuThanhToan">Lịch sử thanh toán</string>
     <string name="thongTinLichDaDat">Thông tin lịch đã đặt</string>
     <string name="cardiology">Cardiology</string>
+    <string name="thoiGianLamViec">Thời gian làm việc</string>
+    <string name="thongTinCacBacSi">Thông tin các bác sĩ</string>
+    <string name="thongTinBacSi">Thông tin bác sĩ</string>
+    <string name="textExample">Dr. Ava Williams is a Maternal-Fetal Medicine Specialist in New York, NY and has over 15 years of experience in the medical field. She graduated from the University of California School of Medicine - San Francisco medical school in 2006. She is affiliated with medical facilities NewYork-Presbyterian/Weill Cornell Medical Center and NYU Langone Health Tisch Hospital. She is accepting new patients. Be sure to call ahead with Dr. Williams to book an appointment.</string>
+    <string name="todo">TODO</string>
+    <string name="moTaBenh">Chi tiết mô tả bệnh</string>
 </resources>
