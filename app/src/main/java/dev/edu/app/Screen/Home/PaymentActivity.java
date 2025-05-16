@@ -104,7 +104,7 @@ public class PaymentActivity extends AppCompatActivity {
 
             binding.btnPay.setOnClickListener(v -> {
                 WaitDialog.show(this, "Processing...");
-                appointmentModel.setStatus("Paid");
+                appointmentModel.setStatus("Đã thanh toán");
                 PaymentModel paymentModel = new PaymentModel();
                 DatabaseReference myRefpm = FirebaseDatabase.getInstance().getReference("Payments");
                 paymentModel.setPaymentId(myRefpm.push().getKey());

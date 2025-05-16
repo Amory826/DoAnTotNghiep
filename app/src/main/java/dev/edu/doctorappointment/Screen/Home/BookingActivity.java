@@ -41,6 +41,7 @@ public class BookingActivity extends AppCompatActivity {
     List<DoctorsModel> doctorsModels = new ArrayList<>();
     List<AppointmentModel> appointmentModels = new ArrayList<>();
     AdapterBooking adapterBooking;
+    private UserData userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,7 @@ public class BookingActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        userData = new UserData(this);
         init();
 
         adapterBooking = new AdapterBooking(appointmentModels, doctorsModels, serviceModels);
@@ -74,7 +76,7 @@ public class BookingActivity extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     AppointmentModel model = dataSnapshot.getValue(AppointmentModel.class);
                     assert model != null;
-                    if (model.getUserId().equals(new UserData(BookingActivity.this).getData("id"))) {
+                    if (model.getUserId().equals(userData.getData("id"))) {
                         appointmentModels.add(model);
                     }
                 }
@@ -133,9 +135,21 @@ public class BookingActivity extends AppCompatActivity {
         });
     }
 
+    // Helper method to navigate to the appropriate home screen based on user type
+    private void navigateToHome() {
+        String userType = userData.getData("userType");
+        Intent intent;
+        
+        if (userType != null && userType.equals("doctor")) {
+            intent = new Intent(this, HomeDoctorActivity.class);
+        } else {
+            intent = new Intent(this, HomeActivity.class);
+        }
+        
+        startActivity(intent);
+    }
 
     private void init() {
-        binding.textView4.setText("Booking");
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_in_right);
         binding.main.startAnimation(animation);
         binding.mess.setOnClickListener(v -> {
@@ -143,8 +157,7 @@ public class BookingActivity extends AppCompatActivity {
             startActivity(intent);
         });
         binding.home.setOnClickListener(v -> {
-            Intent intent = new Intent(BookingActivity.this, HomeActivity.class);
-            startActivity(intent);
+            navigateToHome();
         });
         binding.profile.setOnClickListener(v -> {
             Intent intent = new Intent(BookingActivity.this, ProfileActivity.class);

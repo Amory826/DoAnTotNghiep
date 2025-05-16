@@ -100,7 +100,6 @@ public class MessActivity extends AppCompatActivity {
 
 
     private void init() {
-        binding.textView4.setText("Message");
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_in_right);
         binding.main.startAnimation(animation);
         binding.booking.setOnClickListener(v -> {

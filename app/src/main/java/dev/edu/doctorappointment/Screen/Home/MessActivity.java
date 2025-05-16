@@ -35,6 +35,7 @@ public class MessActivity extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("Message");
     DatabaseReference myRef1 = database.getReference("Doctor");
+    private UserData userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class MessActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        userData = new UserData(this);
         init();
         fetchMessage();
     }
@@ -60,7 +62,7 @@ public class MessActivity extends AppCompatActivity {
                 if (!snapshot.exists()) {
                     return;
                 }
-                String currentUserId = new UserData(getApplicationContext()).getData("id");
+                String currentUserId = userData.getData("id");
                 List<String> chatUsers = new ArrayList<>();
 
                 for (DataSnapshot data : snapshot.getChildren()) {
@@ -99,9 +101,21 @@ public class MessActivity extends AppCompatActivity {
         binding.recyclerView.setItemAnimator(null);
     }
 
+    // Helper method to navigate to the appropriate home screen based on user type
+    private void navigateToHome() {
+        String userType = userData.getData("userType");
+        Intent intent;
+        
+        if (userType != null && userType.equals("doctor")) {
+            intent = new Intent(this, HomeDoctorActivity.class);
+        } else {
+            intent = new Intent(this, HomeActivity.class);
+        }
+        
+        startActivity(intent);
+    }
 
     private void init() {
-        binding.textView4.setText("Message");
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_in_right);
         binding.main.startAnimation(animation);
         binding.booking.setOnClickListener(v -> {
@@ -109,8 +123,7 @@ public class MessActivity extends AppCompatActivity {
             startActivity(intent);
         });
         binding.home.setOnClickListener(v -> {
-            Intent intent = new Intent(MessActivity.this, HomeActivity.class);
-            startActivity(intent);
+            navigateToHome();
         });
         binding.profile.setOnClickListener(v -> {
             Intent intent = new Intent(MessActivity.this, ProfileActivity.class);

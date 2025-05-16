@@ -25,6 +25,8 @@ import com.kongzue.dialogx.dialogs.WaitDialog;
 import dev.edu.doctorappointment.Model.DoctorsModel;
 import dev.edu.doctorappointment.Model.UserModel;
 import dev.edu.doctorappointment.R;
+import dev.edu.doctorappointment.Screen.Home.HomeDoctorActivity;
+import dev.edu.doctorappointment.Screen.Home.HomeActivity;
 import dev.edu.doctorappointment.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
@@ -91,7 +93,8 @@ public class LoginActivity extends AppCompatActivity {
                                 userData.saveData("isLogin", "true");
                                 userData.saveData("name", userModel.getName());
                                 userData.saveData("phone", userModel.getPhone());
-                                startActivity(new android.content.Intent(LoginActivity.this, dev.edu.doctorappointment.Screen.Home.HomeActivity.class));
+                                userData.saveData("userType", "user");
+                                startActivity(new android.content.Intent(LoginActivity.this, HomeActivity.class));
                                 finish();
                             }, 1000L);
                         }else{
@@ -117,36 +120,49 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
                 String token = binding.email.getText().toString();
+                WaitDialog.show(LoginActivity.this, "Đang tải...");
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference("Doctors");
                 myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        boolean doctorFound = false;
                         for (DataSnapshot ds : snapshot.getChildren()) {
                             DoctorsModel doctorsModel = ds.getValue(DoctorsModel.class);
                             if (doctorsModel != null && doctorsModel.getDoctorId().equals(token)) {
+                                doctorFound = true;
                                 WaitDialog.dismiss();
-                                TipDialog.show(LoginActivity.this, "Login Success", TipDialog.TYPE.SUCCESS);
+                                TipDialog.show(LoginActivity.this, "Đăng nhập bác sĩ thành công", TipDialog.TYPE.SUCCESS);
                                 new Handler().postDelayed(() -> {
                                     dev.edu.doctorappointment.Model.UserData userData = new dev.edu.doctorappointment.Model.UserData(LoginActivity.this);
                                     userData.saveData("id", doctorsModel.getDoctorId());
                                     userData.saveData("name", doctorsModel.getName());
-                                    startActivity(new android.content.Intent(LoginActivity.this, dev.edu.doctorappointment.Screen.Home.MessActivity.class));
+                                    userData.saveData("userType", "doctor");
+                                    userData.saveData("isLogin", "true");
+                                    userData.saveData("clinicName", doctorsModel.getClinicName());
+                                    userData.saveData("profilePicture", doctorsModel.getProfilePicture());
+                                    userData.saveData("gender", doctorsModel.getGender());
+                                    userData.saveData("birthYear", String.valueOf(doctorsModel.getBirthYear()));
+                                    startActivity(new android.content.Intent(LoginActivity.this, HomeDoctorActivity.class));
                                     finish();
                                 }, 1000L);
+                                break;
                             }
+                        }
+                        if (!doctorFound) {
+                            WaitDialog.dismiss();
+                            TipDialog.show(LoginActivity.this, "ID bác sĩ không tồn tại", TipDialog.TYPE.ERROR);
                         }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
+                        WaitDialog.dismiss();
+                        TipDialog.show(LoginActivity.this, "Lỗi kết nối", TipDialog.TYPE.ERROR);
                     }
                 });
-                return false;
+                return true;
             }
         });
-
-
     }
 }

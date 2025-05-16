@@ -28,6 +28,7 @@ import com.squareup.picasso.Picasso;
 
 import java.security.Timestamp;
 import java.util.Calendar;
+import java.util.Locale;
 
 import dev.edu.doctorappointment.Adapter.AdapterWorking;
 import dev.edu.doctorappointment.Model.AppointmentModel;
@@ -208,7 +209,7 @@ public class DetailActivity extends AppCompatActivity {
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(detailActivity,
                 (view, year1, monthOfYear, dayOfMonth) -> {
-                    String selectedDate = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year1;
+                    String selectedDate = String.format(Locale.getDefault(), "%02d/%02d/%d", dayOfMonth, (monthOfYear + 1), year1);
                     dialogBinding.tvDate.setText(selectedDate);
                 }, year, month, day);
         return datePickerDialog;

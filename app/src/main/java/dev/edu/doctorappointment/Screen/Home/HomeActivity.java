@@ -180,7 +180,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private void init() {
         binding.fullname.setText(new UserData(this).getData("name"));
-        binding.textView4.setText("Home");
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_in_right);
         binding.main.startAnimation(animation);
         binding.mess.setOnClickListener(v -> {

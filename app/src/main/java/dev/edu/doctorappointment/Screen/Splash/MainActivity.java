@@ -1,5 +1,6 @@
 package dev.edu.doctorappointment.Screen.Splash;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -18,6 +19,8 @@ import dev.edu.doctorappointment.Model.DoctorsModel;
 import dev.edu.doctorappointment.Model.ServiceModel;
 import dev.edu.doctorappointment.Model.UserData;
 import dev.edu.doctorappointment.R;
+import dev.edu.doctorappointment.Screen.Home.HomeDoctorActivity;
+import dev.edu.doctorappointment.Screen.Home.HomeActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,15 +36,30 @@ public class MainActivity extends AppCompatActivity {
         });
 
         new android.os.Handler().postDelayed(() -> {
-            String isLogin = new UserData(this) .getData("isLogin");
-            if(isLogin.equals("true")){
-                startActivity(new android.content.Intent(this, dev.edu.doctorappointment.Screen.Home.HomeActivity.class));
+            UserData userData = new UserData(this);
+            String isLogin = userData.getData("isLogin");
+            
+            if(isLogin.equals("true")) {
+                // Check user type to navigate to correct screen
+                String userType = userData.getData("userType");
+                Intent intent;
+                
+                if(userType != null && userType.equals("doctor")) {
+                    // Doctor login
+                    intent = new Intent(this, HomeDoctorActivity.class);
+                } else {
+                    // Regular user login
+                    intent = new Intent(this, HomeActivity.class);
+                }
+                
+                startActivity(intent);
                 finish();
                 return;
             }
-            startActivity(new android.content.Intent(this, dev.edu.doctorappointment.Screen.Splash.SplashActivity2.class));
+            
+            // Not logged in, go to splash
+            startActivity(new Intent(this, SplashActivity2.class));
             finish();
         }, 3000);
-
     }
 }

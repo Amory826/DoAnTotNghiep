@@ -60,4 +60,6 @@
     <string name="todo">TODO</string>
     <string name="moTaBenh">Chi tiết mô tả bệnh</string>
     <string name="textExampleDetailService">Price: 100.000đ</string>
+    <string name="example_doctorName">Dr. Ava Williams, M.D.</string>
+    <string name="lichHenHomNay">Lịch hẹn hôm nay</string>
 </resources>

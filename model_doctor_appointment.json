@@ -1,0 +1,888 @@
+{
+  "Appointments": {
+    "-OQCYI8XM5ArcA4FE2Wb": {
+      "appointmentId": "-OQCYI8XM5ArcA4FE2Wb",
+      "appointmentSlot": "08:00 - 12:00",
+      "appointmentTime": "15/5/2025",
+      "clinicName": "Phòng khám Đa khoa ABC",
+      "doctorId": "-NydlZ6mJgH0W534lQHh",
+      "serviceId": "Da liễu",
+      "status": "Paid",
+      "userId": "-O2YJoAgpUJ4DkiehPEr"
+    },
+    "-OQCYlS5w_kZmPKSWX8k": {
+      "appointmentId": "-OQCYlS5w_kZmPKSWX8k",
+      "appointmentSlot": "08:00 - 12:00",
+      "appointmentTime": "17/5/2025",
+      "clinicName": "Phòng khám Đa khoa ABC",
+      "doctorId": "-NydlZ6mJgH0W534lQHh",
+      "serviceId": "Da liễu",
+      "status": "Paid",
+      "userId": "-O2YJoAgpUJ4DkiehPEr"
+    }
+  },
+  "Doctors": {
+    "-NydlZ6mJgH0W534lQHh": {
+      "birthYear": 1980,
+      "clinicName": "Trưởng khoa Tai Mũi Họng",
+      "description": "Chuyên sâu về các bệnh lý mũi xoang, phẫu thuật nội soi mũi xoang và nền sọ. Chuyên sâu về các bệnh lý Tai, Tai thần kinh và phẫu thuật Tai.",
+      "doctorId": "-NydlZ6mJgH0W534lQHh",
+      "gender": "Nam",
+      "isFavorite": true,
+      "name": "PGS.TS. Lê Công Định",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/dba047b1-d101-4549-974e-ee89fc2f6d2a",
+      "services": [
+        "-NyderKqH0JlmPOlOHjl"
+      ],
+      "workingHours": [
+        "08:00 - 10:00",
+        "10:00 - 12:00",
+        "14:00 - 16:00",
+        "16:00 - 18:00"
+      ]
+    },
+    "-NydlZ6mJgH0W534lQPp": {
+      "birthYear": 1980,
+      "clinicName": "Phó trưởng khoa Tai Mũi Họng",
+      "description": "Tai và tai thần kinh: các bệnh của tai ngoài, tai giữa, tai trong, xương thái dương và nền sọ bên (viêm, khối u, dị dạng, rò, rối loạn chức năng tiền đình ngoại biên, liệt mặt ngoại biên, u thần kinh thính giác,  …).",
+      "doctorId": "-NydlZ6mJgH0W534lQPp",
+      "gender": "Nam",
+      "isFavorite": true,
+      "name": "TS. Đào Trung Dũng",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/a1246277-67f6-2406-79a7-4312d5db1885",
+      "services": [
+        "-NyderKrp2mcdqBFfNoo"
+      ],
+      "workingHours": [
+        "08:00 - 12:00",
+        "14:00 - 18:00"
+      ]
+    },
+    "-NydlZ6sDXKbcDD5Bh1I": {
+      "birthYear": 1975,
+      "clinicName": "Phó trưởng khoa Y học cổ truyền",
+      "description": "Khám và điều trị các bệnh lý: Điều trị kết hợp YHHĐ và YHCT trong các bệnh lý về Thần Kinh và Cơ Xương Khớp. Trong đó áp dụng thành thạo các phương pháp Châm Cứu, Thủy châm, Tân Châm (Đầu châm, Cấy Chỉ…); Điều trị bằng thuốc Y học cổ truyền.",
+      "doctorId": "-NydlZ6sDXKbcDD5Bh1I",
+      "gender": "Nữ",
+      "isFavorite": true,
+      "name": "BSCKII. Nguyễn Minh Trang",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/377aab5a-f25e-1b60-aa8c-a1bfc8b9e0a6",
+      "services": [
+        "-NyderKqH0JlmPOlOHjz"
+      ],
+      "workingHours": [
+        "09:00 - 13:00",
+        "15:00 - 19:00"
+      ]
+    },
+    "-NydlZ6uM8T3cXbg7oTs": {
+      "birthYear": 1965,
+      "clinicName": "Bí thư Đoàn thanh niên, Khoa Da liễu và Bỏng",
+      "description": "Khám và điều trị các bệnh lý da – tóc – móng – niêm mạc. Khám và điều trị các bệnh lây truyền qua đường tình dục. Khám và thực hiện các thủ thuật điều trị thẩm mỹ da, thẩm mỹ nội khoa.",
+      "doctorId": "-NydlZ6uM8T3cXbg7oTs",
+      "gender": "Nữ",
+      "name": "ThS. BS. Nguyễn Ngọc Oanh",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/cd8180ad-8227-0d93-6b67-0c32675756af",
+      "services": [
+        "-NyderKqH0JlmPOlOHjy"
+      ],
+      "workingHours": [
+        "07:00 - 11:00",
+        "13:00 - 17:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krtx": {
+      "birthYear": 1970,
+      "clinicName": "Trưởng khoa Da liễu & Bỏng",
+      "description": "Khám và điều trị các bệnh lý da – tóc – móng – niêm mạc. Khám và điều trị các bệnh lây truyền qua đường tình dục. Khám và thực hiện các thủ thuật điều trị thẩm mỹ da, thẩm mỹ nội khoa.",
+      "doctorId": "-NydlZ6xPP5vJuw9Krtx",
+      "gender": "Nam",
+      "name": "ThS.BSCKII. Trần Thái Sơn",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/2a9a4b21-167b-4dfa-88dc-a2d83fec7c1d",
+      "services": [
+        "-NyderKqH0JlmPOlOHjy"
+      ],
+      "workingHours": [
+        "10:00 - 14:00",
+        "16:00 - 20:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krtw": {
+      "birthYear": 1970,
+      "clinicName": "Giám Đốc Trung Tâm Chống độc",
+      "description": "Có chuyên môn sâu trong lĩnh vực điều trị ngộ độc cấp cứu, nhiều năm kinh nghiệm quản lý và chỉ đạo chuyên môn tại các cơ sở y tế tuyến đầu. Am hiểu các phương pháp giải độc tiên tiến và hợp tác quốc tế trong lĩnh vực chống độc.",
+      "doctorId": "-NydlZ6xPP5vJuw9Krtw",
+      "gender": "Nam",
+      "name": "TS. Nguyễn Trung Nguyên",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/f75d24ee-215f-4399-ac5e-3509748eac82",
+      "services": [
+        "-NyderKqH0JlmPOlOHjy"
+      ],
+      "workingHours": [
+        "10:00 - 14:00",
+        "16:00 - 20:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krte": {
+      "birthYear": 1980,
+      "clinicName": "Trưởng khoa Khám bệnh",
+      "description": "Có giàu kinh nghiệm, chuyên khám và điều trị đa dạng bệnh lý nội khoa. Trang bị đầy đủ thiết bị hiện đại, đảm bảo chẩn đoán chính xác và chăm sóc toàn diện cho người bệnh.",
+      "doctorId": "-NydlZ6xPP5vJuw9Krte",
+      "gender": "Nữ",
+      "name": "TS. BS. Nguyễn Thị Bích Ngọc",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/5a7363ed-0873-4699-a4ea-be19a67243d7",
+      "services": [
+        "-NyderKqH0JlmPOlOHju"
+      ],
+      "workingHours": [
+        "08:00 - 10:00",
+        "10:00 - 12:00",
+        "14:00 - 16:00",
+        "16:00 - 18:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krtr": {
+      "birthYear": 1970,
+      "clinicName": "Phó trưởng khoa Khám bệnh",
+      "description": "Có giàu kinh nghiệm, chuyên khám và điều trị đa dạng bệnh lý nội khoa. Trang bị đầy đủ thiết bị hiện đại, đảm bảo chẩn đoán chính xác và chăm sóc toàn diện cho người bệnh.",
+      "doctorId": "-NydlZ6xPP5vJuw9Krtr",
+      "gender": "Nam",
+      "name": "TS. BS. Đồng Văn Thành",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/5fe784c2-45ff-4149-aaa2-e5ce7fa563ce",
+      "services": [
+        "-NyderKqH0JlmPOlOHju"
+      ],
+      "workingHours": [
+        "08:00 - 10:00",
+        "10:00 - 12:00",
+        "14:00 - 16:00",
+        "16:00 - 18:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krtt": {
+      "birthYear": 1983,
+      "clinicName": "BS Chuyên khoa Thần Kinh",
+      "description": "Đột quỵ não và bệnh lý mạch máu não - Stroke and cerebrovascular diseases.  Các lĩnh vực khác thuộc chuyên ngành thần kinh - Other fields of Neurology: Đau đầu, chóng mặt  (Headache, vertigo); Bệnh thần kinh ngoại biên: Viêm đa rễ và dây thần kinh, đau thần kinh toạ,… (Peripheral neuropathy: Polyradiculopathy, sciatica,...) ...",
+      "doctorId": "-NydlZ6xPP5vJuw9Krtt",
+      "gender": "Nữ",
+      "name": "BSCKII. Trương Thanh Thuỷ",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/41f4efa1-2b5f-6470-2612-c824dc4c0081",
+      "services": [
+        "-NyderKqH0JlmPOlOHjt"
+      ],
+      "workingHours": [
+        "08:00 - 10:00",
+        "10:00 - 12:00",
+        "14:00 - 16:00",
+        "16:00 - 18:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krty": {
+      "birthYear": 1975,
+      "clinicName": "Phó Giám đốc Trung tâm Thần Kinh",
+      "description": "Đột quỵ não và bệnh lý mạch máu não - Stroke and cerebrovascular diseases.  Các lĩnh vực khác thuộc chuyên ngành thần kinh - Other fields of Neurology: Đau đầu, chóng mặt  (Headache, vertigo); Bệnh thần kinh ngoại biên: Viêm đa rễ và dây thần kinh, đau thần kinh toạ,… (Peripheral neuropathy: Polyradiculopathy, sciatica,...) ...",
+      "doctorId": "-NydlZ6xPP5vJuw9Krty",
+      "gender": "Nam",
+      "name": "TS. BS. Trịnh Tiến Lực",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/8195bc97-04f2-1cf2-dc87-131ff63160a7",
+      "services": [
+        "-NyderKqH0JlmPOlOHjt"
+      ],
+      "workingHours": [
+        "08:00 - 10:00",
+        "10:00 - 12:00",
+        "14:00 - 16:00",
+        "16:00 - 18:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krtu": {
+      "birthYear": 1970,
+      "clinicName": "Chủ tịch Công đoàn, Trung Tâm Nhi Khoa",
+      "description": "Có kinh nghiệm chuyên sâu trong khám, điều trị và chăm sóc sức khỏe cho trẻ em từ sơ sinh đến vị thành niên. Với đội ngũ bác sĩ nhi khoa giàu kinh nghiệm và cơ sở vật chất hiện đại, khoa đảm bảo mang đến dịch vụ y tế an toàn, hiệu quả và thân thiện dành riêng cho trẻ nhỏ.",
+      "doctorId": "-NydlZ6xPP5vJuw9Krtu",
+      "gender": "Nữ",
+      "name": "ThS. Bùi Thị Hoàng Ngân",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/a8c56e9f-f768-43f3-a320-8fe9c5361207",
+      "services": [
+        "-NyderKqH0JlmPOlOHjs",
+        "-NyderKqH0JlmPOlOHje"
+      ],
+      "workingHours": [
+        "08:00 - 10:00",
+        "10:00 - 12:00",
+        "14:00 - 16:00",
+        "16:00 - 18:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krti": {
+      "birthYear": 1986,
+      "clinicName": "Phó Giám đốc Trung tâm Nhi khoa",
+      "description": "Có kinh nghiệm chuyên sâu trong khám, điều trị và chăm sóc sức khỏe cho trẻ em từ sơ sinh đến vị thành niên. Với đội ngũ bác sĩ nhi khoa giàu kinh nghiệm và cơ sở vật chất hiện đại, khoa đảm bảo mang đến dịch vụ y tế an toàn, hiệu quả và thân thiện dành riêng cho trẻ nhỏ.",
+      "doctorId": "-NydlZ6xPP5vJuw9Krti",
+      "gender": "Nam",
+      "name": "BSNT. Nguyễn Trung Kiên",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/d78b6094-95fb-47af-8c19-338871d7f443",
+      "services": [
+        "-NyderKqH0JlmPOlOHjs"
+      ],
+      "workingHours": [
+        "08:00 - 10:00",
+        "10:00 - 12:00",
+        "14:00 - 16:00",
+        "16:00 - 18:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krto": {
+      "birthYear": 1985,
+      "clinicName": "Giám đốc Trung tâm Huyết học truyền máu",
+      "description": "Có kinh nghiệm chuyên môn sâu trong chẩn đoán, điều trị các bệnh lý về máu và cung cấp các sản phẩm máu an toàn, chất lượng. Trung tâm đồng thời thực hiện các hoạt động hiến máu nhân đạo, xét nghiệm huyết học và hỗ trợ điều trị truyền máu cho nhiều chuyên khoa trong bệnh viện.",
+      "doctorId": "-NydlZ6xPP5vJuw9Krto",
+      "gender": "Nam",
+      "name": "TS. BS. Nguyễn Tuấn Tùng",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/6a620022-3321-48f0-8709-c2ca64a49b01",
+      "services": [
+        "-NyderKqH0JlmPOlOHjr"
+      ],
+      "workingHours": [
+        "10:00 - 14:00",
+        "16:00 - 20:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krtp": {
+      "birthYear": 1988,
+      "clinicName": "Bác sỹ chuyên khoa Huyết học",
+      "description": "Khám bệnh, chữa bệnh chuyên ngành Huyết học – Truyền máu, tham gia điều trị bệnh nhân nặng, bệnh nhân ghép tế bào gốc, hội chẩn liên chuyên khoa, hội chẩn bệnh viện, hội chẩn liên viện, hội chẩn trực tuyến,…",
+      "doctorId": "-NydlZ6xPP5vJuw9Krtp",
+      "gender": "Nữ",
+      "name": "ThS.BS. Lê Thu Hà",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/d4511f7e-4752-739d-832e-aa7b6b2f1e5f",
+      "services": [
+        "-NyderKqH0JlmPOlOHjr"
+      ],
+      "workingHours": [
+        "10:00 - 14:00",
+        "16:00 - 20:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krta": {
+      "birthYear": 1970,
+      "clinicName": "Giám đốc Trung tâm Cơ Xương Khớp",
+      "description": "Là tác giả chính của nhiều công trình khoa học công bố trên các tạp chí nghiên cứu quốc tế và của Việt Nam. Là nghiên cứu viên chính, chủ nhiệm đề tài trong nhiều nghiên cứu đa trung tâm, thử nghiệm lâm sàng của quốc tế và của Việt Nam",
+      "doctorId": "-NydlZ6xPP5vJuw9Krta",
+      "gender": "Nam",
+      "name": "PGS.TS.BS. Nguyễn Văn Hùng",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/dd22dd1f-f55e-4641-bc53-fab7e57047c6",
+      "services": [
+        "-NyderKqH0JlmPOlOHjq"
+      ],
+      "workingHours": [
+        "08:00 - 10:00",
+        "10:00 - 12:00",
+        "14:00 - 16:00",
+        "16:00 - 18:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krts": {
+      "birthYear": 1977,
+      "clinicName": "Phó giám đốc Trung tâm Cơ Xương Khớp",
+      "description": "Khám và điều trị các bệnh lý cơ xương khớp. Chủ nhiệm nhiều đề tài nghiên cứu về cơ xương khớp, đặc bệt là bệnh lý Loãng xương.",
+      "doctorId": "-NydlZ6xPP5vJuw9Krts",
+      "gender": "Nữ",
+      "name": "TS.BS. Trần Thị Tô Châu",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/564be89f-dd6c-f8a6-c50c-d9332d059995",
+      "services": [
+        "-NyderKqH0JlmPOlOHjq"
+      ],
+      "workingHours": [
+        "08:00 - 10:00",
+        "10:00 - 12:00",
+        "14:00 - 16:00",
+        "16:00 - 18:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krtd": {
+      "birthYear": 1980,
+      "clinicName": "Trưởng phòng C9 – Viện Tim mạch",
+      "description": "Khám và điều trị các bệnh lý tim mạch. Điều trị can thiệp chuyên sâu về rối loạn nhịp",
+      "doctorId": "-NydlZ6xPP5vJuw9Krtd",
+      "gender": "Nam",
+      "name": "TS. BS. Trần Song Giang",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/7ee7ec7a-97ab-67e8-ad5d-a29046611507",
+      "services": [
+        "-NyderKqH0JlmPOlOHjp"
+      ],
+      "workingHours": [
+        "08:00 - 10:00",
+        "10:00 - 12:00",
+        "14:00 - 16:00",
+        "16:00 - 18:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krtf": {
+      "birthYear": 1980,
+      "clinicName": "Viện trưởng Viện Tim mạch",
+      "description": "Khám và điều trị các bệnh lý tim mạch. Điều trị can thiệp chuyên sâu về rối loạn nhịp",
+      "doctorId": "-NydlZ6xPP5vJuw9Krtf",
+      "gender": "Nữ",
+      "name": "PGS. TS. Nguyễn Thị Thu Hoài",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/9347b566-da12-9c6c-fbbc-79641efda5b4",
+      "services": [
+        "-NyderKqH0JlmPOlOHjp"
+      ],
+      "workingHours": [
+        "10:00 - 14:00",
+        "16:00 - 20:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krtg": {
+      "birthYear": 1985,
+      "clinicName": "Trưởng khoa Phẫu thuật Tạo hình Thẩm mỹ",
+      "description": "Là Chuyên gia uy tín trong lĩnh vực phẫu thuật tạo hình thẩm mỹ đặc biệt là Phẫu thuật tạo hình thẩm mỹ vú, tạo hình cơ quan sinh dục nữ và vi phẫu thuật điều trị các khuyết phần mềm lớn, phẫu thuật tái tạo các cơ quan, bộ phận trên cơ thể bị tổn khuyết phức tạp do bỏng, ung thư, chấn thương.",
+      "doctorId": "-NydlZ6xPP5vJuw9Krtg",
+      "gender": "Nữ",
+      "name": "PGS. TS. Phạm Thị Việt Dung",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/99a43aa3-cd29-ae3e-1e1e-a97f093e3291",
+      "services": [
+        "-NyderKqH0JlmPOlOHjl"
+      ],
+      "workingHours": [
+        "10:00 - 14:00",
+        "16:00 - 20:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krth": {
+      "birthYear": 1985,
+      "clinicName": "Phó Trưởng Khoa PTTHTM",
+      "description": "Là Chuyên gia uy tín trong lĩnh vực phẫu thuật tạo hình thẩm mỹ đặc biệt là Phẫu thuật tạo hình thẩm mỹ vú, tạo hình cơ quan sinh dục nữ và vi phẫu thuật điều trị các khuyết phần mềm lớn, phẫu thuật tái tạo các cơ quan, bộ phận trên cơ thể bị tổn khuyết phức tạp do bỏng, ung thư, chấn thương.",
+      "doctorId": "-NydlZ6xPP5vJuw9Krth",
+      "gender": "Nữ",
+      "name": "ThS. BS. Tạ Thị Hồng Thúy",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/e3666e33-8132-25d1-d356-dc9a0ab6e6de",
+      "services": [
+        "-NyderKqH0JlmPOlOHjl"
+      ],
+      "workingHours": [
+        "10:00 - 14:00",
+        "16:00 - 20:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krtj": {
+      "birthYear": 1970,
+      "clinicName": "Giám đốc Trung tâm PHCN",
+      "description": "Thế mạnh chuyên môn: Khám, điều trị vật lý trí liệu - phục hồi chức năng, bệnh lý thần kinh – cơ, các rối loạn vận động (co cứng, loạn trương lực cơ), niệu động học, phục hồi chức năng tiết niệu – sinh dục",
+      "doctorId": "-NydlZ6xPP5vJuw9Krtj",
+      "gender": "Nam",
+      "name": "PGS. TS. Lương Tuấn Khanh",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/df20518a-5293-af44-d62e-3450b043cfa2",
+      "services": [
+        "-NyderKqH0JlmPOlOHjj"
+      ],
+      "workingHours": [
+        "08:00 - 10:00",
+        "10:00 - 12:00",
+        "14:00 - 16:00",
+        "16:00 - 18:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krtk": {
+      "birthYear": 1970,
+      "clinicName": "Giám đốc Trung tâm Tiêu Hoá - Gan Mật",
+      "description": "Khám chữa bệnh chuyên khoa Tiêu hóa, gan mật, Nội soi tiêu hóa, gan mật.",
+      "doctorId": "-NydlZ6xPP5vJuw9Krtk",
+      "gender": "Nam",
+      "name": "PGS. TS. Nguyễn Công Long",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/695a2d22-923d-401f-5974-3fd1c7061c92",
+      "services": [
+        "-NyderKqH0JlmPOlOHji"
+      ],
+      "workingHours": [
+        "08:00 - 10:00",
+        "14:00 - 16:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krtl": {
+      "birthYear": 1970,
+      "clinicName": "Giám đốc Trung tâm Tiêu Hoá - Gan Mật",
+      "description": "Khám chữa bệnh chuyên khoa Tiêu hóa, gan mật, Nội soi tiêu hóa, gan mật.",
+      "doctorId": "-NydlZ6xPP5vJuw9Krtl",
+      "gender": "Nam",
+      "name": "ThS. Bs. Kiều Văn Tuấn",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/c53d3074-4b68-4cc6-94a4-35afa7ec58c1",
+      "services": [
+        "-NyderKqH0JlmPOlOHji"
+      ],
+      "workingHours": [
+        "10:00 - 14:00",
+        "16:00 - 20:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krtz": {
+      "birthYear": 1980,
+      "clinicName": "Trưởng Khoa Phẫu thuật Lồng ngực",
+      "description": "Khám và điều trị các bệnh lý Nam học – sinh dục – tiết niệu. Đào tạo liên tục, chứng chỉ về chuyên ngành nam khoa, phẫu thuật nội soi tiết niệu…",
+      "doctorId": "-NydlZ6xPP5vJuw9Krtz",
+      "gender": "Nam",
+      "name": "TS. BS. Ngô Gia Khánh",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/c8eec175-7b92-481e-87b4-d0b0bd07e373",
+      "services": [
+        "-NyderKqH0JlmPOlOHjh"
+      ],
+      "workingHours": [
+        "10:00 - 14:00",
+        "16:00 - 20:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krtc": {
+      "birthYear": 1982,
+      "clinicName": "Phó Trưởng khoa PT Lồng ngực",
+      "description": "Khám và điều trị các bệnh lý Nam học – sinh dục – tiết niệu. Đào tạo liên tục, chứng chỉ về chuyên ngành nam khoa, phẫu thuật nội soi tiết niệu…",
+      "doctorId": "-NydlZ6xPP5vJuw9Krtc",
+      "gender": "Nam",
+      "name": "BSCKII. Vũ Anh Tuấn",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/b784d629-126c-490c-9139-2335627b8a9f",
+      "services": [
+        "-NyderKqH0JlmPOlOHjh"
+      ],
+      "workingHours": [
+        "10:00 - 14:00",
+        "16:00 - 20:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krtv": {
+      "birthYear": 1983,
+      "clinicName": "Phó Trưởng khoa Mắt",
+      "description": "Bác sĩ điều trị chuyên khoa Mắt Bệnh viện Bạch Mai: 2006 – nay. Học nâng cao nhãn khoa tại Ấn Độ, Canada, Hong Kong. Các lớp chuyên khoa sâu chuyên ngành nhãn khoa trong nước",
+      "doctorId": "-NydlZ6xPP5vJuw9Krtv",
+      "gender": "Nữ",
+      "name": "BSCKII. Phùng Thị Thuý Hằng",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/e4559b2d-e82d-8f72-e63a-84d060370739",
+      "services": [
+        "-NyderKqH0JlmPOlOHjg"
+      ],
+      "workingHours": [
+        "08:00 - 10:00",
+        "10:00 - 12:00",
+        "14:00 - 16:00",
+        "16:00 - 18:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krtb": {
+      "birthYear": 1979,
+      "clinicName": "Phó trưởng khoa Mắt",
+      "description": "Bác sĩ điều trị chuyên khoa Mắt Bệnh viện Bạch Mai: 2006 – nay. Học nâng cao nhãn khoa tại Ấn Độ, Canada, Hong Kong. Các lớp chuyên khoa sâu chuyên ngành nhãn khoa trong nước",
+      "doctorId": "-NydlZ6xPP5vJuw9Krtb",
+      "gender": "Nam",
+      "name": "BSCKII. Nguyễn Bá Tiến",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/e3ffc995-adb1-46b1-a125-33b05415bab0",
+      "services": [
+        "-NyderKqH0JlmPOlOHjg"
+      ],
+      "workingHours": [
+        "08:00 - 10:00",
+        "10:00 - 12:00",
+        "14:00 - 16:00",
+        "16:00 - 18:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krtn": {
+      "birthYear": 1988,
+      "clinicName": "Trưởng khoa Răng Hàm Mặt",
+      "description": "Có khả năng thực hành lâm sàng chuyên sâu ở nhiều lĩnh vực trong ngành Răng Hàm Mặt. Trên 20 năm kinh nghiệm trong lĩnh vực Phẫu thuật Hàm Mặt và Phục hình răng sứ thẩm mỹ.",
+      "doctorId": "-NydlZ6xPP5vJuw9Krtn",
+      "gender": "Nữ",
+      "name": "TS. BS. Hoàng Ngọc Lan",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/7fad9594-4973-5523-bdb3-5e902e466a6d",
+      "services": [
+        "-NyderKqH0JlmPOlOHjf",
+        "-NyderKqH0JlmPOlOHjl"
+      ],
+      "workingHours": [
+        "08:00 - 10:00",
+        "10:00 - 12:00",
+        "14:00 - 16:00",
+        "16:00 - 18:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krtm": {
+      "birthYear": 1981,
+      "clinicName": "Phó Giám đốc Trung tâm Hô hấp",
+      "description": "Bệnh lý nhiễm trùng phổi do vi khuẩn, nấm, lao…. Bệnh lý phổi tắc nghẽn: hen, bệnh phổi tắc nghẽn mạn tính. Bệnh lý màng phổi: tràn dịch, tràn khí màng phổi, tràn dưỡng chấp màng phổi, u màng phổi, ung thư Phổi",
+      "doctorId": "-NydlZ6xPP5vJuw9Krtm",
+      "gender": "Nữ",
+      "name": "ThS. Nguyễn Thị Thanh Huyền",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/1c5f6b5d-4fe5-2442-9e3c-531c46b68a04",
+      "services": [
+        "-NyderKqH0JlmPOlOHje"
+      ],
+      "workingHours": [
+        "10:00 - 14:00",
+        "16:00 - 20:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krqw": {
+      "birthYear": 1984,
+      "clinicName": "BS Ck Hô hấp",
+      "description": "Chẩn đoán và điều trị các bệnh phổi kẽ như xơ phổi vô căn, viêm phổi tăng cảm, bệnh phổi kẽ trong bệnh mô liên kết, bệnh phổi kẽ liên quan đến thuốc lá, bệnh phổi kẽ do thuốc…",
+      "doctorId": "-NydlZ6xPP5vJuw9Krqw",
+      "gender": "Nữ",
+      "name": "TS. Vũ Thị Thu Trang",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/9e532d05-9558-4224-a3e6-00d00f7607f4",
+      "services": [
+        "-NyderKqH0JlmPOlOHje"
+      ],
+      "workingHours": [
+        "08:00 - 10:00",
+        "10:00 - 12:00",
+        "14:00 - 16:00",
+        "16:00 - 18:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krqq": {
+      "birthYear": 1970,
+      "clinicName": "Phó Giám đốc Bệnh viện",
+      "description": "Chẩn đoán và điều trị các bệnh phổi kẽ như xơ phổi vô căn, viêm phổi tăng cảm, bệnh phổi kẽ trong bệnh mô liên kết, bệnh phổi kẽ liên quan đến thuốc lá, bệnh phổi kẽ do thuốc…",
+      "doctorId": "-NydlZ6xPP5vJuw9Krqq",
+      "gender": "Nam",
+      "name": "PGS. TS. Vũ Văn Giáp",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/9a989795-2666-57f5-8c6e-513175db71fa",
+      "services": [
+        "-NyderKqH0JlmPOlOHje"
+      ],
+      "workingHours": [
+        "10:00 - 14:00",
+        "16:00 - 20:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krqe": {
+      "birthYear": 1983,
+      "clinicName": "Chủ tịch Công đoàn, Khoa phụ khoa",
+      "description": "",
+      "doctorId": "-NydlZ6xPP5vJuw9Krqe",
+      "gender": "Nữ",
+      "name": "BSCKII. Kiều Kim Thanh",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/228fc3fe-c6e4-4d62-9193-b793c0f46fe1",
+      "services": [
+        "-NyderKqH0JlmPOlOHjd"
+      ],
+      "workingHours": [
+        "10:00 - 14:00",
+        "16:00 - 20:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krqr": {
+      "birthYear": 1970,
+      "clinicName": "Trưởng khoa Phụ khoa",
+      "description": "Khám, Tư Vấn, Điều Trị Và Thực Hiện Thủ Thuật Chuyên Ngành Nội Khoa... Thăm Dò Chức Năng Hô Hấp Khám, Tư Vấn, Điều Trị Và Thực Hiện Thủ Thuật Chuyên Sâu Chuyên Ngành Nội Hô Hấp",
+      "doctorId": "-NydlZ6xPP5vJuw9Krqr", 
+      "gender": "Nam",
+      "name": "BSCK II Vũ Công Khanh",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/33704174-2207-4e36-8a38-f31cca3fe7d3",
+      "services": [
+        "-NyderKqH0JlmPOlOHjd"
+      ],
+      "workingHours": [
+        "10:00 - 14:00",
+        "16:00 - 20:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krqt": {
+      "birthYear": 1992,
+      "clinicName": "Bác sĩ cCK YHHN và UB",
+      "description": "Khám và tư vấn di truyền các bệnh lý ung thư và mạn tính (tim mạch, thần kinh, nội tiết, thần kinh - cơ,...)",
+      "doctorId": "-NydlZ6xPP5vJuw9Krqt",
+      "gender": "Nữ",
+      "name": "ThS.BSNT. Bùi Bích Mai",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/b2a1d46c-81c7-37ee-6843-5bd7881dfa1c",
+      "services": [
+        "-NyderKqH0JlmPOlOHja"
+      ],
+      "workingHours": [
+        "08:00 - 10:00",
+        "10:00 - 12:00",
+        "14:00 - 16:00",
+        "16:00 - 18:00"
+      ]
+    },
+    "-NydlZ6xPP5vJuw9Krtq": {
+     "birthYear": 1989,
+      "clinicName": "Giám đốc Trung tâm YHHN&UB",
+      "description": "Khám, tư vấn, chẩn đoán và điều trị ung bướu bằng các kỹ thuật Y học hạt nhân, gen và tế bào gốc (Theranostic, PET/CT, điều trị đích, điều trị miễn dịch, gen trị liệu…)",
+      "doctorId": "-NydlZ6xPP5vJuw9Krtq",
+      "gender": "Nữ",
+      "name": "PGS.TS.BS. Phạm Cẩm Phương",
+      "profilePicture": "https://apicms.bachmai.gov.vn/api/media/download/59cb50b1-e49e-56eb-9334-186e6066155f",
+      "services": [
+        "-NyderKqH0JlmPOlOHja"
+      ],
+      "workingHours": [
+        "08:00 - 10:00",
+        "10:00 - 12:00",
+        "14:00 - 16:00",
+        "16:00 - 18:00"
+      ]
+    }
+  },
+  "Messages": {
+    "-OQC5rs8NArwNQLf-ixy": {
+      "idMessage": "-OQC5rs8NArwNQLf-ixy",
+      "idReceiver": "-NydlZ6mJgH0W534lQHh",
+      "idSender": "-O2YJoAgpUJ4DkiehPEr",
+      "message": "whejen",
+      "timestamp": "1747197853293",
+      "type": "text"
+    }
+  },
+  "Payments": {
+    "-OQCYJxPWjb_ZDSBdrvW": {
+      "amount": "300,000 VND",
+      "appointmentId": "-OQCYI8XM5ArcA4FE2Wb",
+      "paymentId": "-OQCYJxPWjb_ZDSBdrvW",
+      "status": "Success",
+      "timestamp": "1747205312328",
+      "userId": "-O2YJoAgpUJ4DkiehPEr"
+    },
+    "-OQCYm34iu0fpLOuH3f_": {
+      "amount": "300,000 VND",
+      "appointmentId": "-OQCYlS5w_kZmPKSWX8k",
+      "paymentId": "-OQCYm34iu0fpLOuH3f_",
+      "status": "Success",
+      "timestamp": "1747205431575",
+      "userId": "-O2YJoAgpUJ4DkiehPEr"
+    }
+  },
+  "Services": {
+    "-NyderKqH0JlmPOlOHja": {
+      "description": "Các bệnh lý liên quan đến khối u thường gặp bao gồm: u lành tính (u mỡ, u xơ vú), u ác tính (ung thư vú, ung thư phổi, ung thư đại tràng). Triệu chứng có thể bao gồm khối u cứng, thay đổi kích thước, đau, chảy máu bất thường. Chẩn đoán sớm ung thư thông qua xét nghiệm như siêu âm, chụp CT, sinh thiết, xét nghiệm máu giúp phát hiện và điều trị kịp thời.",
+      "icon": "https://cdn-icons-png.flaticon.com/512/9874/9874886.png ",
+      "keyID": "-NyderKqH0JlmPOlOHja",
+      "name": "Ung bướu",
+      "price": "450,000"
+    },
+    "-NyderKqH0JlmPOlOHjd": {
+      "description": "Kiểm tra sức khỏe sinh sản phụ khoa bao gồm khám tiền hôn nhân, theo dõi chu kỳ kinh nguyệt (rong kinh, mất kinh), khám thai định kỳ, và kiểm tra tuyến vú. Các kiểm tra này giúp phát hiện sớm các bệnh lý và duy trì sức khỏe sinh sản.",
+      "icon": "https://cdn-icons-png.flaticon.com/512/1833/1833838.png ",
+      "keyID": "-NyderKqH0JlmPOlOHjd",
+      "name": "Phụ khoa",
+      "price": "750,000"
+    },
+    "-NyderKqH0JlmPOlOHje": {
+      "description": "Các triệu chứng hô hấp thường gặp gồm: ho khan, ho có đờm, khó thở, đau ngực, thở khò khè. Những người có tiền sử hút thuốc lá nhiều dễ mắc các bệnh phổi mạn tính như viêm phế quản mạn, COPD, ung thư phổi. Cần thăm khám sớm để phát hiện và điều trị kịp thời.",
+      "icon": "https://cdn-icons-png.flaticon.com/512/2833/2833035.png",
+      "keyID": "-NyderKqH0JlmPOlOHje",
+      "name": "Hô hấp",
+      "price": "450,000"
+    },
+    "-NyderKqH0JlmPOlOHjf": {
+      "description": "Các triệu chứng răng hàm mặt thường gặp gồm: đau răng, sâu răng, răng lung lay, chảy máu nướu, hơi thở hôi, viêm lợi. Đây có thể là dấu hiệu của bệnh lý nha chu, viêm nướu, viêm tủy răng, hoặc các vấn đề về răng miệng khác. Cần thăm khám nha sĩ để điều trị kịp thời.",
+      "icon": "https://cdn-icons-png.flaticon.com/512/2779/2779423.png ",
+      "keyID": "-NyderKqH0JlmPOlOHjf",
+      "name": "Răng - Hàm - Mặt",
+      "price": "1,200,000"
+    },
+    "-NyderKqH0JlmPOlOHjg": {
+      "description": "Các triệu chứng về mắt thường gặp gồm: nhìn mờ, chói mắt, cộm mắt, ngứa, chảy nước mắt, đau nhức mắt. Đây có thể là dấu hiệu của các bệnh lý như viêm kết mạc, khô mắt, loạn thị, cườm nước (glaucoma) hoặc viêm giác mạc. Cần thăm khám chuyên khoa mắt để chẩn đoán và điều trị kịp thời.",
+      "icon": "https://cdn-icons-png.flaticon.com/512/2032/2032703.png ",
+      "keyID": "-NyderKqH0JlmPOlOHjg",
+      "name": "Chuyên khoa mắt",
+      "price": "1,500,000"
+    },
+    "-NyderKqH0JlmPOlOHjh": {
+      "description": "Các dấu hiệu ngoại lồng ngực thường gặp gồm: lõm lồng ngực (ngực ức lõm), biến dạng xương sườn, khối u vùng lồng ngực hoặc trung thất, khó thở, đau ngực. Đây có thể là biểu hiện của các bệnh lý bẩm sinh, u trung thất, hoặc dị dạng lồng ngực. Cần chẩn đoán hình ảnh và khám chuyên khoa để xác định nguyên nhân và hướng điều trị.",
+      "icon": "https://cdn-icons-png.flaticon.com/512/15839/15839150.png",
+      "keyID": "-NyderKqH0JlmPOlOHjh",
+      "name": "Ngoại - Lồng ngực",
+      "price": "600,000"
+    },
+    "-NyderKqH0JlmPOlOHji": {
+      "description": "Các triệu chứng tiêu hóa thường gặp gồm: đau vùng thượng vị, ợ hơi, ợ chua, buồn nôn, rối loạn tiêu hóa, đi ngoài ra máu hoặc phân đen. Đây có thể là dấu hiệu của viêm loét dạ dày, trào ngược dạ dày-thực quản, rối loạn đại tràng hoặc xuất huyết tiêu hóa. Cần nội soi và xét nghiệm để chẩn đoán chính xác.",
+      "icon": "https://cdn-icons-png.flaticon.com/512/8855/8855319.png",
+      "keyID": "-NyderKqH0JlmPOlOHji",
+      "name": "Tiêu hóa",
+      "price": "500,000"
+    },
+    "-NyderKqH0JlmPOlOHjj": {
+      "description": "Khám và tư vấn phục hồi chức năng nhằm đánh giá mức độ tổn thương, chức năng vận động sau chấn thương, tai biến, liệt nửa người, thoái hóa khớp... Từ đó, hướng dẫn bệnh nhân các bài tập phù hợp để phục hồi vận động, giảm đau, phòng ngừa teo cơ, cứng khớp. Kết hợp vật lý trị liệu, hoạt động trị liệu và theo dõi tiến triển để đạt hiệu quả lâu dài.",
+      "icon": "https://cdn-icons-png.flaticon.com/512/2801/2801041.png ",
+      "keyID": "-NyderKqH0JlmPOlOHjj",
+      "name": "Phục hồi chức năng ",
+      "price": "600,000"
+    },
+    "-NyderKqH0JlmPOlOHjk": {
+      "description": "Các triệu chứng tai mũi họng thường gặp gồm: đau họng, đau tai, chảy nước mũi, nghẹt mũi, ho kéo dài, tiền sử viêm xoang, quá phát amydal. Đây có thể là dấu hiệu của viêm mũi xoang, viêm họng, viêm tai giữa hoặc amydal phì đại. Cần khám chuyên khoa để chẩn đoán và điều trị kịp thời.",
+      "icon": "https://cdn-icons-png.flaticon.com/512/2659/2659988.png ",
+      "keyID": "-NyderKqH0JlmPOlOHjk",
+      "name": "Tai mũi họng",
+      "price": "650,000"
+    },
+    "-NyderKqH0JlmPOlOHjl": {
+      "description": "Tạo hình thẩm mỹ bao gồm điều trị dị tật bẩm sinh như sứt môi hở hàm ếch, xử lý sẹo, vết cắt hoặc rách trên vùng da rộng. Ngoài ra còn có các can thiệp thẩm mỹ như nâng mũi, nâng ngực, hút mỡ, căng da... nhằm cải thiện hình thể và chất lượng cuộc sống. Cần thăm khám và tư vấn kỹ lưỡng trước khi thực hiện.",
+      "icon": "https://cdn-icons-png.flaticon.com/512/6408/6408712.png ",
+      "keyID": "-NyderKqH0JlmPOlOHjl",
+      "name": "Tạo hình thẩm mỹ",
+      "price": "1,500,000"
+    },
+    "-NyderKqH0JlmPOlOHjo": {
+      "description": "Các triệu chứng truyền nhiễm thường gặp gồm: sốt, đau cơ, mệt mỏi, ho, phát ban, tiêu chảy, và vàng da. Đây có thể là dấu hiệu của các bệnh truyền nhiễm như cúm, sốt xuất huyết, viêm gan A, B, C, hoặc các bệnh lý viêm gan. Cần xét nghiệm máu và theo dõi để xác định nguyên nhân và điều trị kịp thời.",
+      "icon": "https://cdn-icons-png.flaticon.com/512/5264/5264821.png",
+      "keyID": "-NyderKqH0JlmPOlOHjo",
+      "name": "Truyền nhiễm",
+      "price": "500,000"
+    },
+    "-NyderKqH0JlmPOlOHjp": {
+      "description": "Các triệu chứng tim mạch thường gặp gồm: đau ngực, nhịp tim nhanh hoặc chậm, mạch không đều, huyết áp cao, khó thở, chóng mặt, mệt mỏi, phù chân. Đây có thể là dấu hiệu của bệnh lý tim mạch như rối loạn nhịp tim, tăng huyết áp, suy tim, hoặc nhồi máu cơ tim. Cần thăm khám chuyên khoa tim mạch và thực hiện các xét nghiệm chẩn đoán để điều trị kịp thời.",
+      "icon": "https://cdn-icons-png.flaticon.com/512/10154/10154547.png",
+      "keyID": "-NyderKqH0JlmPOlOHjp",
+      "name": "Tim mạch",
+      "price": "650,000"
+    },
+    "-NyderKqH0JlmPOlOHjq": {
+      "description": "Các triệu chứng bệnh cơ xương khớp thường gặp gồm: đau xương, đau và sưng tại các khớp, cứng khớp buổi sáng, biến dạng khớp, hạn chế vận động. Triệu chứng có thể xuất hiện trong các bệnh như viêm khớp dạng thấp, gout, thoái hóa khớp, loãng xương hoặc lupus ban đỏ hệ thống.",
+      "icon": "https://cdn-icons-png.flaticon.com/512/14893/14893820.png",
+      "keyID": "-NyderKqH0JlmPOlOHjq",
+      "name": "Cơ - Xương khớp",
+      "price": "200,000"
+    },
+    "-NyderKqH0JlmPOlOHjr": {
+      "description": "Các triệu chứng huyết học thường gặp gồm: mệt mỏi, da xanh xao, chảy máu chân răng, xuất hiện các nốt xuất huyết hoặc bầm tím dưới da không rõ nguyên nhân. Đây có thể là dấu hiệu của thiếu máu, rối loạn đông máu, hoặc các bệnh lý về máu như xuất huyết giảm tiểu cầu, bạch cầu cấp. Cần xét nghiệm máu để chẩn đoán chính xác.",
+      "icon": "https://cdn-icons-png.flaticon.com/512/7792/7792680.png ",
+      "keyID": "-NyderKqH0JlmPOlOHjr",
+      "name": "Huyết học",
+      "price": "400,000"
+    },
+    "-NyderKqH0JlmPOlOHjs": {
+      "description": "Khi khám cho tất cả khách hàng ≤ 15 tuổi. Khám sàng lọc thường xuyên giúp phát hiện và điều trị sớm các vấn đề sức khỏe ở trẻ em.",
+      "icon": "https://cdn-icons-png.flaticon.com/512/8123/8123597.png ",
+      "keyID": "-NyderKqH0JlmPOlOHjs",
+      "name": "Nhi khoa",
+      "price": "950,000"
+    },
+    "-NyderKqH0JlmPOlOHjt": {
+      "description": "Các triệu chứng thần kinh thường gặp gồm: đau đầu, yếu tay chân đột ngột, méo miệng, nói khó, run tay, rối loạn ý thức. Đây có thể là dấu hiệu cảnh báo tai biến mạch máu não, Parkinson, động kinh hoặc các rối loạn thần kinh trung ương. Cần khám chuyên khoa thần kinh và chụp hình ảnh não để xác định nguyên nhân.",
+      "icon": "https://cdn-icons-png.flaticon.com/512/2491/2491419.png",
+      "keyID": "-NyderKqH0JlmPOlOHjt",
+      "name": "Thần kinh",
+      "price": "650,000"
+    },
+    "-NyderKqH0JlmPOlOHju": {
+      "description": "Khám nội tổng quát giúp đánh giá tình trạng sức khỏe tổng thể của mỗi người thông qua việc đánh giá chức năng của hầu hết các cơ quan trong cơ thể như tim, gan, phổi, thận…Từ đó sẽ giúp phát hiện các bệnh lý nếu có và kịp thời điều trị để đảm bảo sức khỏe.",
+      "icon": "https://cdn-icons-png.flaticon.com/512/1912/1912878.png",
+      "keyID": "-NyderKqH0JlmPOlOHju",
+      "name": "Khám nội tổng quát",
+      "price": "1,200,000"
+    },
+    "-NyderKqH0JlmPOlOHjw": {
+      "description": "Sau khi bị côn trùng, động vật cắn hoặc có dấu hiệu ngộ độc thuốc, cần theo dõi các triệu chứng như sưng đau, khó thở, phát ban, buồn nôn, co giật, rối loạn ý thức. Nhanh chóng sơ cứu, loại bỏ tác nhân độc (nếu có thể), và đưa người bệnh đến cơ sở y tế để kiểm tra sức khỏe và xử trí chống độc kịp thời",
+      "icon": "https://cdn-icons-png.flaticon.com/512/11766/11766676.png",
+      "keyID": "-NyderKqH0JlmPOlOHjw",
+      "name": "Chống độc",
+      "price": "1,000,000"
+    },
+    "-NyderKqH0JlmPOlOHjy": {
+      "description": "Các triệu chứng bệnh da liễu thường gặp gồm: ngứa, nổi mẩn, mụn, bóng nước, tróc vảy, đổi màu da. Một số biểu hiện có thể là dấu hiệu của bệnh lây truyền qua đường tình dục như sùi mào gà, herpes, giang mai. Cần thăm khám sớm để chẩn đoán và điều trị kịp thời.",
+      "icon": "https://cdn-icons-png.flaticon.com/512/8855/8855307.png",
+      "keyID": "-NyderKqH0JlmPOlOHjy",
+      "name": "Da liễu",
+      "price": "300,000"
+    },
+    "-NyderKqH0JlmPOlOHjz": {
+      "description": "Chẩn đoán, duy trì, cải thiện, điều trị và phục hồi bệnh thể chất và tinh thần dựa trên các hiểu biết từ y học dân gian, y học phương đông và y học hiện đại.",
+      "icon": "https://cdn-icons-png.flaticon.com/512/15311/15311628.png ",
+      "keyID": "-NyderKqH0JlmPOlOHjz",
+      "name": "Y học cổ truyền",
+      "price": "400,000"
+    }
+  },
+  "Users": {
+    "-Nyd_exFTKxbqVuWsZyD": {
+      "email": "truongzxs@gmail.com",
+      "keyID": "-Nyd_exFTKxbqVuWsZyD",
+      "name": "Nguyễn Anh ",
+      "password": "ahihi",
+      "phone": "0909123456"
+    },
+    "-NyfBbdWi_JU99zVexGk": {
+      "email": "devnguyenanh249@gmail.com",
+      "keyID": "-NyfBbdWi_JU99zVexGk",
+      "name": "truong nguyen",
+      "password": "abcdef",
+      "phone": "0909123123"
+    },
+    "-Nyi8wgZJsuVov2pvj8m": {
+      "email": "ducthang8920022002@gmail.com",
+      "keyID": "-Nyi8wgZJsuVov2pvj8m",
+      "name": "Nguyen Duc Thang",
+      "password": "892002",
+      "phone": "0949181356"
+    },
+    "-NyiK1eEX5kHakaxrMH3": {
+      "email": "ducthang892002@gmail.com",
+      "keyID": "-NyiK1eEX5kHakaxrMH3",
+      "name": "thang",
+      "password": "1",
+      "phone": "0949181356"
+    },
+    "-NyjoyxWyfnLpymnLGWH": {
+      "email": "thang@gmail.com",
+      "keyID": "-NyjoyxWyfnLpymnLGWH",
+      "name": "Tran van ds",
+      "password": "2",
+      "phone": "032321345"
+    },
+    "-NzGlzFDkCZLrIjcbhV9": {
+      "email": "ducthang@gmail.com",
+      "keyID": "-NzGlzFDkCZLrIjcbhV9",
+      "name": "Tran van kjhk",
+      "password": "2",
+      "phone": "0949181356"
+    },
+    "-NzGoLjU0F_7EX8EKYq2": {
+      "email": "thang1@gmail.com",
+      "keyID": "-NzGoLjU0F_7EX8EKYq2",
+      "name": "Nguyen Duc adb",
+      "password": "2",
+      "phone": "094324534"
+    },
+    "-O-4tU1E4N3fCL1IEMSo": {
+      "email": "dfdfsa@gmail.com",
+      "keyID": "-O-4tU1E4N3fCL1IEMSo",
+      "name": "fsaf",
+      "password": "123456",
+      "phone": "4536346"
+    },
+    "-O-E_eW2mYJsJ2ZN1j3q": {
+      "email": "ducthang123@gmail.com",
+      "keyID": "-O-E_eW2mYJsJ2ZN1j3q",
+      "name": "Nguyen Duc Thang",
+      "password": "2",
+      "phone": "098432455"
+    },
+    "-O2To-3842Wtv_v5mZQJ": {
+      "email": "nnnnnn@gmail.com",
+      "keyID": "-O2To-3842Wtv_v5mZQJ",
+      "name": "nnnn",
+      "password": "123456",
+      "phone": "0364877525"
+    },
+    "-O2ToEvh0G0CYnUcnh33": {
+      "email": "demo@gmail.com",
+      "keyID": "-O2ToEvh0G0CYnUcnh33",
+      "name": "demo",
+      "password": "123456",
+      "phone": "0123456789"
+    },
+    "-O2YJoAgpUJ4DkiehPEr": {
+      "email": "benhnhan@gmail.com",
+      "keyID": "-O2YJoAgpUJ4DkiehPEr",
+      "name": "benhnhan",
+      "password": "1234567",
+      "phone": "0987654322"
+    },
+    "-OQ6UhX9Fx7nXQuG5nIW": {
+      "email": "tuan8826938826@gmail.com",
+      "keyID": "-OQ6UhX9Fx7nXQuG5nIW",
+      "name": "Nguyễn Trọng Tuấn",
+      "password": "12345678",
+      "phone": "0969501406"
+    }
+  }
+}

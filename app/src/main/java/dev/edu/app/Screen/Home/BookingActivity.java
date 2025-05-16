@@ -134,7 +134,6 @@ public class BookingActivity extends AppCompatActivity {
 
 
     private void init() {
-        binding.textView4.setText("Booking");
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_in_right);
         binding.main.startAnimation(animation);
         binding.mess.setOnClickListener(v -> {

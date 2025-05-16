@@ -15,6 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.database.FirebaseDatabase;
 import com.kongzue.dialogx.dialogs.TipDialog;
 
+import dev.edu.doctorappointment.Model.UserData;
 import dev.edu.doctorappointment.R;
 import dev.edu.doctorappointment.databinding.ActivityProfileBinding;
 import dev.edu.doctorappointment.databinding.DialogChagepassBinding;
@@ -22,6 +23,8 @@ import dev.edu.doctorappointment.databinding.DialogChagepassBinding;
 public class ProfileActivity extends AppCompatActivity {
 
     ActivityProfileBinding binding;
+    private UserData userData;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,13 +37,14 @@ public class ProfileActivity extends AppCompatActivity {
             return insets;
         });
 
+        userData = new UserData(this);
         init();
 
         binding.logout.setOnClickListener(v -> {
             Animation animation =  AnimationUtils.loadAnimation(this, R.anim.slide_in_left);
             binding.main.startAnimation(animation);
             new android.os.Handler().postDelayed(() -> {
-                new dev.edu.doctorappointment.Model.UserData(this).clearData();
+                userData.clearData();
                 startActivity(new android.content.Intent(this, dev.edu.doctorappointment.Screen.Splash.MainActivity.class));
                 finish();
             }, 500);
@@ -60,9 +64,9 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        binding.tvName.setText(new dev.edu.doctorappointment.Model.UserData(this).getData("name"));
-        binding.tvEmail.setText(new dev.edu.doctorappointment.Model.UserData(this).getData("email"));
-        binding.tvPhone.setText(new dev.edu.doctorappointment.Model.UserData(this).getData("phone"));
+        binding.tvName.setText(userData.getData("name"));
+        binding.tvEmail.setText(userData.getData("email"));
+        binding.tvPhone.setText(userData.getData("phone"));
 
         binding.changePassword.setOnClickListener(v -> {
             BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
@@ -93,14 +97,14 @@ public class ProfileActivity extends AppCompatActivity {
                     dialogChagepassBinding.edtConfirmPass.requestFocus();
                     return;
                 }
-                String password = new dev.edu.doctorappointment.Model.UserData(this).getData("password");
+                String password = userData.getData("password");
                 if(!oldPass.equals(password)){
                     dialogChagepassBinding.edtOldPass.setError("Old password is incorrect");
                     dialogChagepassBinding.edtOldPass.requestFocus();
                     return;
                 }
-                new dev.edu.doctorappointment.Model.UserData(this).saveData("password", newPass);
-                FirebaseDatabase.getInstance().getReference("Users").child(new dev.edu.doctorappointment.Model.UserData(this).getData("id")).child("password").setValue(newPass);
+                userData.saveData("password", newPass);
+                FirebaseDatabase.getInstance().getReference("Users").child(userData.getData("id")).child("password").setValue(newPass);
                 bottomSheetDialog.dismiss();
                 TipDialog.show(this, "Change password success", TipDialog.TYPE.SUCCESS);
             });
@@ -109,9 +113,21 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
+    // Helper method to navigate to the appropriate home screen based on user type
+    private void navigateToHome() {
+        String userType = userData.getData("userType");
+        Intent intent;
+        
+        if (userType != null && userType.equals("doctor")) {
+            intent = new Intent(this, HomeDoctorActivity.class);
+        } else {
+            intent = new Intent(this, HomeActivity.class);
+        }
+        
+        startActivity(intent);
+    }
 
     private void init() {
-        binding.textView4.setText("Profile");
         Animation animation =  AnimationUtils.loadAnimation(this, R.anim.slide_in_right);
         binding.main.startAnimation(animation);
         binding.mess.setOnClickListener(v -> {
@@ -119,8 +135,7 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(intent);
         });
         binding.home.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
-            startActivity(intent);
+            navigateToHome();
         });
         binding.booking.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, BookingActivity.class);
