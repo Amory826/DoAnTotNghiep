@@ -45,6 +45,9 @@
             android:name=".Screen.Home.HomeDoctorActivity"
             android:exported="false" />
         <activity
+            android:name=".Screen.Home.BookingDoctorActivity"
+            android:exported="false" />
+        <activity
             android:name=".Screen.Home.ProfileActivity"
             android:exported="false" />
         <activity

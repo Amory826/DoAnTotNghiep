@@ -119,7 +119,16 @@ public class MessActivity extends AppCompatActivity {
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_in_right);
         binding.main.startAnimation(animation);
         binding.booking.setOnClickListener(v -> {
-            Intent intent = new Intent(MessActivity.this, BookingActivity.class);
+            // Check user type to determine which booking activity to navigate to
+            String userType = userData.getData("userType");
+            Intent intent;
+            
+            if (userType != null && userType.equals("doctor")) {
+                intent = new Intent(MessActivity.this, BookingDoctorActivity.class);
+            } else {
+                intent = new Intent(MessActivity.this, BookingActivity.class);
+            }
+            
             startActivity(intent);
         });
         binding.home.setOnClickListener(v -> {

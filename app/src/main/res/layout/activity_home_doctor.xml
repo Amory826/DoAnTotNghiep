@@ -165,17 +165,17 @@
             android:src="@drawable/mess" />
 
         <ImageView
-            android:id="@+id/profile"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:src="@drawable/profile" />
-
-        <ImageView
             android:id="@+id/booking"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_weight="1"
             android:src="@drawable/booking" />
+
+        <ImageView
+            android:id="@+id/profile"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:src="@drawable/profile" />
     </LinearLayout>
 </RelativeLayout>

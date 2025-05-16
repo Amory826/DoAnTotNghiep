@@ -138,7 +138,16 @@ public class ProfileActivity extends AppCompatActivity {
             navigateToHome();
         });
         binding.booking.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfileActivity.this, BookingActivity.class);
+            // Check user type to determine which booking activity to navigate to
+            String userType = userData.getData("userType");
+            Intent intent;
+            
+            if (userType != null && userType.equals("doctor")) {
+                intent = new Intent(ProfileActivity.this, BookingDoctorActivity.class);
+            } else {
+                intent = new Intent(ProfileActivity.this, BookingActivity.class);
+            }
+            
             startActivity(intent);
         });
     }

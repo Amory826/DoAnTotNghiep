@@ -15,7 +15,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,25 +22,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import dev.edu.doctorappointment.Adapter.AdapterAppointmentDoctor;
 import dev.edu.doctorappointment.Model.AppointmentModel;
 import dev.edu.doctorappointment.Model.UserData;
 import dev.edu.doctorappointment.R;
-import dev.edu.doctorappointment.Screen.LoginRegister.LoginActivity;
-import dev.edu.doctorappointment.databinding.ActivityHomeDoctorBinding;
+import dev.edu.doctorappointment.databinding.ActivityBookingDoctorBinding;
 
-public class HomeDoctorActivity extends AppCompatActivity {
-
-    ActivityHomeDoctorBinding binding;
+public class BookingDoctorActivity extends AppCompatActivity {
+    ActivityBookingDoctorBinding binding;
     private List<AppointmentModel> appointments = new ArrayList<>();
     private AdapterAppointmentDoctor adapter;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -51,7 +43,7 @@ public class HomeDoctorActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        binding = ActivityHomeDoctorBinding.inflate(getLayoutInflater());
+        binding = ActivityBookingDoctorBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -62,130 +54,99 @@ public class HomeDoctorActivity extends AppCompatActivity {
         // Initialize UserData
         userData = new UserData(this);
 
-        // Setup UI
-        setupUI();
-
         // Setup RecyclerView
         setupRecyclerView();
-
-        // Setup navigation buttons
+        
+        // Setup navigation and UI
         setupNavigation();
-
-        // Load today's appointments
-        loadTodayAppointments();
+        
+        // Load doctor's appointments
+        loadDoctorAppointments();
     }
-
-    private void setupUI() {
-        // Display doctor information
-        binding.tvDoctorName.setText(userData.getData("name"));
-        binding.tvClinicName.setText("Phòng khám: " + userData.getData("clinicName"));
-        binding.tvSpecialtyDoctor.setText("Bác sĩ chuyên khoa");
-
-        // Load profile picture if available
-        String profilePicture = userData.getData("profilePicture");
-        if (profilePicture != null && !profilePicture.isEmpty()) {
-            Picasso.get().load(profilePicture).into(binding.ivProfilePicture);
-        }
-
-        // Set today's date
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd/MM/yyyy", new Locale("vi", "VN"));
-        String today = dateFormat.format(new Date());
-        binding.dateToday.setText(today);
-
-        // Apply animation
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_in_right);
-        binding.main.startAnimation(animation);
-    }
-
+    
     private void setupRecyclerView() {
         adapter = new AdapterAppointmentDoctor(appointments);
-        binding.recyclerAppointments.setAdapter(adapter);
-        binding.recyclerAppointments.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerView.setAdapter(adapter);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
-
+    
     private void setupNavigation() {
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_in_right);
+        binding.main.startAnimation(animation);
+        
         binding.home.setOnClickListener(v -> {
-            startActivity(new Intent(this, HomeDoctorActivity.class));
+            Intent intent = new Intent(this, HomeDoctorActivity.class);
+            startActivity(intent);
         });
-
+        
         binding.mess.setOnClickListener(v -> {
             Intent intent = new Intent(this, MessActivity.class);
-            // Pass userType to ensure proper navigation back
             intent.putExtra("userType", "doctor");
             startActivity(intent);
         });
-
+        
         binding.profile.setOnClickListener(v -> {
             Intent intent = new Intent(this, ProfileActivity.class);
-            // Pass userType to ensure proper navigation back
             intent.putExtra("userType", "doctor");
             startActivity(intent);
         });
-
+        
         binding.booking.setOnClickListener(v -> {
-            // For doctors, show all of their appointments
-            try {
-                Intent intent = new Intent(this, BookingDoctorActivity.class);
-                startActivity(intent);
-            } catch (Exception e) {
-                Toast.makeText(this, "Không thể mở trang đặt lịch: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.e("NavigationError", "Error navigating to BookingDoctorActivity: " + e.getMessage());
-            }
+            // Already in BookingDoctorActivity - do nothing or refresh
         });
     }
-
-    private void loadTodayAppointments() {
+    
+    private void loadDoctorAppointments() {
         String doctorId = userData.getData("id");
         if (doctorId == null || doctorId.isEmpty()) {
             Toast.makeText(this, "Không tìm thấy thông tin bác sĩ", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        // Get today's date in string format for filtering
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        String today = dateFormat.format(new Date());
-
-        // For debugging - show date we're looking for
-        Log.d("AppointmentDebug", "Today's date: " + today);
-        Log.d("AppointmentDebug", "Doctor ID: " + doctorId);
-
+        
+        // Log for debugging
+        Log.d("BookingDoctorActivity", "Loading appointments for doctor ID: " + doctorId);
+        
         DatabaseReference appointmentsRef = database.getReference("Appointments");
         Query query = appointmentsRef.orderByChild("doctorId").equalTo(doctorId);
-
+        
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 appointments.clear();
                 if (!snapshot.exists()) {
                     adapter.notifyDataSetChanged();
+                    Toast.makeText(BookingDoctorActivity.this, "Không có lịch hẹn nào", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     AppointmentModel appointment = dataSnapshot.getValue(AppointmentModel.class);
                     if (appointment != null) {
-                        // tim kiem cac lich kham benh có tong ngay hom nay
-                        if (appointment.getAppointmentTime() != null &&
-                            appointment.getAppointmentTime().equals(today)) {
-                            appointments.add(appointment);
-                            Log.d("AppointmentDebug", "Added appointment for today: " + appointment.getAppointmentTime());
-                        }
+                        appointments.add(appointment);
+                        Log.d("BookingDoctorActivity", "Added appointment: " + appointment.getAppointmentId());
                     }
                 }
-
+                
+                // Sort appointments in reverse order (newest first)
+                for (int i = 0; i < appointments.size() / 2; i++) {
+                    AppointmentModel temp = appointments.get(i);
+                    appointments.set(i, appointments.get(appointments.size() - 1 - i));
+                    appointments.set(appointments.size() - 1 - i, temp);
+                }
+                
                 adapter.notifyDataSetChanged();
-
-                // Show a message if no appointments
+                
                 if (appointments.isEmpty()) {
-                    Toast.makeText(HomeDoctorActivity.this, "Không có lịch hẹn hôm nay", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BookingDoctorActivity.this, "Không có lịch hẹn nào", Toast.LENGTH_SHORT).show();
                 } else {
-                    Log.d("AppointmentDebug", "Found " + appointments.size() + " appointments for today");
+                    Log.d("BookingDoctorActivity", "Found " + appointments.size() + " appointments");
                 }
             }
-
+            
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(HomeDoctorActivity.this, "Lỗi khi tải lịch hẹn", Toast.LENGTH_SHORT).show();
-                Log.e("AppointmentDebug", "Database error: " + error.getMessage());
+                Toast.makeText(BookingDoctorActivity.this, "Lỗi khi tải lịch hẹn", Toast.LENGTH_SHORT).show();
+                Log.e("BookingDoctorActivity", "Database error: " + error.getMessage());
             }
         });
     }

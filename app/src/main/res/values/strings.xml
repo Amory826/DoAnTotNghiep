@@ -63,4 +63,6 @@
     <string name="example_doctorName">Dr. Ava Williams, M.D.</string>
     <string name="lichHenHomNay">Lịch hẹn hôm nay</string>
     <string name="choXacNhan">Chờ xác nhận</string>
+    <string name="tinNhan">Tin nhắn</string>
+    <string name="thongTinCaNhan">Thông tin cá nhân</string>
 </resources>
