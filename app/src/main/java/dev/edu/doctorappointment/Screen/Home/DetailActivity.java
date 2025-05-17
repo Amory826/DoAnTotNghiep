@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.kongzue.dialogx.dialogs.TipDialog;
 import com.kongzue.dialogx.dialogs.WaitDialog;
@@ -44,6 +45,8 @@ import dev.edu.doctorappointment.databinding.DialogAppointmentBinding;
 public class DetailActivity extends AppCompatActivity {
     ActivityDetailBinding binding;
     DoctorsModel doctor;
+    // Maximum number of appointments allowed per time slot
+    private static final int MAX_APPOINTMENTS_PER_SLOT = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,29 +177,86 @@ public class DetailActivity extends AppCompatActivity {
                         TipDialog.show(this, "Vui lòng chọn thời gian thực hiện", TipDialog.TYPE.ERROR);
                         return;
                     }
-                    WaitDialog.show(this, "Booking...", 0.1f);
-                    WaitDialog.show(this, "Booking...", 0.3f);
-                    WaitDialog.show(this, "Booking...", 0.5f);
-                    WaitDialog.show(this, "Booking...", 0.7f);
-                    WaitDialog.show(this, "Booking...", 0.9f);
-                    AppointmentModel appointment = new AppointmentModel();
-                    appointment.setAppointmentId(FirebaseDatabase.getInstance().getReference("Appointments").push().getKey());
-                    appointment.setUserId(new UserData(this).getData("id"));
-                    appointment.setDoctorId(doctor.getDoctorId());
-                    appointment.setClinicName(doctor.getClinicName());
-                    appointment.setServiceId(dialogBinding.spnService.getSelectedItem().toString());
-                    appointment.setAppointmentSlot(time);
-                    appointment.setAppointmentTime(dialogBinding.tvDate.getText().toString());
-                    appointment.setStatus("Pending");
-                    Intent intent = new Intent(this, PaymentActivity.class);
-                    intent.putExtra("appointment", appointment);
-                    startActivity(intent);
-                    finish();
+                    
+                    WaitDialog.show(this, "Checking availability...");
+                    
+                    // Check if the slot has reached maximum capacity
+                    checkAppointmentAvailability(doctor.getDoctorId(), date, time, isAvailable -> {
+                        if (isAvailable) {
+                            // Slot is available, proceed with booking
+                            WaitDialog.show(this, "Booking...", 0.1f);
+                            WaitDialog.show(this, "Booking...", 0.3f);
+                            WaitDialog.show(this, "Booking...", 0.5f);
+                            WaitDialog.show(this, "Booking...", 0.7f);
+                            WaitDialog.show(this, "Booking...", 0.9f);
+                            AppointmentModel appointment = new AppointmentModel();
+                            appointment.setAppointmentId(FirebaseDatabase.getInstance().getReference("Appointments").push().getKey());
+                            appointment.setUserId(new UserData(this).getData("id"));
+                            appointment.setDoctorId(doctor.getDoctorId());
+                            appointment.setClinicName(doctor.getClinicName());
+                            appointment.setServiceId(dialogBinding.spnService.getSelectedItem().toString());
+                            appointment.setAppointmentSlot(time);
+                            appointment.setAppointmentTime(dialogBinding.tvDate.getText().toString());
+                            appointment.setStatus("Pending");
+                            Intent intent = new Intent(this, PaymentActivity.class);
+                            intent.putExtra("appointment", appointment);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            // Slot is full
+                            WaitDialog.dismiss();
+                            TipDialog.show(this, "Ca khám này đã đủ số lượng bệnh nhân. Vui lòng chọn thời gian khác.", TipDialog.TYPE.ERROR);
+                        }
+                    });
                 });
                 dialog.show();
             });
-
         }
+    }
+    
+    /**
+     * Check if the selected time slot is available (not full)
+     * @param doctorId Doctor's ID
+     * @param date Selected date
+     * @param timeSlot Selected time slot
+     * @param callback Callback with boolean result
+     */
+    private void checkAppointmentAvailability(String doctorId, String date, String timeSlot, AppointmentAvailabilityCallback callback) {
+        Query query = FirebaseDatabase.getInstance().getReference("Appointments")
+                .orderByChild("doctorId")
+                .equalTo(doctorId);
+                
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int count = 0;
+                // Count appointments for this doctor on this date and time slot
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    AppointmentModel appointment = dataSnapshot.getValue(AppointmentModel.class);
+                    if (appointment != null && 
+                        appointment.getAppointmentTime().equals(date) && 
+                        appointment.getAppointmentSlot().equals(timeSlot)) {
+                        count++;
+                    }
+                }
+                
+                // Check if slot is available
+                boolean isAvailable = count < MAX_APPOINTMENTS_PER_SLOT;
+                callback.onResult(isAvailable);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // In case of error, allow booking to avoid blocking users
+                Log.e("DetailActivity", "Error checking appointment availability", error.toException());
+                callback.onResult(true);
+            }
+        });
+    }
+    
+    // Interface for appointment availability callback
+    interface AppointmentAvailabilityCallback {
+        void onResult(boolean isAvailable);
     }
 
     @NonNull
@@ -212,6 +272,12 @@ public class DetailActivity extends AppCompatActivity {
                     String selectedDate = String.format(Locale.getDefault(), "%02d/%02d/%d", dayOfMonth, (monthOfYear + 1), year1);
                     dialogBinding.tvDate.setText(selectedDate);
                 }, year, month, day);
+        
+        // Set minimum date to tomorrow
+        Calendar tomorrow = Calendar.getInstance();
+        tomorrow.add(Calendar.DAY_OF_MONTH, 1);
+        datePickerDialog.getDatePicker().setMinDate(tomorrow.getTimeInMillis());
+        
         return datePickerDialog;
     }
 }
