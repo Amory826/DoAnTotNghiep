@@ -2,7 +2,9 @@ package dev.edu.doctorappointment.Model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DoctorsModel implements Serializable {
     private String doctorId;
@@ -15,6 +17,8 @@ public class DoctorsModel implements Serializable {
     private String description;
     private int birthYear;
     private boolean isFavorite;
+    private int maxBookingsPerSlot;
+    private Map<String, Map<String, Integer>> bookingCountByDateTime = new HashMap<>();
 
     // Constructors, getters, and setters...
 
@@ -96,5 +100,21 @@ public class DoctorsModel implements Serializable {
 
     public void setBirthYear(int birthYear) {
         this.birthYear = birthYear;
+    }
+
+    public int getMaxBookingsPerSlot() {
+        return maxBookingsPerSlot;
+    }
+
+    public void setMaxBookingsPerSlot(int maxBookingsPerSlot) {
+        this.maxBookingsPerSlot = maxBookingsPerSlot;
+    }
+
+    public Map<String, Map<String, Integer>> getBookingCountByDateTime() {
+        return bookingCountByDateTime;
+    }
+
+    public void setBookingCountByDateTime(Map<String, Map<String, Integer>> bookingCountByDateTime) {
+        this.bookingCountByDateTime = bookingCountByDateTime;
     }
 }

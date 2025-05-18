@@ -4,10 +4,8 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -20,23 +18,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.kongzue.dialogx.dialogs.TipDialog;
 import com.kongzue.dialogx.dialogs.WaitDialog;
 import com.squareup.picasso.Picasso;
 
-import java.security.Timestamp;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicReference;
 
 import dev.edu.doctorappointment.Adapter.AdapterWorking;
 import dev.edu.doctorappointment.Model.AppointmentModel;
 import dev.edu.doctorappointment.Model.DoctorsModel;
 import dev.edu.doctorappointment.Model.MessengerModel;
-import dev.edu.doctorappointment.Model.ServiceModel;
 import dev.edu.doctorappointment.Model.UserData;
-import dev.edu.doctorappointment.Model.UserModel;
 import dev.edu.doctorappointment.R;
 import dev.edu.doctorappointment.databinding.ActivityDetailBinding;
 import dev.edu.doctorappointment.databinding.DialogAppointmentBinding;
@@ -91,6 +91,27 @@ public class DetailActivity extends AppCompatActivity {
 
         if (getIntent().hasExtra("doctor")) {
             doctor = (DoctorsModel) getIntent().getSerializableExtra("doctor");
+
+            // Debug the doctor model
+            Log.d("DoctorModel", "Loaded doctor: " + doctor.getName() + ", ID: " + doctor.getDoctorId());
+            Log.d("DoctorModel", "MaxBookingsPerSlot: " + doctor.getMaxBookingsPerSlot());
+
+            // Debug bookingCountByDateTime
+            AtomicReference<Map<String, Map<String, Integer>>> bookingCounts = new AtomicReference<>(doctor.getBookingCountByDateTime());
+            if (bookingCounts.get() != null) {
+                Log.d("DoctorModel", "BookingCountByDateTime size: " + bookingCounts.get().size());
+                for (String date : bookingCounts.get().keySet()) {
+                    Map<String, Integer> timeSlots = bookingCounts.get().get(date);
+                    if (timeSlots != null) {
+                        for (String time : timeSlots.keySet()) {
+                            Log.d("DoctorModel", "Date: " + date + ", Time: " + time + ", Count: " + timeSlots.get(time));
+                        }
+                    }
+                }
+            } else {
+                Log.d("DoctorModel", "BookingCountByDateTime is null");
+            }
+
             binding.tvDoctorName.setText(doctor.getName());
             String services = "Chuyên khoa: ";
             for (String serviceId : doctor.getServices()) {
@@ -166,19 +187,49 @@ public class DetailActivity extends AppCompatActivity {
                 dialogBinding.btnBook.setOnClickListener(v1 -> {
                     String time = dialogBinding.spnTime.getSelectedItem().toString();
                     String date = dialogBinding.tvDate.getText().toString();
+
                     if (date.isEmpty() || date.equals("Choose Date")) {
                         dialogBinding.tvDate.setError("Vui lòng chọn ngày khám");
                         return;
                     }
+
                     if (time.isEmpty()) {
                         TipDialog.show(this, "Vui lòng chọn thời gian thực hiện", TipDialog.TYPE.ERROR);
                         return;
                     }
+
+                    // Replace invalid characters for Firebase key
+                    String safeDate = date.replace("/", "_").replace(".", "_");
+
+                    // Check if the doctor has reached the maximum bookings for this time slot
+                    bookingCounts.set(doctor.getBookingCountByDateTime());
+                    if (bookingCounts.get() == null) {
+                        bookingCounts.set(new HashMap<>());
+                        doctor.setBookingCountByDateTime(bookingCounts.get());
+                    }
+
+                    Map<String, Integer> timeSlots = bookingCounts.get().get(safeDate);
+                    int currentBookings = 0;
+
+                    if (timeSlots != null && timeSlots.containsKey(time)) {
+                        currentBookings = timeSlots.get(time);
+                    }
+
+                    if (currentBookings >= doctor.getMaxBookingsPerSlot()) {
+                        dialog.dismiss();
+                        TipDialog.show(this, "Slot đã đạt số lượng đặt tối đa! Vui lòng chọn vào thời gian khác!", TipDialog.TYPE.ERROR);
+                        return;
+                    }
+
                     WaitDialog.show(this, "Booking...", 0.1f);
                     WaitDialog.show(this, "Booking...", 0.3f);
                     WaitDialog.show(this, "Booking...", 0.5f);
                     WaitDialog.show(this, "Booking...", 0.7f);
                     WaitDialog.show(this, "Booking...", 0.9f);
+
+                    // Remove the code that updates booking counts here
+                    // The booking count will only be updated after successful payment
+
                     AppointmentModel appointment = new AppointmentModel();
                     appointment.setAppointmentId(FirebaseDatabase.getInstance().getReference("Appointments").push().getKey());
                     appointment.setUserId(new UserData(this).getData("id"));
@@ -188,6 +239,10 @@ public class DetailActivity extends AppCompatActivity {
                     appointment.setAppointmentSlot(time);
                     appointment.setAppointmentTime(dialogBinding.tvDate.getText().toString());
                     appointment.setStatus("Pending");
+                    
+                    Log.d("DetailActivity", "Created appointment with ID: " + appointment.getAppointmentId());
+                    Log.d("DetailActivity", "Passing appointment to PaymentActivity (not saved to Firebase yet)");
+                    
                     Intent intent = new Intent(this, PaymentActivity.class);
                     intent.putExtra("appointment", appointment);
                     startActivity(intent);

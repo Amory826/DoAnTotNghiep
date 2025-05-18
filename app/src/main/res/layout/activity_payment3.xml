@@ -30,7 +30,6 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
-            android:padding="10dp"
             android:text="Payment History"
             android:textColor="@color/white"
             android:textSize="20sp"
