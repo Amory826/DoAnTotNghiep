@@ -65,4 +65,5 @@
     <string name="choXacNhan">Chờ xác nhận</string>
     <string name="tinNhan">Tin nhắn</string>
     <string name="thongTinCaNhan">Thông tin cá nhân</string>
+    <string name="huyBo">Hủy bỏ</string>
 </resources>

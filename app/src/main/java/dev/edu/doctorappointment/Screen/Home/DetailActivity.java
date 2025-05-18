@@ -193,6 +193,9 @@ public class DetailActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 });
+                dialogBinding.btnCancel.setOnClickListener(v1 -> {
+                    dialog.dismiss();
+                });
                 dialog.show();
             });
 
