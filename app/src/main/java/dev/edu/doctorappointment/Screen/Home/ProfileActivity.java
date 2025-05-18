@@ -19,6 +19,7 @@ import dev.edu.doctorappointment.Model.UserData;
 import dev.edu.doctorappointment.R;
 import dev.edu.doctorappointment.databinding.ActivityProfileBinding;
 import dev.edu.doctorappointment.databinding.DialogChagepassBinding;
+import dev.edu.doctorappointment.databinding.DialogEditProfileBinding;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -67,6 +68,15 @@ public class ProfileActivity extends AppCompatActivity {
         binding.tvName.setText(userData.getData("name"));
         binding.tvEmail.setText(userData.getData("email"));
         binding.tvPhone.setText(userData.getData("phone"));
+        
+        // Add click listeners to edit profile information
+        binding.tvName.setOnClickListener(v -> showEditProfileDialog());
+        binding.tvEmail.setOnClickListener(v -> showEditProfileDialog());
+        binding.tvPhone.setOnClickListener(v -> showEditProfileDialog());
+        // Add an edit profile button click listener if one exists in the layout
+        if (binding.editProfile != null) {
+            binding.editProfile.setOnClickListener(v -> showEditProfileDialog());
+        }
 
         binding.changePassword.setOnClickListener(v -> {
             BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
@@ -150,5 +160,77 @@ public class ProfileActivity extends AppCompatActivity {
             
             startActivity(intent);
         });
+    }
+    
+    private void showEditProfileDialog() {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        DialogEditProfileBinding dialogBinding = DialogEditProfileBinding.inflate(getLayoutInflater());
+        bottomSheetDialog.setContentView(dialogBinding.getRoot());
+        
+        // Pre-populate fields with current data
+        dialogBinding.edtName.setText(userData.getData("name"));
+        dialogBinding.edtEmail.setText(userData.getData("email"));
+        dialogBinding.edtPhone.setText(userData.getData("phone"));
+        
+        // Set close button listener
+        dialogBinding.btnClose.setOnClickListener(v -> bottomSheetDialog.dismiss());
+        
+        // Set save button listener
+        dialogBinding.btnSave.setOnClickListener(v -> {
+            String name = dialogBinding.edtName.getText().toString().trim();
+            String email = dialogBinding.edtEmail.getText().toString().trim();
+            String phone = dialogBinding.edtPhone.getText().toString().trim();
+            
+            // Validate inputs
+            if(name.isEmpty()) {
+                dialogBinding.edtName.setError("Name is required");
+                dialogBinding.edtName.requestFocus();
+                return;
+            }
+            
+            if(email.isEmpty()) {
+                dialogBinding.edtEmail.setError("Email is required");
+                dialogBinding.edtEmail.requestFocus();
+                return;
+            }
+            
+            if(phone.isEmpty()) {
+                dialogBinding.edtPhone.setError("Phone number is required");
+                dialogBinding.edtPhone.requestFocus();
+                return;
+            }
+            
+            // Update local storage
+            userData.saveData("name", name);
+            userData.saveData("email", email);
+            userData.saveData("phone", phone);
+            
+            // Update Firebase database
+            FirebaseDatabase.getInstance().getReference("Users")
+                    .child(userData.getData("id"))
+                    .child("name")
+                    .setValue(name);
+                    
+            FirebaseDatabase.getInstance().getReference("Users")
+                    .child(userData.getData("id"))
+                    .child("email")
+                    .setValue(email);
+                    
+            FirebaseDatabase.getInstance().getReference("Users")
+                    .child(userData.getData("id"))
+                    .child("phone")
+                    .setValue(phone);
+            
+            // Update UI
+            binding.tvName.setText(name);
+            binding.tvEmail.setText(email);
+            binding.tvPhone.setText(phone);
+            
+            // Close dialog and show success message
+            bottomSheetDialog.dismiss();
+            TipDialog.show(this, "Thông tin đã được lưu", TipDialog.TYPE.SUCCESS);
+        });
+        
+        bottomSheetDialog.show();
     }
 }

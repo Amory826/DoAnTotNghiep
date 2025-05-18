@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="16dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/chinhSuaThongTin"
+            android:textColor="@color/backgroundInfoHintText"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/btnClose"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/todo"
+            android:src="@android:drawable/ic_menu_close_clear_cancel" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="#DDDDDD" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hoVaTen"
+        android:textSize="20sp"
+        android:textColor="@color/backgroundInfoHintText"
+        android:textStyle="bold"
+        />
+
+    <EditText
+        android:id="@+id/edtName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hoVaTen"
+        android:textColorHint="@color/backgroundInfoHintText"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:padding="@dimen/_16dp"
+        android:background="@drawable/back_cuss"
+        android:textColor="@color/backgroundInfoHintText"
+        android:inputType="text"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/email"
+        android:textSize="20sp"
+        android:textColor="@color/backgroundInfoHintText"
+        android:textStyle="bold"
+        />
+
+    <EditText
+        android:id="@+id/edtEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/back_cuss"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:padding="@dimen/_16dp"
+        android:textColor="@color/backgroundInfoHintText"
+        android:textColorHint="@color/backgroundInfoHintText" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/soDienThoai"
+        android:textSize="20sp"
+        android:textColor="@color/backgroundInfoHintText"
+        android:textStyle="bold"
+        />
+    <EditText
+        android:id="@+id/edtPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/soDienThoai"
+        android:textColorHint="@color/backgroundInfoHintText"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:padding="@dimen/_16dp"
+        android:background="@drawable/back_cuss"
+        android:textColor="@color/backgroundInfoHintText"
+        android:inputType="phone"/>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:background="@drawable/button_login"
+        android:text="@string/xacNhan"
+        android:textColor="@android:color/white"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:gravity="center"
+        android:layout_gravity="center"/>
+
+</LinearLayout> 

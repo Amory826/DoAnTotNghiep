@@ -46,6 +46,38 @@
             >
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/editProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16dp"
+                app:cardCornerRadius="10dp"
+                android:layout_marginHorizontal="8dp"
+                app:cardBackgroundColor="#F0F8FF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Chỉnh sửa thông tin"
+                        android:textColor="@color/backgroundInfoHintText"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@android:drawable/ic_menu_edit" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -53,7 +85,7 @@
                 android:layout_marginTop="@dimen/_20dp"
                 app:cardCornerRadius="10dp"
                 android:layout_marginHorizontal="8dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="@color/edit_info"
                 >
 
                 <TextView
@@ -62,7 +94,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:text="Name: Nguyen Van A"
-                    android:textColor="#009966"
+                    android:textColor="@color/backgroundInfoHintText"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     />
@@ -75,10 +107,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cardView"
-                android:layout_marginTop="@dimen/_40dp"
+                android:layout_marginTop="@dimen/_32dp"
                 app:cardCornerRadius="10dp"
                 android:layout_marginHorizontal="8dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="@color/edit_info"
                 >
 
                 <TextView
@@ -87,7 +119,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:text="Email: Nguyen Van A"
-                    android:textColor="#009966"
+                    android:textColor="@color/backgroundInfoHintText"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -99,10 +131,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cardView1"
-                android:layout_marginTop="@dimen/_40dp"
+                android:layout_marginTop="@dimen/_32dp"
                 app:cardCornerRadius="10dp"
                 android:layout_marginHorizontal="8dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="@color/edit_info"
                 >
 
                 <TextView
@@ -111,7 +143,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:text="Phone: Nguyen Van A"
-                    android:textColor="#009966"
+                    android:textColor="@color/backgroundInfoHintText"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -123,9 +155,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cardView2"
-                android:layout_marginTop="@dimen/_40dp"
+                android:layout_marginTop="@dimen/_32dp"
                 app:cardCornerRadius="10dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="@color/edit_info"
                 android:layout_marginHorizontal="8dp"
 
                 >
@@ -135,7 +167,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:text="@string/lichSuThanhToan"
-                    android:textColor="#009966"
+                    android:textColor="@color/backgroundInfoHintText"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -146,9 +178,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/payment"
-                android:layout_marginTop="@dimen/_40dp"
+                android:layout_marginTop="@dimen/_32dp"
                 app:cardCornerRadius="10dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="@color/edit_info"
                 android:layout_marginHorizontal="8dp"
                 >
 
@@ -157,7 +189,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:text="Yêu thích"
-                    android:textColor="#009966"
+                    android:textColor="@color/backgroundInfoHintText"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -168,9 +200,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/favorite"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="@dimen/_32dp"
                 app:cardCornerRadius="10dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="@color/edit_info"
                 android:layout_marginHorizontal="8dp"
                 >
 
@@ -179,7 +211,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:text="Thay đổi mật khẩu"
-                    android:textColor="#009966"
+                    android:textColor="@color/backgroundInfoHintText"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -190,10 +222,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/changePassword"
-                android:layout_marginTop="@dimen/_40dp"
-                android:layout_marginBottom="@dimen/_40dp"
+                android:layout_marginTop="@dimen/_32dp"
+                android:layout_marginBottom="@dimen/_32dp"
                 app:cardCornerRadius="10dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="@color/edit_info"
                 android:layout_marginHorizontal="8dp"
                 >
 
@@ -202,7 +234,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:text="Đăng xuất"
-                    android:textColor="#009966"
+                    android:textColor="@color/backgroundInfoHintText"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 

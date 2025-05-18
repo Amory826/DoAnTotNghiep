@@ -31,7 +31,8 @@
             android:textColorHint="@color/backgroundInfoHintText"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:padding="10dp"
+            android:padding="@dimen/_16dp"
+            android:textColor="@color/backgroundInfoHintText"
             android:background="@drawable/back_cuss"
             android:inputType="textPassword"/>
 
@@ -43,7 +44,8 @@
             android:textColorHint="@color/backgroundInfoHintText"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:padding="10dp"
+            android:textColor="@color/backgroundInfoHintText"
+            android:padding="@dimen/_16dp"
             android:background="@drawable/back_cuss"
             android:inputType="textPassword"/>
 
@@ -55,7 +57,8 @@
             android:textColorHint="@color/backgroundInfoHintText"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:padding="10dp"
+            android:textColor="@color/backgroundInfoHintText"
+            android:padding="@dimen/_16dp"
             android:background="@drawable/back_cuss"
             android:inputType="textPassword"/>
 

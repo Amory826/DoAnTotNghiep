@@ -66,4 +66,9 @@
     <string name="tinNhan">Tin nhắn</string>
     <string name="thongTinCaNhan">Thông tin cá nhân</string>
     <string name="huyBo">Hủy bỏ</string>
+    <string name="hoVaTen">Họ và tên</string>
+    <string name="chinhSuaThongTin">Chỉnh sửa thông tin</string>
+    <string name="email">Email</string>
+    <string name="soDienThoai">Số điện thoại</string>
+    <string name="xacNhan">Xác nhận</string>
 </resources>
