@@ -119,7 +119,21 @@ public class LoginActivity extends AppCompatActivity {
         binding.login.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                String token = binding.email.getText().toString();
+                String doctorId = binding.email.getText().toString();
+                String password = binding.password.getText().toString();
+                
+                if(doctorId.isEmpty()) {
+                    binding.email.setError("Vui lòng nhập ID bác sĩ");
+                    binding.email.requestFocus();
+                    return true;
+                }
+                
+                if(password.isEmpty()) {
+                    binding.password.setError("Vui lòng nhập mật khẩu");
+                    binding.password.requestFocus();
+                    return true;
+                }
+                
                 WaitDialog.show(LoginActivity.this, "Đang tải...");
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference("Doctors");
@@ -129,23 +143,32 @@ public class LoginActivity extends AppCompatActivity {
                         boolean doctorFound = false;
                         for (DataSnapshot ds : snapshot.getChildren()) {
                             DoctorsModel doctorsModel = ds.getValue(DoctorsModel.class);
-                            if (doctorsModel != null && doctorsModel.getDoctorId().equals(token)) {
+                            if (doctorsModel != null && doctorsModel.getDoctorId().equals(doctorId)) {
                                 doctorFound = true;
-                                WaitDialog.dismiss();
-                                TipDialog.show(LoginActivity.this, "Đăng nhập bác sĩ thành công", TipDialog.TYPE.SUCCESS);
-                                new Handler().postDelayed(() -> {
-                                    dev.edu.doctorappointment.Model.UserData userData = new dev.edu.doctorappointment.Model.UserData(LoginActivity.this);
-                                    userData.saveData("id", doctorsModel.getDoctorId());
-                                    userData.saveData("name", doctorsModel.getName());
-                                    userData.saveData("userType", "doctor");
-                                    userData.saveData("isLogin", "true");
-                                    userData.saveData("clinicName", doctorsModel.getClinicName());
-                                    userData.saveData("profilePicture", doctorsModel.getProfilePicture());
-                                    userData.saveData("gender", doctorsModel.getGender());
-                                    userData.saveData("birthYear", String.valueOf(doctorsModel.getBirthYear()));
-                                    startActivity(new android.content.Intent(LoginActivity.this, HomeDoctorActivity.class));
-                                    finish();
-                                }, 1000L);
+                                
+                                // Check if password matches
+                                if (doctorsModel.getPassword() != null && doctorsModel.getPassword().equals(password)) {
+                                    WaitDialog.dismiss();
+                                    TipDialog.show(LoginActivity.this, "Đăng nhập bác sĩ thành công", TipDialog.TYPE.SUCCESS);
+                                    new Handler().postDelayed(() -> {
+                                        dev.edu.doctorappointment.Model.UserData userData = new dev.edu.doctorappointment.Model.UserData(LoginActivity.this);
+                                        userData.saveData("id", doctorsModel.getDoctorId());
+                                        userData.saveData("name", doctorsModel.getName());
+                                        userData.saveData("userType", "doctor");
+                                        userData.saveData("isLogin", "true");
+                                        userData.saveData("password", password); // Save password for future use
+                                        userData.saveData("clinicName", doctorsModel.getClinicName());
+                                        userData.saveData("profilePicture", doctorsModel.getProfilePicture());
+                                        userData.saveData("gender", doctorsModel.getGender());
+                                        userData.saveData("birthYear", String.valueOf(doctorsModel.getBirthYear()));
+                                        startActivity(new android.content.Intent(LoginActivity.this, HomeDoctorActivity.class));
+                                        finish();
+                                    }, 1000L);
+                                } else {
+                                    WaitDialog.dismiss();
+                                    binding.password.setError("Mật khẩu không chính xác");
+                                    binding.password.requestFocus();
+                                }
                                 break;
                             }
                         }

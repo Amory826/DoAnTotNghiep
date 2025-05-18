@@ -19,6 +19,7 @@ public class DoctorsModel implements Serializable {
     private boolean isFavorite;
     private int maxBookingsPerSlot;
     private Map<String, Map<String, Integer>> bookingCountByDateTime = new HashMap<>();
+    private String password;
 
     // Constructors, getters, and setters...
 
@@ -116,5 +117,13 @@ public class DoctorsModel implements Serializable {
 
     public void setBookingCountByDateTime(Map<String, Map<String, Integer>> bookingCountByDateTime) {
         this.bookingCountByDateTime = bookingCountByDateTime;
+    }
+    
+    public String getPassword() {
+        return password;
+    }
+    
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

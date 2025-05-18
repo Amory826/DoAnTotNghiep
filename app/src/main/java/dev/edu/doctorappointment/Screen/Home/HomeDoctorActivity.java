@@ -116,9 +116,7 @@ public class HomeDoctorActivity extends AppCompatActivity {
         });
 
         binding.profile.setOnClickListener(v -> {
-            Intent intent = new Intent(this, ProfileActivity.class);
-            // Pass userType to ensure proper navigation back
-            intent.putExtra("userType", "doctor");
+            Intent intent = new Intent(this, ProfileDoctorActivity.class);
             startActivity(intent);
         });
 

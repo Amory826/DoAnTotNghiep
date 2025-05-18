@@ -71,4 +71,7 @@
     <string name="email">Email</string>
     <string name="soDienThoai">Số điện thoại</string>
     <string name="xacNhan">Xác nhận</string>
+    <string name="viTri">Vị trí</string>
+    <string name="namSinh">Năm sinh</string>
+    <string name="soLuongToiDaMoiCa">Số lượng tối đa mỗi ca</string>
 </resources>
