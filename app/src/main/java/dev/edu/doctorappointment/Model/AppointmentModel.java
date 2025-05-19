@@ -3,6 +3,7 @@ package dev.edu.doctorappointment.Model;
 import com.google.firebase.Timestamp;
 
 import java.io.Serializable;
+import java.util.Map;
 
 public class AppointmentModel implements Serializable {
     private String appointmentId;
@@ -14,6 +15,7 @@ public class AppointmentModel implements Serializable {
     private String appointmentTime;
     private String serviceImage;
     private String status;
+    private Map<String, String> examinationResults;
 
     // Constructors
     public AppointmentModel() {}
@@ -101,6 +103,14 @@ public class AppointmentModel implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Map<String, String> getExaminationResults() {
+        return examinationResults;
+    }
+
+    public void setExaminationResults(Map<String, String> examinationResults) {
+        this.examinationResults = examinationResults;
     }
 }
 

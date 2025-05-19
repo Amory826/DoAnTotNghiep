@@ -177,15 +177,27 @@ public class DetailBookingActivity extends AppCompatActivity {
                     binding.tvTime.setText("Giờ: " + currentAppointment.getAppointmentSlot());
                     binding.tvStatus.setText(currentAppointment.getStatus());
 
-                    // Set status color based on appointment status
-                    if ("Đã xác nhận".equals(currentAppointment.getStatus()) || "Đã thanh toán".equals(currentAppointment.getStatus())) {
+                    // Set status color and button visibility based on appointment status
+                    String status = currentAppointment.getStatus();
+                    if ("Đã xác nhận".equals(status) || "Đã thanh toán".equals(status) || "Đã trả kết quả".equals(status)) {
                         binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
-                    } else if ("Đã hủy".equals(currentAppointment.getStatus()) || "Cancelled".equals(currentAppointment.getStatus())) {
+                        // Ẩn nút hủy lịch nếu đã xác nhận hoặc đã trả kết quả
+                        binding.btnCancel.setVisibility(View.GONE);
+                    } else if ("Đã hủy".equals(status) || "Cancelled".equals(status)) {
                         binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
                         // Ẩn nút hủy lịch nếu đã hủy
                         binding.btnCancel.setVisibility(View.GONE);
                     } else {
                         binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
+                        // Hiển thị nút hủy lịch nếu chưa xác nhận
+                        binding.btnCancel.setVisibility(View.VISIBLE);
+                    }
+
+                    // Load examination results if status is "Đã trả kết quả"
+                    if ("Đã trả kết quả".equals(status)) {
+                        loadExaminationResults();
+                    } else {
+                        binding.layoutExaminationResults.setVisibility(View.GONE);
                     }
 
                     // Load thông tin bác sĩ
@@ -198,6 +210,37 @@ public class DetailBookingActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(DetailBookingActivity.this, "Lỗi khi tải thông tin lịch hẹn", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void loadExaminationResults() {
+        binding.layoutExaminationResults.setVisibility(View.VISIBLE);
+        
+        // Load examination results from ReturnResults
+        appointmentsRef.child(appointmentId).child("ReturnResults").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String diagnosis = snapshot.child("diagnosis").getValue(String.class);
+                    String prescription = snapshot.child("prescription").getValue(String.class);
+                    String treatmentGuide = snapshot.child("treatmentGuide").getValue(String.class);
+                    
+                    if (diagnosis != null) {
+                        binding.tvDiagnosis.setText(diagnosis);
+                    }
+                    if (prescription != null) {
+                        binding.tvPrescription.setText(prescription);
+                    }
+                    if (treatmentGuide != null) {
+                        binding.tvTreatmentGuide.setText(treatmentGuide);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(DetailBookingActivity.this, "Lỗi khi tải kết quả khám bệnh", Toast.LENGTH_SHORT).show();
             }
         });
     }

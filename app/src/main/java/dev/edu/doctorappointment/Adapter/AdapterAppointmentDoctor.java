@@ -1,10 +1,12 @@
 package dev.edu.doctorappointment.Adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,6 +24,7 @@ import java.util.List;
 import dev.edu.doctorappointment.Model.AppointmentModel;
 import dev.edu.doctorappointment.Model.UserModel;
 import dev.edu.doctorappointment.R;
+import dev.edu.doctorappointment.Screen.Home.DetailBookingDoctorActivity;
 
 public class AdapterAppointmentDoctor extends RecyclerView.Adapter<AdapterAppointmentDoctor.AppointmentViewHolder> {
 
@@ -48,33 +51,26 @@ public class AdapterAppointmentDoctor extends RecyclerView.Adapter<AdapterAppoin
         holder.tvAppointmentStatus.setText(appointment.getStatus());
         
         // Set status color based on appointment status
-        if ("Đã xác nhận".equals(appointment.getStatus()) || "Đã thanh toán".equals(appointment.getStatus())) {
+        if ("Đã xác nhận".equals(appointment.getStatus()) || "Đã thanh toán".equals(appointment.getStatus()) || "Đã trả kết quả".equals(appointment.getStatus())) {
             holder.tvAppointmentStatus.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.holo_green_dark));
+            
+            if("Đã xác nhận".equals(appointment.getStatus())){
+                // Add click listener for confirmed appointments
+                holder.itemView.setOnClickListener(v -> {
+                    Intent intent = new Intent(v.getContext(), DetailBookingDoctorActivity.class);
+                    intent.putExtra("appointmentId", appointment.getAppointmentId());
+                    v.getContext().startActivity(intent);
+                });
+            }
         } else if ("Đã hủy".equals(appointment.getStatus()) || "Cancelled".equals(appointment.getStatus())) {
             holder.tvAppointmentStatus.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.holo_red_dark));
         } else {
             holder.tvAppointmentStatus.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.holo_orange_dark));
         }
         
-        // Load service image if available
-//        if (appointment.getServiceImage() != null && !appointment.getServiceImage().isEmpty()) {
-//            Picasso.get().load(appointment.getServiceImage()).into(holder.ivServiceImage);
-//        } else {
-//            // Load a default image or service-specific image based on serviceId
-//            setDefaultServiceImage(holder, appointment.getServiceId());
-//        }
-        
         // Load patient information
-        loadPatientInfo(holder, appointment.getUserId());
-        
-        // Set button actions
-        holder.btnConfirm.setOnClickListener(v -> updateAppointmentStatus(appointment, "Đã xác nhận"));
-        holder.btnCancel.setOnClickListener(v -> updateAppointmentStatus(appointment, "Đã hủy"));
-    }
-
-    private void loadPatientInfo(AppointmentViewHolder holder, String userId) {
-        DatabaseReference userRef = database.getReference("Users").child(userId);
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference usersRef = database.getReference("Users");
+        usersRef.child(appointment.getUserId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -91,8 +87,61 @@ public class AdapterAppointmentDoctor extends RecyclerView.Adapter<AdapterAppoin
                 // Handle error
             }
         });
+        
+        // Set button actions
+        holder.btnConfirm.setOnClickListener(v -> updateAppointmentStatus(appointment, "Đã xác nhận"));
+        holder.btnCancel.setOnClickListener(v -> updateAppointmentStatus(appointment, "Đã hủy"));
+
+        // Handle examination results display
+        if ("Đã trả kết quả".equals(appointment.getStatus())) {
+            holder.btnConfirm.setVisibility(View.GONE);
+            holder.btnCancel.setVisibility(View.GONE);
+            holder.btnEditResults.setVisibility(View.VISIBLE);
+            
+            // Show examination results
+            holder.layoutExaminationResults.setVisibility(View.VISIBLE);
+            
+            // Load examination results from ReturnResults
+            DatabaseReference appointmentRef = database.getReference("Appointments").child(appointment.getAppointmentId());
+            appointmentRef.child("ReturnResults").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        String diagnosis = snapshot.child("diagnosis").getValue(String.class);
+                        String prescription = snapshot.child("prescription").getValue(String.class);
+                        String treatmentGuide = snapshot.child("treatmentGuide").getValue(String.class);
+                        
+                        if (diagnosis != null) {
+                            holder.tvDiagnosis.setText("Chẩn đoán: " + diagnosis);
+                        }
+                        if (prescription != null) {
+                            holder.tvPrescription.setText("Đơn thuốc: " + prescription);
+                        }
+                        if (treatmentGuide != null) {
+                            holder.tvTreatmentGuide.setText("Hướng dẫn điều trị: " + treatmentGuide);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    // Handle error
+                }
+            });
+
+            // Set click listener for edit results button
+            holder.btnEditResults.setOnClickListener(v -> {
+                Intent intent = new Intent(v.getContext(), DetailBookingDoctorActivity.class);
+                intent.putExtra("appointmentId", appointment.getAppointmentId());
+                intent.putExtra("isEditing", true);
+                v.getContext().startActivity(intent);
+            });
+        } else {
+            holder.layoutExaminationResults.setVisibility(View.GONE);
+            holder.btnEditResults.setVisibility(View.GONE);
+        }
     }
-    
+
     private void updateAppointmentStatus(AppointmentModel appointment, String status) {
         DatabaseReference appointmentRef = database.getReference("Appointments")
                 .child(appointment.getAppointmentId());
@@ -100,25 +149,6 @@ public class AdapterAppointmentDoctor extends RecyclerView.Adapter<AdapterAppoin
         appointment.setStatus(status);
         appointmentRef.setValue(appointment);
     }
-
-//    private void setDefaultServiceImage(AppointmentViewHolder holder, String serviceId) {
-//        // Set a default image based on service type if available
-//        if (serviceId != null) {
-//            if (serviceId.contains("Da liễu")) {
-//                holder.ivServiceImage.setImageResource(R.drawable.ic_dermatology);
-//            } else if (serviceId.contains("Tim mạch")) {
-//                holder.ivServiceImage.setImageResource(R.drawable.ic_cardiology);
-//            } else if (serviceId.contains("Nhi khoa")) {
-//                holder.ivServiceImage.setImageResource(R.drawable.ic_pediatric);
-//            } else {
-//                // Default image for other services
-//                holder.ivServiceImage.setImageResource(R.drawable.ic_doctor);
-//            }
-//        } else {
-//            // Fallback to a generic doctor/appointment icon
-//            holder.ivServiceImage.setImageResource(R.drawable.ic_appointment);
-//        }
-//    }
 
     @Override
     public int getItemCount() {
@@ -128,17 +158,26 @@ public class AdapterAppointmentDoctor extends RecyclerView.Adapter<AdapterAppoin
     public static class AppointmentViewHolder extends RecyclerView.ViewHolder {
         ImageView ivServiceImage;
         TextView tvPatientName, tvPatientPhone, tvAppointmentTime, tvAppointmentStatus;
-        Button btnConfirm, btnCancel;
+        TextView tvDiagnosis, tvPrescription, tvTreatmentGuide;
+        Button btnConfirm, btnCancel, btnEditResults;
+        LinearLayout layoutExaminationResults, layoutButtons;
 
         public AppointmentViewHolder(@NonNull View itemView) {
             super(itemView);
-//            ivServiceImage = itemView.findViewById(R.id.iv_service_image);
             tvPatientName = itemView.findViewById(R.id.tv_patient_name);
             tvPatientPhone = itemView.findViewById(R.id.tv_patient_phone);
             tvAppointmentTime = itemView.findViewById(R.id.tv_appointment_time);
             tvAppointmentStatus = itemView.findViewById(R.id.tv_appointment_status);
             btnConfirm = itemView.findViewById(R.id.btn_confirm);
             btnCancel = itemView.findViewById(R.id.btn_cancel);
+            btnEditResults = itemView.findViewById(R.id.btn_edit_results);
+            
+            // Examination results views
+            layoutExaminationResults = itemView.findViewById(R.id.layout_examination_results);
+            tvDiagnosis = itemView.findViewById(R.id.tv_diagnosis);
+            tvPrescription = itemView.findViewById(R.id.tv_prescription);
+            tvTreatmentGuide = itemView.findViewById(R.id.tv_treatment_guide);
+            layoutButtons = itemView.findViewById(R.id.layout_buttons);
         }
     }
 } 

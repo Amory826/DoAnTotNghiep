@@ -32,9 +32,9 @@
         <activity
             android:name=".Screen.Home.PaymentActivity"
             android:exported="false" />
-        <activity
-            android:name=".Screen.Home.AppointmentActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".Screen.Home.AppointmentActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".Screen.Home.DetailActivity"
             android:exported="false" />
@@ -73,6 +73,9 @@
             android:exported="false" />
         <activity
             android:name=".Screen.Home.DetailBookingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Screen.Home.DetailBookingDoctorActivity"
             android:exported="false" />
         <activity
             android:name=".Screen.Splash.MainActivity"
