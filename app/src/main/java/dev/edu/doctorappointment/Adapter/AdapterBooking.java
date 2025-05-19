@@ -1,5 +1,6 @@
 package dev.edu.doctorappointment.Adapter;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -91,7 +92,7 @@ public class AdapterBooking extends RecyclerView.Adapter<AdapterBooking.MyViewHo
             intent.putExtra("appointmentId", appointmentModel.getAppointmentId());
             intent.putExtra("doctorId", appointmentModel.getDoctorId());
             intent.putExtra("serviceId", appointmentModel.getServiceId());
-            v.getContext().startActivity(intent);
+            ((Activity) v.getContext()).startActivityForResult(intent, 1);
         });
 
         // Sự kiện click vào nút chat

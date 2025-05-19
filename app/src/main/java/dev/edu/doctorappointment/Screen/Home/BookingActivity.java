@@ -7,6 +7,7 @@ import android.view.animation.AnimationUtils;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -169,8 +170,28 @@ public class BookingActivity extends AppCompatActivity {
             navigateToHome();
         });
         binding.profile.setOnClickListener(v -> {
-            Intent intent = new Intent(BookingActivity.this, ProfileActivity.class);
+            String userType = userData.getData("userType");
+            Intent intent;
+            
+            if (userType != null && userType.equals("doctor")) {
+                intent = new Intent(BookingActivity.this, ProfileDoctorActivity.class);
+            } else {
+                intent = new Intent(BookingActivity.this, ProfileActivity.class);
+            }
+            
             startActivity(intent);
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            boolean appointmentCancelled = data.getBooleanExtra("appointmentCancelled", false);
+            if (appointmentCancelled) {
+                // Refresh danh sách lịch hẹn
+                fetchAppointment();
+            }
+        }
     }
 }
