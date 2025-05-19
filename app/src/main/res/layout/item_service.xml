@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="90dp"
     android:layout_height="90dp"
     android:orientation="vertical"
     android:layout_margin="12dp"
     android:background="@drawable/bg_item"
-    android:gravity="center"
-    >
+    android:gravity="center">
 
     <ImageView
         android:id="@+id/img_service"
@@ -16,7 +16,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:src="@drawable/cardiology"
-        />
+        app:tint="@color/white" />
 
     <TextView
         android:id="@+id/tv_service"

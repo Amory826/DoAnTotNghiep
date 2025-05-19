@@ -9,4 +9,5 @@
     <color name="backgroundTransfer">#00FFFFFF</color>
     <color name="holo_orange_dark">#ffff8800</color>
     <color name="edit_info">#E9F6FE</color>
+    <color name="textGreen">#009966</color>
 </resources>

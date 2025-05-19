@@ -75,4 +75,5 @@
     <string name="namSinh">Năm sinh</string>
     <string name="soLuongToiDaMoiCa">Số lượng tối đa mỗi ca</string>
     <string name="thietLapGioLamViec">Thiết lập giờ làm việc</string>
+    <string name="huyLich">Hủy lịch</string>
 </resources>
