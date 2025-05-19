@@ -86,7 +86,7 @@ public class BookingDoctorActivity extends AppCompatActivity {
         });
         
         binding.profile.setOnClickListener(v -> {
-            Intent intent = new Intent(this, ProfileActivity.class);
+            Intent intent = new Intent(this, ProfileDoctorActivity.class);
             intent.putExtra("userType", "doctor");
             startActivity(intent);
         });

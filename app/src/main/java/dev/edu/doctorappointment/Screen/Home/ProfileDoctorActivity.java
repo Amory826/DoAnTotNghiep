@@ -1,10 +1,13 @@
 package dev.edu.doctorappointment.Screen.Home;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.TimePicker;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -12,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.database.DataSnapshot;
@@ -23,6 +27,7 @@ import com.kongzue.dialogx.dialogs.TipDialog;
 import com.kongzue.dialogx.dialogs.WaitDialog;
 import com.squareup.picasso.Picasso;
 
+import dev.edu.doctorappointment.Adapter.WorkingHoursAdapter;
 import dev.edu.doctorappointment.Model.DoctorsModel;
 import dev.edu.doctorappointment.Model.UserData;
 import dev.edu.doctorappointment.R;
@@ -30,6 +35,11 @@ import dev.edu.doctorappointment.Screen.LoginRegister.LoginActivity;
 import dev.edu.doctorappointment.databinding.ActivityProfileDoctorBinding;
 import dev.edu.doctorappointment.databinding.DialogChagepassBinding;
 import dev.edu.doctorappointment.databinding.DialogEditProfileDoctorBinding;
+import dev.edu.doctorappointment.databinding.DialogWorkingHoursBinding;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ProfileDoctorActivity extends AppCompatActivity {
 
@@ -114,11 +124,7 @@ public class ProfileDoctorActivity extends AppCompatActivity {
             bottomSheetDialog.show();
         });
         
-        binding.scheduleSettings.setOnClickListener(v -> {
-            // Add schedule settings functionality
-            // This could navigate to another Activity for managing doctor schedule
-            TipDialog.show(this, "Tính năng đang phát triển", TipDialog.TYPE.WARNING);
-        });
+        binding.scheduleSettings.setOnClickListener(v -> showWorkingHoursDialog());
     }
     
     private void fetchDoctorData() {
@@ -291,6 +297,132 @@ public class ProfileDoctorActivity extends AppCompatActivity {
             TipDialog.show(this, "Thông tin đã được lưu", TipDialog.TYPE.SUCCESS);
         });
         
+        bottomSheetDialog.show();
+    }
+
+    private void showWorkingHoursDialog() {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        DialogWorkingHoursBinding dialogBinding = DialogWorkingHoursBinding.inflate(getLayoutInflater());
+        bottomSheetDialog.setContentView(dialogBinding.getRoot());
+
+        // Get current working hours from Firebase
+        WaitDialog.show(this, "Đang tải...");
+        String doctorId = userData.getData("id");
+        DatabaseReference doctorRef = FirebaseDatabase.getInstance().getReference("Doctors").child(doctorId);
+        
+        doctorRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                WaitDialog.dismiss();
+                if (snapshot.exists()) {
+                    DoctorsModel doctorModel = snapshot.getValue(DoctorsModel.class);
+                    if (doctorModel != null && doctorModel.getWorkingHours() != null) {
+                        List<String> currentWorkingHours = new ArrayList<>(doctorModel.getWorkingHours());
+                        
+                        // Setup RecyclerView
+                        final WorkingHoursAdapter[] adapterRef = new WorkingHoursAdapter[1];
+                        adapterRef[0] = new WorkingHoursAdapter(currentWorkingHours, position -> {
+                            currentWorkingHours.remove(position);
+                            adapterRef[0].updateData(currentWorkingHours);
+                        });
+                        dialogBinding.rvWorkingHours.setLayoutManager(new LinearLayoutManager(ProfileDoctorActivity.this));
+                        dialogBinding.rvWorkingHours.setAdapter(adapterRef[0]);
+
+                        // Time selection
+                        dialogBinding.tvStartTime.setOnClickListener(v -> {
+                            TimePickerDialog timePickerDialog = new TimePickerDialog(
+                                ProfileDoctorActivity.this,
+                                (view, hourOfDay, minute) -> {
+                                    String time = String.format("%02d:%02d", hourOfDay, minute);
+                                    dialogBinding.tvStartTime.setText(time);
+                                },
+                                8, 0, true
+                            );
+                            timePickerDialog.show();
+                        });
+
+                        dialogBinding.tvEndTime.setOnClickListener(v -> {
+                            TimePickerDialog timePickerDialog = new TimePickerDialog(
+                                ProfileDoctorActivity.this,
+                                (view, hourOfDay, minute) -> {
+                                    String time = String.format("%02d:%02d", hourOfDay, minute);
+                                    dialogBinding.tvEndTime.setText(time);
+                                },
+                                17, 0, true
+                            );
+                            timePickerDialog.show();
+                        });
+
+                        // Add new working hours
+                        dialogBinding.btnAddTime.setOnClickListener(v -> {
+                            String startTime = dialogBinding.tvStartTime.getText().toString();
+                            String endTime = dialogBinding.tvEndTime.getText().toString();
+
+                            if (startTime.equals("Chọn giờ")) {
+                                TipDialog.show(ProfileDoctorActivity.this, "Vui lòng chọn giờ bắt đầu", TipDialog.TYPE.WARNING);
+                                return;
+                            }
+
+                            if (endTime.equals("Chọn giờ")) {
+                                TipDialog.show(ProfileDoctorActivity.this, "Vui lòng chọn giờ kết thúc", TipDialog.TYPE.WARNING);
+                                return;
+                            }
+
+                            // Validate time
+                            String[] startParts = startTime.split(":");
+                            String[] endParts = endTime.split(":");
+                            int startHour = Integer.parseInt(startParts[0]);
+                            int startMinute = Integer.parseInt(startParts[1]);
+                            int endHour = Integer.parseInt(endParts[0]);
+                            int endMinute = Integer.parseInt(endParts[1]);
+
+                            if (startHour > endHour || (startHour == endHour && startMinute >= endMinute)) {
+                                TipDialog.show(ProfileDoctorActivity.this, "Giờ kết thúc phải sau giờ bắt đầu", TipDialog.TYPE.ERROR);
+                                return;
+                            }
+
+                            String workingHour = startTime + " - " + endTime;
+                            if (!currentWorkingHours.contains(workingHour)) {
+                                currentWorkingHours.add(workingHour);
+                                adapterRef[0].updateData(currentWorkingHours);
+                                dialogBinding.tvStartTime.setText("Chọn giờ");
+                                dialogBinding.tvEndTime.setText("Chọn giờ");
+                            } else {
+                                TipDialog.show(ProfileDoctorActivity.this, "Ca làm việc này đã tồn tại", TipDialog.TYPE.WARNING);
+                            }
+                        });
+
+                        // Save working hours
+                        dialogBinding.btnSave.setOnClickListener(v -> {
+                            if (currentWorkingHours.isEmpty()) {
+                                TipDialog.show(ProfileDoctorActivity.this, "Vui lòng thêm ít nhất một ca làm việc", TipDialog.TYPE.WARNING);
+                                return;
+                            }
+
+                            // Update Firebase
+                            doctorRef.child("workingHours").setValue(currentWorkingHours)
+                                    .addOnSuccessListener(aVoid -> {
+                                        bottomSheetDialog.dismiss();
+                                        TipDialog.show(ProfileDoctorActivity.this, "Đã lưu giờ làm việc", TipDialog.TYPE.SUCCESS);
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        TipDialog.show(ProfileDoctorActivity.this, "Lỗi khi lưu giờ làm việc: " + e.getMessage(), TipDialog.TYPE.ERROR);
+                                    });
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                WaitDialog.dismiss();
+                TipDialog.show(ProfileDoctorActivity.this, "Lỗi khi tải dữ liệu: " + error.getMessage(), TipDialog.TYPE.ERROR);
+            }
+        });
+
+        // Cancel
+        dialogBinding.btnCancel.setOnClickListener(v -> bottomSheetDialog.dismiss());
+
         bottomSheetDialog.show();
     }
 } 

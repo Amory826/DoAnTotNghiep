@@ -135,7 +135,15 @@ public class MessActivity extends AppCompatActivity {
             navigateToHome();
         });
         binding.profile.setOnClickListener(v -> {
-            Intent intent = new Intent(MessActivity.this, ProfileActivity.class);
+            String userType = userData.getData("userType");
+            Intent intent;
+            
+            if (userType != null && userType.equals("doctor")) {
+                intent = new Intent(MessActivity.this, ProfileDoctorActivity.class);
+            } else {
+                intent = new Intent(MessActivity.this, ProfileActivity.class);
+            }
+            
             startActivity(intent);
         });
     }
