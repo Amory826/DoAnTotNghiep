@@ -20,6 +20,7 @@ import dev.edu.doctorappointment.Model.AppointmentModel;
 import dev.edu.doctorappointment.Model.DoctorsModel;
 import dev.edu.doctorappointment.Model.ServiceModel;
 import dev.edu.doctorappointment.R;
+import dev.edu.doctorappointment.Screen.Home.DetailBookingActivity;
 import dev.edu.doctorappointment.Screen.Home.MessengerActivity;
 import dev.edu.doctorappointment.databinding.ItemBookingBinding;
 
@@ -83,8 +84,18 @@ public class AdapterBooking extends RecyclerView.Adapter<AdapterBooking.MyViewHo
         } else {
             holder.tvAppointmentStatus.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.holo_orange_dark));
         }
+
+        // Thêm sự kiện click vào item để chuyển đến màn hình chi tiết
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), DetailBookingActivity.class);
+            intent.putExtra("appointmentId", appointmentModel.getAppointmentId());
+            intent.putExtra("doctorId", appointmentModel.getDoctorId());
+            intent.putExtra("serviceId", appointmentModel.getServiceId());
+            v.getContext().startActivity(intent);
+        });
+
+        // Sự kiện click vào nút chat
         holder.binding.btnChat.setOnClickListener(v -> {
-            // Chat với bác sĩ
             Intent intent = new Intent(holder.itemView.getContext(), MessengerActivity.class);
             intent.putExtra("userId", appointmentModel.getDoctorId());
             intent.putExtra("name", holder.binding.tvName.getText().toString());

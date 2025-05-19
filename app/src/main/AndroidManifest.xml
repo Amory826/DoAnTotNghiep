@@ -72,6 +72,9 @@
             android:name=".Screen.Splash.SplashActivity2"
             android:exported="false" />
         <activity
+            android:name=".Screen.Home.DetailBookingActivity"
+            android:exported="false" />
+        <activity
             android:name=".Screen.Splash.MainActivity"
             android:exported="true">
             <intent-filter>
