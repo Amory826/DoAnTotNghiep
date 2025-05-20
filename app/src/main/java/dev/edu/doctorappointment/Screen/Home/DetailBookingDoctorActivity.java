@@ -19,6 +19,7 @@ import java.util.Map;
 
 import dev.edu.doctorappointment.Model.AppointmentModel;
 import dev.edu.doctorappointment.Model.UserModel;
+import dev.edu.doctorappointment.Model.DoctorsModel;
 import dev.edu.doctorappointment.R;
 import dev.edu.doctorappointment.databinding.ActivityDetailBookingDoctorBinding;
 
@@ -138,8 +139,52 @@ public class DetailBookingDoctorActivity extends AppCompatActivity {
         appointmentsRef.child(appointmentId).child("status").setValue("Đã trả kết quả");
         appointmentsRef.child(appointmentId).child("ReturnResults").setValue(examinationResults)
             .addOnSuccessListener(aVoid -> {
-                TipDialog.show(this, "Thông tin đã được lưu", TipDialog.TYPE.SUCCESS);
-                finish();
+                // Update bookingCountByDateTime for the doctor
+                String doctorId = currentAppointment.getDoctorId();
+                String appointmentDate = currentAppointment.getAppointmentTime();
+                String appointmentTime = currentAppointment.getAppointmentSlot();
+                
+                // Replace invalid characters for Firebase key
+                String safeDate = appointmentDate.replace("/", "_").replace(".", "_");
+                
+                DatabaseReference doctorRef = database.getReference("Doctors").child(doctorId);
+                doctorRef.get().addOnSuccessListener(snapshot -> {
+                    if (snapshot.exists()) {
+                        DoctorsModel doctor = snapshot.getValue(DoctorsModel.class);
+                        if (doctor != null) {
+                            Map<String, Map<String, Integer>> bookingCounts = doctor.getBookingCountByDateTime();
+                            if (bookingCounts == null) {
+                                bookingCounts = new HashMap<>();
+                            }
+                            
+                            Map<String, Integer> timeSlots = bookingCounts.get(safeDate);
+                            if (timeSlots == null) {
+                                timeSlots = new HashMap<>();
+                            }
+                            
+                            int currentCount = timeSlots.getOrDefault(appointmentTime, 0);
+                            if (currentCount > 0) {
+                                timeSlots.put(appointmentTime, currentCount - 1);
+                                bookingCounts.put(safeDate, timeSlots);
+                                
+                                // Update bookingCountByDateTime
+                                doctorRef.child("bookingCountByDateTime")
+                                    .setValue(bookingCounts)
+                                    .addOnSuccessListener(aVoid2 -> {
+                                        TipDialog.show(this, "Thông tin đã được lưu", TipDialog.TYPE.SUCCESS);
+                                        finish();
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(DetailBookingDoctorActivity.this, 
+                                            "Lỗi khi cập nhật số lượng lịch hẹn", Toast.LENGTH_SHORT).show();
+                                    });
+                            } else {
+                                TipDialog.show(this, "Thông tin đã được lưu", TipDialog.TYPE.SUCCESS);
+                                finish();
+                            }
+                        }
+                    }
+                });
             })
             .addOnFailureListener(e -> {
                 Toast.makeText(DetailBookingDoctorActivity.this, 

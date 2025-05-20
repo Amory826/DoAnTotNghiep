@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,22 +51,32 @@ public class AdapterAppointmentDoctor extends RecyclerView.Adapter<AdapterAppoin
         holder.tvAppointmentTime.setText(appointment.getAppointmentTime() + " " + appointment.getAppointmentSlot());
         holder.tvAppointmentStatus.setText(appointment.getStatus());
         
-        // Set status color based on appointment status
-        if ("Đã xác nhận".equals(appointment.getStatus()) || "Đã thanh toán".equals(appointment.getStatus()) || "Đã trả kết quả".equals(appointment.getStatus())) {
+        // Set status color and button visibility based on appointment status
+        if ("Đã xác nhận".equals(appointment.getStatus())) {
             holder.tvAppointmentStatus.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.holo_green_dark));
-            
-            if("Đã xác nhận".equals(appointment.getStatus())){
-                // Add click listener for confirmed appointments
-                holder.itemView.setOnClickListener(v -> {
-                    Intent intent = new Intent(v.getContext(), DetailBookingDoctorActivity.class);
-                    intent.putExtra("appointmentId", appointment.getAppointmentId());
-                    v.getContext().startActivity(intent);
-                });
-            }
+            holder.btnConfirm.setVisibility(View.GONE);
+            holder.btnRefund.setVisibility(View.VISIBLE);
+            holder.itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(v.getContext(), DetailBookingDoctorActivity.class);
+                intent.putExtra("appointmentId", appointment.getAppointmentId());
+                v.getContext().startActivity(intent);
+            });            // Add click listener for refund button
+            holder.btnRefund.setOnClickListener(v -> {
+                // TODO: Implement refund functionality
+                Toast.makeText(v.getContext(), "Chức năng hoàn tiền đang được phát triển", Toast.LENGTH_SHORT).show();
+            });
+        } else if ("Đã thanh toán".equals(appointment.getStatus()) || "Đã trả kết quả".equals(appointment.getStatus())) {
+            holder.tvAppointmentStatus.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.holo_green_dark));
+            holder.btnConfirm.setVisibility(View.VISIBLE);
+            holder.btnRefund.setVisibility(View.GONE);
         } else if ("Đã hủy".equals(appointment.getStatus()) || "Cancelled".equals(appointment.getStatus())) {
             holder.tvAppointmentStatus.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.holo_red_dark));
+            holder.btnConfirm.setVisibility(View.GONE);
+            holder.btnRefund.setVisibility(View.GONE);
         } else {
             holder.tvAppointmentStatus.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.holo_orange_dark));
+            holder.btnConfirm.setVisibility(View.VISIBLE);
+            holder.btnRefund.setVisibility(View.GONE);
         }
         
         // Load patient information
@@ -159,7 +170,7 @@ public class AdapterAppointmentDoctor extends RecyclerView.Adapter<AdapterAppoin
         ImageView ivServiceImage;
         TextView tvPatientName, tvPatientPhone, tvAppointmentTime, tvAppointmentStatus;
         TextView tvDiagnosis, tvPrescription, tvTreatmentGuide;
-        Button btnConfirm, btnCancel, btnEditResults;
+        Button btnConfirm, btnCancel, btnEditResults, btnRefund;
         LinearLayout layoutExaminationResults, layoutButtons;
 
         public AppointmentViewHolder(@NonNull View itemView) {
@@ -171,6 +182,7 @@ public class AdapterAppointmentDoctor extends RecyclerView.Adapter<AdapterAppoin
             btnConfirm = itemView.findViewById(R.id.btn_confirm);
             btnCancel = itemView.findViewById(R.id.btn_cancel);
             btnEditResults = itemView.findViewById(R.id.btn_edit_results);
+            btnRefund = itemView.findViewById(R.id.btn_refund);
             
             // Examination results views
             layoutExaminationResults = itemView.findViewById(R.id.layout_examination_results);
