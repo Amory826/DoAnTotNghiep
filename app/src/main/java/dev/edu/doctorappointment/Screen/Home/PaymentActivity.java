@@ -155,7 +155,21 @@ public class PaymentActivity extends AppCompatActivity {
                                         userId,
                                         title,
                                         messageBody,
-                                        "user" ,// hoặc "patient" tùy theo nhánh bạn lưu token,
+                                        "user",
+                                        getBaseContext()
+                                );
+
+                                // Gửi thông báo cho bác sĩ
+                                String doctorId = appointmentModel.getDoctorId();
+                                String doctorTitle = "Lịch hẹn mới";
+                                String doctorMessage = "Bạn có lịch hẹn mới với " + new UserData(PaymentActivity.this).getData("name") +
+                                        " vào " + appointmentModel.getAppointmentTime() + " lúc " + appointmentModel.getAppointmentSlot() +
+                                        " cho dịch vụ " + appointmentModel.getServiceId();
+                                dev.edu.doctorappointment.Utils.NotificationHelper.sendAppointmentNotification(
+                                        doctorId,
+                                        doctorTitle,
+                                        doctorMessage,
+                                        "doctor",
                                         getBaseContext()
                                 );
                             } else {

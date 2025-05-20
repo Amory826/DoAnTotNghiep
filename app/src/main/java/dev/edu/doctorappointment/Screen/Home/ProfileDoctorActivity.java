@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.kongzue.dialogx.dialogs.TipDialog;
 import com.kongzue.dialogx.dialogs.WaitDialog;
 import com.squareup.picasso.Picasso;
@@ -68,11 +69,75 @@ public class ProfileDoctorActivity extends AppCompatActivity {
         binding.logout.setOnClickListener(v -> {
             Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_in_left);
             binding.main.startAnimation(animation);
-            new android.os.Handler().postDelayed(() -> {
-                userData.clearData();
-                startActivity(new Intent(this, LoginActivity.class));
-                finish();
-            }, 500);
+            
+            // Get current FCM token
+            FirebaseMessaging.getInstance().getToken()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            String currentToken = task.getResult();
+                            String doctorId = userData.getData("id");
+                            
+                            // Remove current device token
+                            DatabaseReference tokensRef = FirebaseDatabase.getInstance()
+                                    .getReference("UserTokens")
+                                    .child("doctor")
+                                    .child(doctorId);
+                            
+                            tokensRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists()) {
+                                        List<String> tokens = new ArrayList<>();
+                                        
+                                        // Keep all tokens except the current device's token
+                                        for (DataSnapshot tokenSnapshot : snapshot.getChildren()) {
+                                            String token = tokenSnapshot.getValue(String.class);
+                                            if (token != null && !token.equals(currentToken)) {
+                                                tokens.add(token);
+                                            }
+                                        }
+                                        
+                                        // Update tokens list in Firebase
+                                        tokensRef.setValue(tokens)
+                                                .addOnSuccessListener(aVoid -> {
+                                                    Log.d("ProfileDoctor", "Token removed successfully");
+                                                    // Clear user data and navigate to login
+                                                    userData.clearData();
+                                                    startActivity(new Intent(ProfileDoctorActivity.this, LoginActivity.class));
+                                                    finish();
+                                                })
+                                                .addOnFailureListener(e -> {
+                                                    Log.e("ProfileDoctor", "Error removing token", e);
+                                                    // Still proceed with logout even if token removal fails
+                                                    userData.clearData();
+                                                    startActivity(new Intent(ProfileDoctorActivity.this, LoginActivity.class));
+                                                    finish();
+                                                });
+                                    } else {
+                                        // No tokens found, proceed with normal logout
+                                        userData.clearData();
+                                        startActivity(new Intent(ProfileDoctorActivity.this, LoginActivity.class));
+                                        finish();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    Log.e("ProfileDoctor", "Error getting tokens", error.toException());
+                                    // Proceed with normal logout even if there's an error
+                                    userData.clearData();
+                                    startActivity(new Intent(ProfileDoctorActivity.this, LoginActivity.class));
+                                    finish();
+                                }
+                            });
+                        } else {
+                            Log.e("ProfileDoctor", "Failed to get FCM token", task.getException());
+                            // Proceed with normal logout if token retrieval fails
+                            userData.clearData();
+                            startActivity(new Intent(ProfileDoctorActivity.this, LoginActivity.class));
+                            finish();
+                        }
+                    });
         });
         
         binding.editProfile.setOnClickListener(v -> showEditProfileDialog());
