@@ -1,7 +1,12 @@
 package dev.edu.doctorappointment.Screen.Splash;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,14 +26,33 @@ import dev.edu.doctorappointment.Model.UserData;
 import dev.edu.doctorappointment.R;
 import dev.edu.doctorappointment.Screen.Home.HomeDoctorActivity;
 import dev.edu.doctorappointment.Screen.Home.HomeActivity;
+import dev.edu.doctorappointment.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        // Create notification channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                getString(R.string.default_notification_channel_id),
+                "Default Channel",
+                NotificationManager.IMPORTANCE_HIGH
+            );
+            channel.setDescription("Channel for appointment notifications");
+            channel.enableLights(true);
+            channel.enableVibration(true);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -61,5 +85,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, SplashActivity2.class));
             finish();
         }, 3000);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 }

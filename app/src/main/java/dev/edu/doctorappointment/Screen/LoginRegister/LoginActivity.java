@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.kongzue.dialogx.dialogs.TipDialog;
 import com.kongzue.dialogx.dialogs.WaitDialog;
 
@@ -96,6 +97,19 @@ public class LoginActivity extends AppCompatActivity {
                                 userData.saveData("userType", "user");
                                 startActivity(new android.content.Intent(LoginActivity.this, HomeActivity.class));
                                 finish();
+
+                                FirebaseMessaging.getInstance().getToken()
+                                        .addOnCompleteListener(task -> {
+                                            if (task.isSuccessful()) {
+                                                String token = task.getResult();
+                                                String userId = userModel.getKeyID(); // userId vừa đăng nhập
+                                                String userType = "user"; // userType vừa đăng nhập
+                                                FirebaseDatabase.getInstance().getReference("UserTokens")
+                                                        .child(userType)
+                                                        .child(userId)
+                                                        .setValue(token);
+                                            }
+                                        });
                             }, 1000L);
                         }else{
                             WaitDialog.dismiss();

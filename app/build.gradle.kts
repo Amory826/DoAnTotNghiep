@@ -7,6 +7,12 @@ android {
     namespace = "dev.edu.doctorappointment"
     compileSdk = 34
 
+    packaging {
+        resources {
+            excludes += "META-INF/DEPENDENCIES"
+        }
+    }
+
     defaultConfig {
         applicationId = "dev.edu.app"
         minSdk = 24
@@ -46,10 +52,16 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation (libs.material.v150)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation(libs.dialogx)
+    implementation(libs.firebase.messaging)
+    implementation (libs.auth.google.auth.library.oauth2.http)
+    implementation (libs.okhttp)
+    implementation (libs.gson)
+    implementation(libs.volley)
     //picaso
     implementation(libs.picasso)
 }

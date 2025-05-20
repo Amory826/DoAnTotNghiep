@@ -144,6 +144,20 @@ public class PaymentActivity extends AppCompatActivity {
                                     startActivity(intent);
                                     finish();
                                 }, 2000L);
+                                Log.d("PaymentActivity", "Appointment saved successfully");
+
+                                // Gửi thông báo cho bệnh nhân (người đặt lịch)
+                                String userId = appointmentModel.getUserId();
+                                String title = "Đặt lịch thành công";
+                                String messageBody = "Bạn đã đặt lịch khám thành công vào " + appointmentModel.getAppointmentTime() +
+                                        " lúc " + appointmentModel.getAppointmentSlot() + " cho dịch vụ " + appointmentModel.getServiceId();
+                                dev.edu.doctorappointment.Utils.NotificationHelper.sendAppointmentNotification(
+                                        userId,
+                                        title,
+                                        messageBody,
+                                        "user" ,// hoặc "patient" tùy theo nhánh bạn lưu token,
+                                        getBaseContext()
+                                );
                             } else {
                                 WaitDialog.dismiss();
                                 TipDialog.show(this, "Lỗi khi lưu cuộc hẹn", TipDialog.TYPE.ERROR);
