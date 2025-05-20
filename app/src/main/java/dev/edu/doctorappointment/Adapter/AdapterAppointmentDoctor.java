@@ -1,6 +1,8 @@
 package dev.edu.doctorappointment.Adapter;
 
+import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,9 +28,11 @@ import dev.edu.doctorappointment.Model.AppointmentModel;
 import dev.edu.doctorappointment.Model.UserModel;
 import dev.edu.doctorappointment.R;
 import dev.edu.doctorappointment.Screen.Home.DetailBookingDoctorActivity;
+import dev.edu.doctorappointment.Utils.NotificationHelper;
 
 public class AdapterAppointmentDoctor extends RecyclerView.Adapter<AdapterAppointmentDoctor.AppointmentViewHolder> {
 
+    private static final String TAG = "AdapterAppointmentDoctor";
     private List<AppointmentModel> appointments;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -95,13 +99,13 @@ public class AdapterAppointmentDoctor extends RecyclerView.Adapter<AdapterAppoin
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle error
+                Log.e(TAG, "Error loading patient info", error.toException());
             }
         });
         
         // Set button actions
-        holder.btnConfirm.setOnClickListener(v -> updateAppointmentStatus(appointment, "Đã xác nhận"));
-        holder.btnCancel.setOnClickListener(v -> updateAppointmentStatus(appointment, "Đã hủy"));
+        holder.btnConfirm.setOnClickListener(v -> updateAppointmentStatus(appointment, "Đã xác nhận", holder.itemView.getContext()));
+        holder.btnCancel.setOnClickListener(v -> updateAppointmentStatus(appointment, "Đã hủy", holder.itemView.getContext()));
 
         // Handle examination results display
         if ("Đã trả kết quả".equals(appointment.getStatus())) {
@@ -136,7 +140,7 @@ public class AdapterAppointmentDoctor extends RecyclerView.Adapter<AdapterAppoin
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    // Handle error
+                    Log.e(TAG, "Error loading examination results", error.toException());
                 }
             });
 
@@ -153,12 +157,109 @@ public class AdapterAppointmentDoctor extends RecyclerView.Adapter<AdapterAppoin
         }
     }
 
-    private void updateAppointmentStatus(AppointmentModel appointment, String status) {
+    private void updateAppointmentStatus(AppointmentModel appointment, String status, Context context) {
         DatabaseReference appointmentRef = database.getReference("Appointments")
                 .child(appointment.getAppointmentId());
         
         appointment.setStatus(status);
-        appointmentRef.setValue(appointment);
+        appointmentRef.setValue(appointment)
+            .addOnSuccessListener(aVoid -> {
+                // Get doctor and patient information for notifications
+                DatabaseReference usersRef = database.getReference("Users");
+                DatabaseReference doctorsRef = database.getReference("Doctors");
+                
+                // Get patient info
+                usersRef.child(appointment.getUserId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            UserModel patient = snapshot.getValue(UserModel.class);
+                            if (patient != null) {
+                                // Get doctor info
+                                doctorsRef.child(appointment.getDoctorId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot doctorSnapshot) {
+                                        if (doctorSnapshot.exists()) {
+                                            UserModel doctor = doctorSnapshot.getValue(UserModel.class);
+                                            if (doctor != null) {
+                                                // Prepare notification messages
+                                                String patientTitle = "Cập nhật lịch khám";
+                                                String doctorTitle = "Cập nhật lịch khám";
+                                                
+                                                String patientMessage = "";
+                                                String doctorMessage = "";
+                                                
+                                                switch (status) {
+                                                    case "Đã xác nhận":
+                                                        patientMessage = "Lịch khám của bạn với bác sĩ " + doctor.getName() + 
+                                                                      " vào " + appointment.getAppointmentTime() + 
+                                                                      " lúc " + appointment.getAppointmentSlot() + 
+                                                                      " đã được xác nhận.";
+                                                        doctorMessage = "Bạn đã xác nhận lịch khám với " + patient.getName() + 
+                                                                      " vào " + appointment.getAppointmentTime() + 
+                                                                      " lúc " + appointment.getAppointmentSlot();
+                                                        break;
+                                                    case "Đã hủy":
+                                                        patientMessage = "Lịch khám của bạn với bác sĩ " + doctor.getName() + 
+                                                                      " vào " + appointment.getAppointmentTime() + 
+                                                                      " lúc " + appointment.getAppointmentSlot() + 
+                                                                      " đã bị hủy.";
+                                                        doctorMessage = "Bạn đã hủy lịch khám với " + patient.getName() + 
+                                                                      " vào " + appointment.getAppointmentTime() + 
+                                                                      " lúc " + appointment.getAppointmentSlot();
+                                                        break;
+                                                    case "Đã trả kết quả":
+                                                        patientMessage = "Kết quả khám bệnh của bạn với bác sĩ " + doctor.getName() + 
+                                                                      " đã được cập nhật.";
+                                                        doctorMessage = "Bạn đã cập nhật kết quả khám bệnh cho " + patient.getName();
+                                                        break;
+                                                }
+                                                
+                                                // Send notifications
+                                                if (!patientMessage.isEmpty()) {
+                                                    NotificationHelper.sendAppointmentNotification(
+                                                        appointment.getUserId(),
+                                                        patientTitle,
+                                                        patientMessage,
+                                                        "user",
+                                                        context
+                                                    );
+                                                }
+                                                
+                                                if (!doctorMessage.isEmpty()) {
+                                                    NotificationHelper.sendAppointmentNotification(
+                                                        appointment.getDoctorId(),
+                                                        doctorTitle,
+                                                        doctorMessage,
+                                                        "doctor",
+                                                        context
+                                                    );
+                                                }
+                                                
+                                                Log.d(TAG, "Notifications sent for appointment status update: " + status);
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        Log.e(TAG, "Error getting doctor info", error.toException());
+                                    }
+                                });
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e(TAG, "Error getting patient info", error.toException());
+                    }
+                });
+            })
+            .addOnFailureListener(e -> {
+                Log.e(TAG, "Error updating appointment status", e);
+                Toast.makeText(context, "Lỗi khi cập nhật trạng thái lịch khám", Toast.LENGTH_SHORT).show();
+            });
     }
 
     @Override
