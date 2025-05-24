@@ -29,6 +29,7 @@ import java.util.List;
 import dev.edu.doctorappointment.Model.DoctorsModel;
 import dev.edu.doctorappointment.Model.UserModel;
 import dev.edu.doctorappointment.R;
+import dev.edu.doctorappointment.Screen.Admin.AdminActivity;
 import dev.edu.doctorappointment.Screen.Home.HomeDoctorActivity;
 import dev.edu.doctorappointment.Screen.Home.HomeActivity;
 import dev.edu.doctorappointment.databinding.ActivityLoginBinding;
@@ -112,6 +113,28 @@ public class LoginActivity extends AppCompatActivity {
         binding.login.setOnClickListener(v -> {
             String email = binding.email.getText().toString();
             String password = binding.password.getText().toString();
+            
+            // Kiểm tra đăng nhập admin
+            if (email.equals("Admin") && password.equals("1")) {
+                WaitDialog.show(this, "Đang tải...");
+                new Handler().postDelayed(() -> {
+                    WaitDialog.dismiss();
+                    TipDialog.show(LoginActivity.this, "Đăng nhập admin thành công", TipDialog.TYPE.SUCCESS);
+                    
+                    // Save admin data
+                    dev.edu.doctorappointment.Model.UserData userData = new dev.edu.doctorappointment.Model.UserData(LoginActivity.this);
+                    userData.saveData("userType", "admin");
+                    userData.saveData("isLogin", "true");
+                    
+                    // Navigate to admin screen
+                    new Handler().postDelayed(() -> {
+                        startActivity(new android.content.Intent(LoginActivity.this, AdminActivity.class));
+                        finish();
+                    }, 1000L);
+                }, 1000L);
+                return;
+            }
+            
             if(email.isEmpty()){
                 binding.email.setError("Vui lòng nhập email");
                 binding.email.requestFocus();
