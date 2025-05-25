@@ -27,6 +27,7 @@ import java.util.Locale;
 
 import dev.edu.doctorappointment.Adapter.ServiceAdminAdapter;
 import dev.edu.doctorappointment.Model.ServiceModel;
+import dev.edu.doctorappointment.R;
 import dev.edu.doctorappointment.databinding.ActivityServiceManagementBinding;
 import dev.edu.doctorappointment.databinding.DialogAddEditServiceBinding;
 
@@ -56,9 +57,7 @@ public class ServiceManagementActivity extends AppCompatActivity {
     }
 
     private void setupToolbar() {
-        setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        findViewById(R.id.btn_back).setOnClickListener(v -> onBackPressed());
     }
 
     private void setupRecyclerView() {
@@ -127,18 +126,25 @@ public class ServiceManagementActivity extends AppCompatActivity {
                 if (!s.toString().equals(current)) {
                     editText.removeTextChangedListener(this);
 
-                    String cleanString = s.toString().replaceAll("[,]", "");
+                    // Remove all non-digit characters
+                    String cleanString = s.toString().replaceAll("[^\\d]", "");
+
+                    // Format number in groups of 3
+                    String formatted = "";
                     if (!cleanString.isEmpty()) {
-                        try {
-                            double parsed = Double.parseDouble(cleanString);
-                            String formatted = priceFormatter.format(parsed);
-                            current = formatted;
-                            editText.setText(formatted);
-                            editText.setSelection(formatted.length());
-                        } catch (NumberFormatException e) {
-                            e.printStackTrace();
+                        // Format from right to left
+                        int length = cleanString.length();
+                        for (int i = length - 1; i >= 0; i--) {
+                            if ((length - 1 - i) % 3 == 0 && i != length - 1) {
+                                formatted = "," + formatted;
+                            }
+                            formatted = cleanString.charAt(i) + formatted;
                         }
                     }
+
+                    current = formatted;
+                    editText.setText(formatted);
+                    editText.setSelection(formatted.length());
 
                     editText.addTextChangedListener(this);
                 }
