@@ -186,11 +186,6 @@ public class AppointmentManagementActivity extends AppCompatActivity
     }
 
     @Override
-    public void onApprove(AppointmentModel appointment) {
-        updateAppointmentStatus(appointment, STATUS_CONFIRMED);
-    }
-
-    @Override
     public void onCancel(AppointmentModel appointment) {
         new MaterialAlertDialogBuilder(this)
                 .setTitle("Xác nhận từ chối")
@@ -203,12 +198,24 @@ public class AppointmentManagementActivity extends AppCompatActivity
 
     @Override
     public void onConfirm(AppointmentModel appointment) {
-
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("Xác nhận lịch hẹn")
+                .setMessage("Bạn có chắc chắn muốn xác nhận lịch hẹn này?")
+                .setPositiveButton("Xác nhận", (dialog, which) ->
+                        updateAppointmentStatus(appointment, STATUS_CONFIRMED))
+                .setNegativeButton("Hủy", null)
+                .show();
     }
 
     @Override
     public void onPayment(AppointmentModel appointment) {
-
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("Xác nhận thanh toán")
+                .setMessage("Bạn có chắc chắn muốn xác nhận thanh toán cho lịch hẹn này?")
+                .setPositiveButton("Xác nhận", (dialog, which) ->
+                        updateAppointmentStatus(appointment, STATUS_PAID))
+                .setNegativeButton("Hủy", null)
+                .show();
     }
 
     private void updateAppointmentStatus(AppointmentModel appointment, String newStatus) {

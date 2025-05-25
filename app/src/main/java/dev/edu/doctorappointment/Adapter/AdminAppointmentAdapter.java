@@ -185,6 +185,15 @@ public class AdminAppointmentAdapter extends RecyclerView.Adapter<AdminAppointme
                     binding.btnPayment.setOnClickListener(v -> actionListener.onPayment(appointment));
                     break;
 
+                case "Đã hủy":
+                    // Show Cancel and Payment buttons
+                    binding.btnConfirm.setVisibility(View.VISIBLE);
+                    binding.btnPayment.setVisibility(View.VISIBLE);
+                    binding.btnPayment.setOnClickListener(v -> actionListener.onPayment(appointment));
+                    binding.btnConfirm.setOnClickListener(v -> actionListener.onConfirm(appointment));
+
+                    break;
+
                 case "Đã trả kết quả":
                     // No additional buttons shown
                     break;
