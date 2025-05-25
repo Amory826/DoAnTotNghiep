@@ -14,8 +14,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:title="Lịch sử đặt khám"
-            app:navigationIcon="@drawable/back_ic" />
+            app:title="Quản lý lịch hẹn" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -24,30 +23,12 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilSearch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:hint="Tìm kiếm theo tên bệnh nhân"
-            app:layout_constraintTop_toTopOf="parent"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etSearch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                android:maxLines="1" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            app:layout_constraintTop_toBottomOf="@id/tilSearch"
+            android:layout_margin="16dp"
+            app:layout_constraintTop_toTopOf="parent"
             app:singleSelection="true">
 
             <com.google.android.material.chip.Chip
@@ -59,24 +40,24 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chipToday"
+                android:id="@+id/chipPending"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hôm nay"
+                android:text="Chờ xác nhận"
                 style="@style/Widget.MaterialComponents.Chip.Choice" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chipWeek"
+                android:id="@+id/chipApproved"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tuần này"
+                android:text="Đã xác nhận"
                 style="@style/Widget.MaterialComponents.Chip.Choice" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chipMonth"
+                android:id="@+id/chipRejected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tháng này"
+                android:text="Đã từ chối"
                 style="@style/Widget.MaterialComponents.Chip.Choice" />
 
         </com.google.android.material.chip.ChipGroup>
@@ -85,7 +66,6 @@
             android:id="@+id/rvAppointments"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
             android:clipToPadding="false"
             android:padding="8dp"
             app:layout_constraintTop_toBottomOf="@id/chipGroup"
@@ -95,7 +75,7 @@
             android:id="@+id/tvEmpty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Không có lịch sử đặt khám"
+            android:text="Không có lịch hẹn nào"
             android:textSize="16sp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -115,4 +95,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout> 
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

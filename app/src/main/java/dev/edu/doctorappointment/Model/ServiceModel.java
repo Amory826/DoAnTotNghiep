@@ -10,12 +10,19 @@ public class ServiceModel implements Serializable {
     public String icon;
     public String description;
 
-    public ServiceModel() {
+    public ServiceModel(String name, String description, double price) {
     }
 
     public ServiceModel(String name, String keyID, String price, String icon, String description) {
         this.name = name;
         this.keyID = keyID;
+        this.price = price;
+        this.icon = icon;
+        this.description = description;
+    }
+
+    public ServiceModel(String name, String price, String icon, String description) {
+        this.name = name;
         this.price = price;
         this.icon = icon;
         this.description = description;

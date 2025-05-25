@@ -47,7 +47,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/ic_service"
+                        android:src="@drawable/serviceadmin"
                         app:tint="@color/design_default_color_primary" />
 
                     <TextView
@@ -80,7 +80,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/ic_appointment"
+                        android:src="@drawable/booking"
                         app:tint="@color/design_default_color_primary" />
 
                     <TextView
@@ -112,7 +112,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/ic_users"
+                        android:src="@drawable/profile"
                         app:tint="@color/design_default_color_primary" />
 
                     <TextView
@@ -131,4 +131,4 @@
 
     </androidx.core.widget.NestedScrollView>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout> 
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

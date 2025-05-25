@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_logout"
-        android:icon="@drawable/ic_logout"
+        android:icon="@drawable/profile"
         android:title="Đăng xuất"
         app:showAsAction="ifRoom" />
 </menu> 

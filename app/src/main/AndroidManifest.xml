@@ -81,6 +81,18 @@
             android:name=".Screen.Home.DetailBookingDoctorActivity"
             android:exported="false" />
         <activity
+            android:name=".Screen.Admin.AdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Screen.Admin.AppointmentManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Screen.Admin.ServiceManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Screen.Admin.UserManagementActivity"
+            android:exported="false" />
+        <activity
             android:name=".Screen.Splash.MainActivity"
             android:exported="true">
             <intent-filter>

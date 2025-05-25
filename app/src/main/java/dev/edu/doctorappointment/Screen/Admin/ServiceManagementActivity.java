@@ -50,11 +50,11 @@ public class ServiceManagementActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
         services = new ArrayList<>();
-        adapter = new ServiceAdapter(services, 
+        adapter = new ServiceAdapter(services,
             service -> showEditDialog(service),
             service -> showDeleteDialog(service)
         );
-        
+
         binding.rvServices.setAdapter(adapter);
         binding.rvServices.setLayoutManager(new LinearLayoutManager(this));
         serviceRef = database.getReference("Services");
@@ -73,7 +73,7 @@ public class ServiceManagementActivity extends AppCompatActivity {
                 for (DataSnapshot data : snapshot.getChildren()) {
                     ServiceModel service = data.getValue(ServiceModel.class);
                     if (service != null) {
-                        service.setId(data.getKey());
+                        service.setKeyID(data.getKey());
                         services.add(service);
                     }
                 }
@@ -84,8 +84,8 @@ public class ServiceManagementActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ServiceManagementActivity.this, 
-                    "Lỗi: " + error.getMessage(), 
+                Toast.makeText(ServiceManagementActivity.this,
+                    "Lỗi: " + error.getMessage(),
                     Toast.LENGTH_SHORT).show();
                 binding.progressBar.setVisibility(View.GONE);
             }
@@ -98,7 +98,7 @@ public class ServiceManagementActivity extends AppCompatActivity {
 
     private void showAddDialog() {
         DialogAddEditServiceBinding dialogBinding = DialogAddEditServiceBinding.inflate(getLayoutInflater());
-        
+
         new AlertDialog.Builder(this)
             .setTitle("Thêm dịch vụ mới")
             .setView(dialogBinding.getRoot())
@@ -116,7 +116,7 @@ public class ServiceManagementActivity extends AppCompatActivity {
 
     private void showEditDialog(ServiceModel service) {
         DialogAddEditServiceBinding dialogBinding = DialogAddEditServiceBinding.inflate(getLayoutInflater());
-        
+
         dialogBinding.etServiceName.setText(service.getName());
         dialogBinding.etServiceDescription.setText(service.getDescription());
         dialogBinding.etServicePrice.setText(String.valueOf(service.getPrice()));
@@ -127,7 +127,7 @@ public class ServiceManagementActivity extends AppCompatActivity {
             .setPositiveButton("Lưu", (dialog, which) -> {
                 service.setName(dialogBinding.etServiceName.getText().toString());
                 service.setDescription(dialogBinding.etServiceDescription.getText().toString());
-                service.setPrice(Double.parseDouble(dialogBinding.etServicePrice.getText().toString()));
+                service.setPrice(String.valueOf(Double.parseDouble(dialogBinding.etServicePrice.getText().toString())));
 
                 updateService(service);
             })
@@ -159,7 +159,7 @@ public class ServiceManagementActivity extends AppCompatActivity {
 
     private void updateService(ServiceModel service) {
         binding.progressBar.setVisibility(View.VISIBLE);
-        serviceRef.child(service.getId()).setValue(service)
+        serviceRef.child(service.getKeyID()).setValue(service)
             .addOnSuccessListener(unused -> {
                 Toast.makeText(this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                 binding.progressBar.setVisibility(View.GONE);
@@ -172,7 +172,7 @@ public class ServiceManagementActivity extends AppCompatActivity {
 
     private void deleteService(ServiceModel service) {
         binding.progressBar.setVisibility(View.VISIBLE);
-        serviceRef.child(service.getId()).removeValue()
+        serviceRef.child(service.getKeyID()).removeValue()
             .addOnSuccessListener(unused -> {
                 Toast.makeText(this, "Xóa dịch vụ thành công", Toast.LENGTH_SHORT).show();
                 binding.progressBar.setVisibility(View.GONE);
@@ -182,4 +182,4 @@ public class ServiceManagementActivity extends AppCompatActivity {
                 binding.progressBar.setVisibility(View.GONE);
             });
     }
-} 
+}

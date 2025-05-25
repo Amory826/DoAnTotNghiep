@@ -24,6 +24,7 @@ import dev.edu.doctorappointment.Model.DoctorsModel;
 import dev.edu.doctorappointment.Model.ServiceModel;
 import dev.edu.doctorappointment.Model.UserData;
 import dev.edu.doctorappointment.R;
+import dev.edu.doctorappointment.Screen.Admin.AdminActivity;
 import dev.edu.doctorappointment.Screen.Home.HomeDoctorActivity;
 import dev.edu.doctorappointment.Screen.Home.HomeActivity;
 import dev.edu.doctorappointment.databinding.ActivityMainBinding;
@@ -71,7 +72,9 @@ public class MainActivity extends AppCompatActivity {
                 if(userType != null && userType.equals("doctor")) {
                     // Doctor login
                     intent = new Intent(this, HomeDoctorActivity.class);
-                } else {
+                } else if(userType != null && userType.equals("admin")){
+                    intent = new Intent(this, AdminActivity.class);
+                } else{
                     // Regular user login
                     intent = new Intent(this, HomeActivity.class);
                 }
