@@ -8,12 +8,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.Toolbar
+        <LinearLayout
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+            android:background="@drawable/bgtext"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Quản lý hệ thống"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+            <ImageView
+                android:id="@+id/btn_logout"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/logout"
+                app:tint="@color/white"
+                android:contentDescription="Logout" />
+
+        </LinearLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -27,6 +49,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="vertical">
 
             <com.google.android.material.card.MaterialCardView
@@ -40,6 +63,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/white"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="16dp">
@@ -47,14 +71,14 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/serviceadmin"
-                        app:tint="@color/design_default_color_primary" />
+                        android:src="@drawable/serviceadmin" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:text="Quản lý dịch vụ"
+                        android:textColor="@color/backgroundInfoHintText"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -73,6 +97,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/white"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="16dp">
@@ -80,14 +105,14 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/booking"
-                        app:tint="@color/design_default_color_primary" />
+                        android:src="@drawable/booking" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:text="Quản lý lịch hẹn"
+                        android:textColor="@color/backgroundInfoHintText"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -105,6 +130,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/white"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="16dp">
@@ -112,14 +138,14 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/profile"
-                        app:tint="@color/design_default_color_primary" />
+                        android:src="@drawable/profile" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:text="Quản lý người dùng"
+                        android:textColor="@color/backgroundInfoHintText"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 

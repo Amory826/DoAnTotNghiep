@@ -11,66 +11,62 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_gravity="center"
         android:padding="12dp">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivAvatar"
+        <ImageView
+            android:id="@+id/iv_avatar"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:scaleType="centerCrop"
+            android:src="@drawable/nam"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvName"
+            android:id="@+id/tv_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="8dp"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/btnMore"
-            app:layout_constraintStart_toEndOf="@id/ivAvatar"
-            app:layout_constraintTop_toTopOf="@id/ivAvatar" />
+            app:layout_constraintEnd_toStartOf="@id/btn_delete"
+            app:layout_constraintStart_toEndOf="@id/iv_avatar"
+            app:layout_constraintTop_toTopOf="@id/iv_avatar" />
 
         <TextView
-            android:id="@+id/tvEmail"
+            android:id="@+id/tv_email"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@id/tvName"
-            app:layout_constraintStart_toStartOf="@id/tvName"
-            app:layout_constraintTop_toBottomOf="@id/tvName" />
+            app:layout_constraintEnd_toEndOf="@id/tv_name"
+            app:layout_constraintStart_toStartOf="@id/tv_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_name" />
 
         <TextView
-            android:id="@+id/tvPhone"
+            android:id="@+id/tv_phone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@id/tvName"
-            app:layout_constraintStart_toStartOf="@id/tvName"
-            app:layout_constraintTop_toBottomOf="@id/tvEmail" />
+            app:layout_constraintEnd_toEndOf="@id/tv_name"
+            app:layout_constraintStart_toStartOf="@id/tv_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_email" />
 
         <ImageButton
-            android:id="@+id/btnMore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/btn_delete"
+            android:layout_width="@dimen/_40dp"
+            android:layout_height="@dimen/_40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="More options"
+            android:contentDescription="Delete user"
             android:padding="8dp"
-            android:src="@android:drawable/ic_menu_more"
+            android:scaleType="fitCenter"
+            android:src="@drawable/delete"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="@id/tvName"
-            app:layout_constraintTop_toBottomOf="@id/tvEmail" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

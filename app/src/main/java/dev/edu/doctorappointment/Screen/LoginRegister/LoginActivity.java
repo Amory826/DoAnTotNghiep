@@ -38,7 +38,7 @@ import dev.edu.doctorappointment.databinding.ActivityLoginBinding;
 public class LoginActivity extends AppCompatActivity {
     ActivityLoginBinding binding;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("Users");
+        DatabaseReference myRef = database.getReference("Users");
     private static final String TAG = "LoginActivity";
     private UserData userData;
 

@@ -2,8 +2,6 @@ package dev.edu.doctorappointment.Screen.Admin;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
@@ -40,23 +38,7 @@ public class AdminActivity extends AppCompatActivity {
     }
 
     private void setupToolbar() {
-        setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setTitle("Quản lý hệ thống");
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.admin_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_logout) {
-            showLogoutConfirmation();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        binding.btnLogout.setOnClickListener(v -> showLogoutConfirmation());
     }
 
     private void setupNavigationCards() {
@@ -98,17 +80,17 @@ public class AdminActivity extends AppCompatActivity {
 
     private void showLogoutConfirmation() {
         new AlertDialog.Builder(this)
-            .setTitle("Đăng xuất")
-            .setMessage("Bạn có chắc chắn muốn đăng xuất?")
-            .setPositiveButton("Đăng xuất", (dialog, which) -> logout())
-            .setNegativeButton("Hủy", null)
-            .show();
+                .setTitle("Đăng xuất")
+                .setMessage("Bạn có chắc chắn muốn đăng xuất?")
+                .setPositiveButton("Đăng xuất", (dialog, which) -> logout())
+                .setNegativeButton("Hủy", null)
+                .show();
     }
 
     private void logout() {
         UserData userData = new UserData(this);
         userData.clearData();
-        
+
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -117,19 +99,6 @@ public class AdminActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
         managementItems = new ArrayList<>();
-        // Add management items
-//        loadManagementItems();
-    }
-
-    private void setupNavigation() {
-        binding.cardServices.setOnClickListener(v ->
-            startActivity(new Intent(this, ServiceManagementActivity.class)));
-        
-        binding.cardAppointments.setOnClickListener(v -> 
-            startActivity(new Intent(this, AppointmentManagementActivity.class)));
-        
-        binding.cardUsers.setOnClickListener(v ->
-            startActivity(new Intent(this, UserManagementActivity.class)));
     }
 
     private void initAnimation() {

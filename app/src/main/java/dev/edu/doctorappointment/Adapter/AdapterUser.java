@@ -17,16 +17,16 @@ import dev.edu.doctorappointment.databinding.ItemUserBinding;
 public class AdapterUser extends RecyclerView.Adapter<AdapterUser.ViewHolder> {
     private List<UserModel> userList;
     private List<UserModel> filteredList;
-    private final UserOptionClickListener optionClickListener;
+    private final OnDeleteClickListener deleteClickListener;
 
-    public interface UserOptionClickListener {
-        void onOptionClick(UserModel user, View anchor);
+    public interface OnDeleteClickListener {
+        void onDeleteClick(UserModel user);
     }
 
-    public AdapterUser(List<UserModel> userList, UserOptionClickListener listener) {
+    public AdapterUser(List<UserModel> userList, OnDeleteClickListener listener) {
         this.userList = userList;
         this.filteredList = new ArrayList<>(userList);
-        this.optionClickListener = listener;
+        this.deleteClickListener = listener;
     }
 
     public void setFilteredList(List<UserModel> filteredList) {
@@ -44,13 +44,13 @@ public class AdapterUser extends RecyclerView.Adapter<AdapterUser.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        UserModel user = filteredList.get(position);
+        UserModel user = userList.get(position);
         holder.bind(user);
     }
 
     @Override
     public int getItemCount() {
-        return filteredList.size();
+        return userList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -70,9 +70,8 @@ public class AdapterUser extends RecyclerView.Adapter<AdapterUser.ViewHolder> {
             // Set default avatar
             binding.ivAvatar.setImageResource(R.drawable.nam);
 
-            // Set click listener for more options
-            binding.btnMore.setOnClickListener(v ->
-                    optionClickListener.onOptionClick(user, binding.btnMore));
+            // Set click listener for delete
+            binding.btnDelete.setOnClickListener(v -> deleteClickListener.onDeleteClick(user));
         }
     }
 }

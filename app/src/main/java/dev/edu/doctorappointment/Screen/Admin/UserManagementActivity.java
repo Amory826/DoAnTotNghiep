@@ -3,12 +3,13 @@ package dev.edu.doctorappointment.Screen.Admin;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -27,7 +28,8 @@ import dev.edu.doctorappointment.Model.UserModel;
 import dev.edu.doctorappointment.R;
 import dev.edu.doctorappointment.databinding.ActivityUserManagementBinding;
 
-public class UserManagementActivity extends AppCompatActivity {
+public class UserManagementActivity extends AppCompatActivity implements AdapterUser.OnDeleteClickListener {
+    private static final String TAG = "UserManagementActivity";
     private ActivityUserManagementBinding binding;
     private AdapterUser adapter;
     private List<UserModel> userList;
@@ -39,76 +41,57 @@ public class UserManagementActivity extends AppCompatActivity {
         binding = ActivityUserManagementBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Setup toolbar
-        setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        // Setup back button
+        binding.btnBack.setOnClickListener(v -> onBackPressed());
 
         // Initialize Firebase
-        usersRef = FirebaseDatabase.getInstance().getReference("Users");
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        usersRef = database.getReference("Users");
+        Log.d(TAG, "Firebase reference path: " + usersRef.toString());
 
         // Initialize RecyclerView
         userList = new ArrayList<>();
-        adapter = new AdapterUser(userList, this::showUserOptions);
+        adapter = new AdapterUser(userList, this);
         binding.rvUsers.setLayoutManager(new LinearLayoutManager(this));
         binding.rvUsers.setAdapter(adapter);
 
-        // Setup search functionality
-        binding.etSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filterUsers(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
-
-        // Setup chip group filters
-        binding.chipGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == R.id.chipAll) {
-                loadUsers();
-            } else if (checkedId == R.id.chipActive) {
-//                filterByStatus(true);
-            } else if (checkedId == R.id.chipBlocked) {
-//                filterByStatus(false);
-            }
-        });
-
-        // Load initial data
         loadUsers();
     }
 
     private void loadUsers() {
         binding.progressBar.setVisibility(View.VISIBLE);
+        Log.d(TAG, "Starting to load users...");
+
         usersRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.d(TAG, "Data snapshot received: " + dataSnapshot.getChildrenCount() + " items");
                 userList.clear();
-                int totalUsers = 0;
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    UserModel user = snapshot.getValue(UserModel.class);
-                    if (user != null) {
-                        user.setKeyID(snapshot.getKey());
-                        userList.add(user);
-                        totalUsers++;
+                    try {
+                        Log.d(TAG, "Processing user data: " + snapshot.getValue());
+                        UserModel user = snapshot.getValue(UserModel.class);
+                        if (user != null) {
+                            user.setKeyID(snapshot.getKey());
+                            userList.add(user);
+                            Log.d(TAG, "Added user: " + user.getName());
+                        }
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error processing user data: " + e.getMessage());
+                        e.printStackTrace();
                     }
                 }
 
-                // Update statistics
-                binding.tvTotalUsers.setText(String.valueOf(totalUsers));
-
+                Log.d(TAG, "Total users loaded: " + userList.size());
                 adapter.notifyDataSetChanged();
                 updateEmptyState();
                 binding.progressBar.setVisibility(View.GONE);
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(TAG, "Database error: " + databaseError.getMessage());
                 Toast.makeText(UserManagementActivity.this,
                         "Lỗi: " + databaseError.getMessage(),
                         Toast.LENGTH_SHORT).show();
@@ -130,17 +113,6 @@ public class UserManagementActivity extends AppCompatActivity {
         updateEmptyState();
     }
 
-//    private void filterByStatus(boolean isActive) {
-//        List<UserModel> filteredList = new ArrayList<>();
-//        for (UserModel user : userList) {
-//            if (user.isActive() == isActive) {
-//                filteredList.add(user);
-//            }
-//        }
-//        adapter.setFilteredList(filteredList);
-//        updateEmptyState();
-//    }
-
     private void updateEmptyState() {
         if (adapter.getItemCount() == 0) {
             binding.tvEmpty.setVisibility(View.VISIBLE);
@@ -151,23 +123,8 @@ public class UserManagementActivity extends AppCompatActivity {
         }
     }
 
-    private void showUserOptions(UserModel user, View anchor) {
-        PopupMenu popup = new PopupMenu(this, anchor);
-        popup.getMenuInflater().inflate(R.menu.admin_menu, popup.getMenu());
-
-        popup.setOnMenuItemClickListener(item -> {
-            int itemId = item.getItemId();
-//            if (itemId == R.id.action_delete) {
-//                confirmDeleteUser(user);
-//                return true;
-//            }
-            return false;
-        });
-
-        popup.show();
-    }
-
-    private void confirmDeleteUser(UserModel user) {
+    @Override
+    public void onDeleteClick(UserModel user) {
         new MaterialAlertDialogBuilder(this)
                 .setTitle("Xác nhận xóa")
                 .setMessage("Bạn có chắc chắn muốn xóa người dùng này?")
@@ -178,12 +135,16 @@ public class UserManagementActivity extends AppCompatActivity {
 
     private void deleteUser(UserModel user) {
         usersRef.child(user.getKeyID()).removeValue()
-                .addOnSuccessListener(aVoid ->
-                        Toast.makeText(this, "Đã xóa người dùng",
-                                Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e ->
-                        Toast.makeText(this, "Lỗi: " + e.getMessage(),
-                                Toast.LENGTH_SHORT).show());
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(this, "Đã xóa người dùng",
+                            Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "User deleted successfully: " + user.getKeyID());
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Lỗi: " + e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "Error deleting user: " + e.getMessage());
+                });
     }
 
     @Override

@@ -179,7 +179,7 @@
             <ImageView
                 android:id="@+id/mess"
                 android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_height="14dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:src="@drawable/mess" />
