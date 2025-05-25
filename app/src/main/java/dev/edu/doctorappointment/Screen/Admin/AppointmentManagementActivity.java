@@ -1,6 +1,7 @@
 package dev.edu.doctorappointment.Screen.Admin;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.chip.Chip;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,19 +19,22 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import dev.edu.doctorappointment.Adapter.AdminAppointmentAdapter;
 import dev.edu.doctorappointment.Model.AppointmentModel;
 import dev.edu.doctorappointment.Model.DoctorsModel;
+import dev.edu.doctorappointment.Model.UserModel;
 import dev.edu.doctorappointment.databinding.ActivityAppointmentManagementBinding;
 
-public class AppointmentManagementActivity extends AppCompatActivity {
+public class AppointmentManagementActivity extends AppCompatActivity
+        implements AdminAppointmentAdapter.AppointmentActionListener {
+    private static final String TAG = "AppointmentManagement";
     private ActivityAppointmentManagementBinding binding;
+    private AdminAppointmentAdapter adapter;
     private List<AppointmentModel> allAppointments;
-    private List<AppointmentModel> filteredAppointments;
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference appointmentRef;
     private DatabaseReference doctorRef;
+    private DatabaseReference userRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,33 +43,70 @@ public class AppointmentManagementActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setupToolbar();
+        setupFirebase();
         setupRecyclerView();
         setupChipGroup();
         loadAppointments();
     }
 
     private void setupToolbar() {
-        setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        binding.btnBack.setOnClickListener(v -> onBackPressed());
+    }
+
+    private void setupFirebase() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        appointmentRef = database.getReference("Appointments");
+        doctorRef = database.getReference("Doctors");
+        userRef = database.getReference("Users");
     }
 
     private void setupRecyclerView() {
         allAppointments = new ArrayList<>();
-        filteredAppointments = new ArrayList<>();
-//        adapter = new AppointmentAdapter(filteredAppointments,
-//                this::updateAppointmentStatus,
-//                this::loadDoctorInfo);
+        adapter = new AdminAppointmentAdapter(
+                this,
+                allAppointments,
+                this,
+                this::loadDoctorInfo,
+                this::loadUserInfo
+        );
+        binding.rvAppointments.setLayoutManager(new LinearLayoutManager(this));
+        binding.rvAppointments.setAdapter(adapter);
+    }
 
-//        binding.rvAppointments.setAdapter(adapter);
-//        binding.rvAppointments.setLayoutManager(new LinearLayoutManager(this));
+    private void loadUserInfo(String userId, AdminAppointmentAdapter.UserInfoCallback callback) {
+        userRef.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserModel user = snapshot.getValue(UserModel.class);
+                if (user != null) {
+                    callback.onUserInfoLoaded(user);
+                }
+            }
 
-        appointmentRef = database.getReference("Appointments");
-        doctorRef = database.getReference("Doctors");
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(TAG, "Error loading user info: " + error.getMessage());
+            }
+        });
     }
 
     private void setupChipGroup() {
-        binding.chipGroup.setOnCheckedChangeListener((group, checkedId) -> filterAppointments());
+        binding.chipGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            Chip chip = group.findViewById(checkedId);
+            if (chip != null) {
+                String status = getStatusFromChipId(checkedId);
+                filterAppointments(status);
+            }
+        });
+    }
+
+    private String getStatusFromChipId(int chipId) {
+        if (chipId == binding.chipAll.getId()) return "all";
+        if (chipId == binding.chipPending.getId()) return "pending";
+        if (chipId == binding.chipConfirmed.getId()) return "confirmed";
+        if (chipId == binding.chipCompleted.getId()) return "completed";
+        if (chipId == binding.chipCancelled.getId()) return "cancelled";
+        return "all";
     }
 
     private void loadAppointments() {
@@ -80,80 +122,93 @@ public class AppointmentManagementActivity extends AppCompatActivity {
                         allAppointments.add(appointment);
                     }
                 }
-                filterAppointments();
+                filterAppointments(getStatusFromChipId(binding.chipGroup.getCheckedChipId()));
                 binding.progressBar.setVisibility(View.GONE);
+                updateEmptyState();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(AppointmentManagementActivity.this,
-                        "Lỗi: " + error.getMessage(),
-                        Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Error loading appointments: " + error.getMessage());
                 binding.progressBar.setVisibility(View.GONE);
+                Toast.makeText(AppointmentManagementActivity.this,
+                        "Lỗi: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void filterAppointments() {
-        Chip selectedChip = findViewById(binding.chipGroup.getCheckedChipId());
-        String filter = selectedChip != null ? selectedChip.getText().toString() : "Tất cả";
+    private void loadDoctorInfo(AppointmentModel appointment, AdminAppointmentAdapter.DoctorInfoCallback callback) {
+        doctorRef.child(appointment.getDoctorId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                DoctorsModel doctor = snapshot.getValue(DoctorsModel.class);
+                if (doctor != null) {
+                    callback.onDoctorInfoLoaded(doctor);
+                }
+            }
 
-        filteredAppointments.clear();
-        filteredAppointments.addAll(allAppointments.stream()
-                .filter(appointment -> {
-                    switch (filter) {
-                        case "Chờ xác nhận":
-                            return appointment.getStatus().equals("pending");
-                        case "Đã xác nhận":
-                            return appointment.getStatus().equals("approved");
-                        case "Đã từ chối":
-                            return appointment.getStatus().equals("rejected");
-                        default:
-                            return true;
-                    }
-                })
-                .collect(Collectors.toList()));
-
-//        adapter.notifyDataSetChanged();
-        updateEmptyView();
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(TAG, "Error loading doctor info: " + error.getMessage());
+            }
+        });
     }
 
-    private void updateEmptyView() {
-        binding.tvEmpty.setVisibility(filteredAppointments.isEmpty() ? View.VISIBLE : View.GONE);
+    private void filterAppointments(String status) {
+        List<AppointmentModel> filteredList = new ArrayList<>();
+        if (status.equals("all")) {
+            filteredList.addAll(allAppointments);
+        } else {
+            for (AppointmentModel appointment : allAppointments) {
+                if (appointment.getStatus().equals(status)) {
+                    filteredList.add(appointment);
+                }
+            }
+        }
+        adapter.updateAppointments(filteredList);
+        updateEmptyState();
+    }
+
+    private void updateEmptyState() {
+        if (adapter.getItemCount() == 0) {
+            binding.tvEmpty.setVisibility(View.VISIBLE);
+            binding.rvAppointments.setVisibility(View.GONE);
+        } else {
+            binding.tvEmpty.setVisibility(View.GONE);
+            binding.rvAppointments.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onApprove(AppointmentModel appointment) {
+        updateAppointmentStatus(appointment, "confirmed");
+    }
+
+    @Override
+    public void onReject(AppointmentModel appointment) {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("Xác nhận từ chối")
+                .setMessage("Bạn có chắc chắn muốn từ chối lịch hẹn này?")
+                .setPositiveButton("Từ chối", (dialog, which) ->
+                        updateAppointmentStatus(appointment, "cancelled"))
+                .setNegativeButton("Hủy", null)
+                .show();
+    }
+
+    @Override
+    public void onViewDetails(AppointmentModel appointment) {
+        // TODO: Implement view details functionality
+        Toast.makeText(this, "Xem chi tiết: " + appointment.getAppointmentId(),
+                Toast.LENGTH_SHORT).show();
     }
 
     private void updateAppointmentStatus(AppointmentModel appointment, String newStatus) {
-        binding.progressBar.setVisibility(View.VISIBLE);
-        appointment.setStatus(newStatus);
-
-        appointmentRef.child(appointment.getAppointmentId()).setValue(appointment)
-                .addOnSuccessListener(unused -> {
-                    String message = "Đã cập nhật trạng thái lịch hẹn";
-                    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-                    binding.progressBar.setVisibility(View.GONE);
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    binding.progressBar.setVisibility(View.GONE);
-                });
+        appointmentRef.child(appointment.getAppointmentId())
+                .child("status")
+                .setValue(newStatus)
+                .addOnSuccessListener(aVoid -> Toast.makeText(this,
+                        "Đã cập nhật trạng thái", Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> Toast.makeText(this,
+                        "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
-
-//    private void loadDoctorInfo(AppointmentModel appointment, AppointmentAdapter.DoctorInfoCallback callback) {
-//        doctorRef.child(appointment.getDoctorId()).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                DoctorsModel doctor = snapshot.getValue(DoctorsModel.class);
-//                if (doctor != null) {
-//                    callback.onDoctorInfoLoaded(doctor);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Toast.makeText(AppointmentManagementActivity.this,
-//                        "Lỗi tải thông tin bác sĩ: " + error.getMessage(),
-//                        Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
 }

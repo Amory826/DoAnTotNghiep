@@ -10,4 +10,13 @@
     <color name="holo_orange_dark">#ffff8800</color>
     <color name="edit_info">#E9F6FE</color>
     <color name="textGreen">#009966</color>
+
+    <!-- Appointment Status Colors -->
+    <color name="pending">#FFA726</color>
+    <color name="confirmed">#66BB6A</color>
+    <color name="completed">#42A5F5</color>
+    <color name="cancelled">#EF5350</color>
+
+    <!-- Divider -->
+    <color name="divider">#E0E0E0</color>
 </resources>

@@ -15,6 +15,7 @@ import java.util.List;
 
 import dev.edu.doctorappointment.Model.AppointmentModel;
 import dev.edu.doctorappointment.Model.DoctorsModel;
+import dev.edu.doctorappointment.Model.UserModel;
 import dev.edu.doctorappointment.R;
 import dev.edu.doctorappointment.databinding.ItemAppointmentAdminBinding;
 
@@ -23,6 +24,7 @@ public class AdminAppointmentAdapter extends RecyclerView.Adapter<AdminAppointme
     private final Context context;
     private final AppointmentActionListener actionListener;
     private final DoctorInfoLoader doctorInfoLoader;
+    private final UserInfoLoader userInfoLoader;
 
     public interface AppointmentActionListener {
         void onApprove(AppointmentModel appointment);
@@ -34,18 +36,28 @@ public class AdminAppointmentAdapter extends RecyclerView.Adapter<AdminAppointme
         void loadDoctorInfo(AppointmentModel appointment, DoctorInfoCallback callback);
     }
 
+    public interface UserInfoLoader {
+        void loadUserInfo(String userId, UserInfoCallback callback);
+    }
+
     public interface DoctorInfoCallback {
         void onDoctorInfoLoaded(DoctorsModel doctor);
+    }
+
+    public interface UserInfoCallback {
+        void onUserInfoLoaded(UserModel user);
     }
 
     public AdminAppointmentAdapter(Context context,
                                    List<AppointmentModel> appointments,
                                    AppointmentActionListener actionListener,
-                                   DoctorInfoLoader doctorInfoLoader) {
+                                   DoctorInfoLoader doctorInfoLoader,
+                                   UserInfoLoader userInfoLoader) {
         this.context = context;
         this.appointments = appointments;
         this.actionListener = actionListener;
         this.doctorInfoLoader = doctorInfoLoader;
+        this.userInfoLoader = userInfoLoader;
     }
 
     @NonNull
@@ -81,63 +93,70 @@ public class AdminAppointmentAdapter extends RecyclerView.Adapter<AdminAppointme
         }
 
         public void bind(AppointmentModel appointment) {
-            // Patient Info
-            binding.tvPatientName.setText(appointment.getPatientName());
-            binding.tvPatientPhone.setText(appointment.getPatientPhone());
+            // Load User Info
+            userInfoLoader.loadUserInfo(appointment.getUserId(), user -> {
+                binding.tvPatientName.setText(user.getName());
+                binding.tvPatientPhone.setText(user.getPhone());
+            });
 
             // Appointment Info
             binding.tvAppointmentDate.setText(appointment.getAppointmentTime());
             binding.tvAppointmentTime.setText(appointment.getAppointmentSlot());
-            binding.tvServiceInfo.setText(appointment.getServiceId());
+            binding.tvServiceInfo.setText("Dịch vụ: " + appointment.getServiceId());
 
             // Status Chip
             setupStatusChip(appointment.getStatus());
 
             // Load Doctor Info
             doctorInfoLoader.loadDoctorInfo(appointment, doctor -> {
-                binding.tvDoctorName.setText("Bác sĩ: " + doctor.getName());
-                binding.tvClinicInfo.setText("Phòng khám: " + doctor.getClinicName());
+                binding.tvDoctorName.setText(doctor.getName());
+                binding.tvClinicInfo.setText(doctor.getClinicName());
             });
 
             // Examination Results
-            if (appointment.getStatus().equals("Đã trả kết quả") && appointment.getExaminationResults() != null) {
+            if (appointment.getStatus().equals("completed") && appointment.getExaminationResults() != null) {
                 binding.layoutExaminationResults.setVisibility(View.VISIBLE);
-                binding.tvDiagnosis.setText("Chẩn đoán: " + appointment.getExaminationResults().get(""));
-                binding.tvPrescription.setText("Đơn thuốc: " + appointment.getPrescription());
-                binding.tvNote.setText("Ghi chú: " + appointment.getTreatmentGuide());
+                binding.tvDiagnosis.setText("Chẩn đoán: " + appointment.getExaminationResults().get("diagnosis"));
+                binding.tvPrescription.setText("Đơn thuốc: " + appointment.getExaminationResults().get("prescription"));
+                binding.tvNote.setText("Ghi chú: " + appointment.getExaminationResults().get("note"));
             } else {
                 binding.layoutExaminationResults.setVisibility(View.GONE);
             }
 
-            // Button Visibility
+            // Button Visibility and Click Listeners
             setupButtons(appointment);
-
-            // Click Listeners
-            binding.btnApprove.setOnClickListener(v -> actionListener.onApprove(appointment));
-            binding.btnReject.setOnClickListener(v -> actionListener.onReject(appointment));
-            binding.btnViewDetails.setOnClickListener(v -> actionListener.onViewDetails(appointment));
         }
 
         private void setupStatusChip(String status) {
             Chip chip = binding.chipStatus;
+            int bgColor;
+            String statusText;
+
             switch (status) {
-                case "pending":
-                    chip.setText("Chờ xác nhận");
-                    chip.setChipBackgroundColorResource(android.R.color.holo_orange_light);
+
+                case "Đã thanh toán":
+                    statusText = "Đã thanh toán";
+                    bgColor = R.color.confirmed;
                     break;
-                case "approved":
-                    chip.setText("Đã xác nhận");
-                    chip.setChipBackgroundColorResource(android.R.color.holo_green_light);
+                case "Đã xác nhận":
+                    statusText = "Đã hoàn thành";
+                    bgColor = R.color.confirmed;
                     break;
-                case "rejected":
-                    chip.setText("Đã từ chối");
-                    chip.setChipBackgroundColorResource(android.R.color.holo_red_light);
+                case "Đã trả kết quả":
+                    statusText = "Đã trả kết quả";
+                    bgColor = R.color.confirmed;
                     break;
-                case "completed":
-                    chip.setText("Đã hoàn thành");
-                    chip.setChipBackgroundColorResource(android.R.color.holo_blue_light);
+                case "Đã hủy":
+                    statusText = "Đã hủy";
+                    bgColor = R.color.cancelled;
                     break;
+                default:
+                    statusText = "Không xác định";
+                    bgColor = android.R.color.darker_gray;
             }
+
+            chip.setText(statusText);
+            chip.setChipBackgroundColorResource(bgColor);
             chip.setTextColor(ContextCompat.getColor(context, android.R.color.white));
         }
 
@@ -145,6 +164,10 @@ public class AdminAppointmentAdapter extends RecyclerView.Adapter<AdminAppointme
             boolean isPending = appointment.getStatus().equals("pending");
             binding.btnApprove.setVisibility(isPending ? View.VISIBLE : View.GONE);
             binding.btnReject.setVisibility(isPending ? View.VISIBLE : View.GONE);
+
+            binding.btnApprove.setOnClickListener(v -> actionListener.onApprove(appointment));
+            binding.btnReject.setOnClickListener(v -> actionListener.onReject(appointment));
+            binding.btnViewDetails.setOnClickListener(v -> actionListener.onViewDetails(appointment));
         }
     }
 }

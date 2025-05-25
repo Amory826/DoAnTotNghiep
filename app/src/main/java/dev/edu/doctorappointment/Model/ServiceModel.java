@@ -10,7 +10,14 @@ public class ServiceModel implements Serializable {
     public String icon;
     public String description;
 
+    // Required empty constructor for Firebase
+    public ServiceModel() {
+    }
+
     public ServiceModel(String name, String description, double price) {
+        this.name = name;
+        this.description = description;
+        this.price = String.valueOf(price);
     }
 
     public ServiceModel(String name, String keyID, String price, String icon, String description) {

@@ -17,7 +17,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import dev.edu.doctorappointment.Model.AppointmentModel;
@@ -179,18 +184,52 @@ public class DetailBookingActivity extends AppCompatActivity {
 
                     // Set status color and button visibility based on appointment status
                     String status = currentAppointment.getStatus();
-                    if ("Đã xác nhận".equals(status) || "Đã thanh toán".equals(status) || "Đã trả kết quả".equals(status)) {
-                        binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
-                        // Ẩn nút hủy lịch nếu đã xác nhận hoặc đã trả kết quả
+
+                    // Lấy ngày hiện tại
+                    Calendar today = Calendar.getInstance();
+                    today.set(Calendar.HOUR_OF_DAY, 0);
+                    today.set(Calendar.MINUTE, 0);
+                    today.set(Calendar.SECOND, 0);
+                    today.set(Calendar.MILLISECOND, 0);
+
+                    // Parse ngày hẹn
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                    try {
+                        Date appointmentDate = dateFormat.parse(currentAppointment.getAppointmentTime());
+                        Calendar appointmentCal = Calendar.getInstance();
+                        appointmentCal.setTime(appointmentDate);
+                        appointmentCal.set(Calendar.HOUR_OF_DAY, 0);
+                        appointmentCal.set(Calendar.MINUTE, 0);
+                        appointmentCal.set(Calendar.SECOND, 0);
+                        appointmentCal.set(Calendar.MILLISECOND, 0);
+
+                        boolean isAppointmentToday = appointmentCal.equals(today);
+                        boolean isPastAppointment = appointmentCal.before(today);
+
+                        if ("Đã xác nhận".equals(status) || "Đã thanh toán".equals(status) || "Đã trả kết quả".equals(status)) {
+                            binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+                            // Chỉ cho phép hủy nếu không phải ngày hẹn và chưa qua ngày hẹn
+                            if ("Đã thanh toán".equals(status) && !isAppointmentToday && !isPastAppointment) {
+                                binding.btnCancel.setVisibility(View.VISIBLE);
+                            } else {
+                                binding.btnCancel.setVisibility(View.GONE);
+                            }
+                        } else if ("Đã hủy".equals(status) || "Cancelled".equals(status)) {
+                            binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+                            binding.btnCancel.setVisibility(View.GONE);
+                        } else {
+                            binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
+                            // Chỉ cho phép hủy nếu không phải ngày hẹn và chưa qua ngày hẹn
+                            if (!isAppointmentToday && !isPastAppointment) {
+                                binding.btnCancel.setVisibility(View.VISIBLE);
+                            } else {
+                                binding.btnCancel.setVisibility(View.GONE);
+                            }
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        // Nếu có lỗi khi parse ngày, ẩn nút hủy để đảm bảo an toàn
                         binding.btnCancel.setVisibility(View.GONE);
-                    } else if ("Đã hủy".equals(status) || "Cancelled".equals(status)) {
-                        binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
-                        // Ẩn nút hủy lịch nếu đã hủy
-                        binding.btnCancel.setVisibility(View.GONE);
-                    } else {
-                        binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
-                        // Hiển thị nút hủy lịch nếu chưa xác nhận
-                        binding.btnCancel.setVisibility(View.VISIBLE);
                     }
 
                     // Load examination results if status is "Đã trả kết quả"
