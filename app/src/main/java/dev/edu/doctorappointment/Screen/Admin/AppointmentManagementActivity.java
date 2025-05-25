@@ -191,7 +191,7 @@ public class AppointmentManagementActivity extends AppCompatActivity
     }
 
     @Override
-    public void onReject(AppointmentModel appointment) {
+    public void onCancel(AppointmentModel appointment) {
         new MaterialAlertDialogBuilder(this)
                 .setTitle("Xác nhận từ chối")
                 .setMessage("Bạn có chắc chắn muốn từ chối lịch hẹn này?")
@@ -202,10 +202,13 @@ public class AppointmentManagementActivity extends AppCompatActivity
     }
 
     @Override
-    public void onViewDetails(AppointmentModel appointment) {
-        // TODO: Implement view details functionality
-        Toast.makeText(this, "Xem chi tiết: " + appointment.getAppointmentId(),
-                Toast.LENGTH_SHORT).show();
+    public void onConfirm(AppointmentModel appointment) {
+
+    }
+
+    @Override
+    public void onPayment(AppointmentModel appointment) {
+
     }
 
     private void updateAppointmentStatus(AppointmentModel appointment, String newStatus) {

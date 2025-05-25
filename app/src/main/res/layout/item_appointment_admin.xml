@@ -161,26 +161,27 @@
             android:gravity="end">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnViewDetails"
+                android:id="@+id/btnCancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Chi tiết"
+                android:text="Hủy lịch"
                 android:layout_marginEnd="8dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                app:backgroundTint="@android:color/holo_red_light"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnApprove"
+                android:id="@+id/btnConfirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Xác nhận"
+                app:backgroundTint="@color/backgroundInfoHintText"
                 android:layout_marginEnd="8dp"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnReject"
+                android:id="@+id/btnPayment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Từ chối"
-                app:backgroundTint="@android:color/holo_red_light"/>
+                app:backgroundTint="@color/backgroundInfoHintText"
+                android:text="Thanh toán"/>
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

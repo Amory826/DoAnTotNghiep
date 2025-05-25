@@ -27,9 +27,9 @@ public class AdminAppointmentAdapter extends RecyclerView.Adapter<AdminAppointme
     private final UserInfoLoader userInfoLoader;
 
     public interface AppointmentActionListener {
-        void onApprove(AppointmentModel appointment);
-        void onReject(AppointmentModel appointment);
-        void onViewDetails(AppointmentModel appointment);
+        void onCancel(AppointmentModel appointment);
+        void onConfirm(AppointmentModel appointment);
+        void onPayment(AppointmentModel appointment);
     }
 
     public interface DoctorInfoLoader {
@@ -133,13 +133,12 @@ public class AdminAppointmentAdapter extends RecyclerView.Adapter<AdminAppointme
             String statusText;
 
             switch (status) {
-
                 case "Đã thanh toán":
                     statusText = "Đã thanh toán";
                     bgColor = R.color.confirmed;
                     break;
                 case "Đã xác nhận":
-                    statusText = "Đã hoàn thành";
+                    statusText = "Đã xác nhận";
                     bgColor = R.color.confirmed;
                     break;
                 case "Đã trả kết quả":
@@ -161,13 +160,35 @@ public class AdminAppointmentAdapter extends RecyclerView.Adapter<AdminAppointme
         }
 
         private void setupButtons(AppointmentModel appointment) {
-            boolean isPending = appointment.getStatus().equals("pending");
-            binding.btnApprove.setVisibility(isPending ? View.VISIBLE : View.GONE);
-            binding.btnReject.setVisibility(isPending ? View.VISIBLE : View.GONE);
+            String status = appointment.getStatus();
 
-            binding.btnApprove.setOnClickListener(v -> actionListener.onApprove(appointment));
-            binding.btnReject.setOnClickListener(v -> actionListener.onReject(appointment));
-            binding.btnViewDetails.setOnClickListener(v -> actionListener.onViewDetails(appointment));
+            // Hide all buttons by default
+            binding.btnCancel.setVisibility(View.GONE);
+            binding.btnConfirm.setVisibility(View.GONE);
+            binding.btnPayment.setVisibility(View.GONE);
+
+
+            switch (status) {
+                case "Đã thanh toán":
+                    // Show Cancel and Confirm buttons
+                    binding.btnCancel.setVisibility(View.VISIBLE);
+                    binding.btnConfirm.setVisibility(View.VISIBLE);
+                    binding.btnCancel.setOnClickListener(v -> actionListener.onCancel(appointment));
+                    binding.btnConfirm.setOnClickListener(v -> actionListener.onConfirm(appointment));
+                    break;
+
+                case "Đã xác nhận":
+                    // Show Cancel and Payment buttons
+                    binding.btnCancel.setVisibility(View.VISIBLE);
+                    binding.btnPayment.setVisibility(View.VISIBLE);
+                    binding.btnCancel.setOnClickListener(v -> actionListener.onCancel(appointment));
+                    binding.btnPayment.setOnClickListener(v -> actionListener.onPayment(appointment));
+                    break;
+
+                case "Đã trả kết quả":
+                    // No additional buttons shown
+                    break;
+            }
         }
     }
 }
