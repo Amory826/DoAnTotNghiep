@@ -36,6 +36,12 @@ public class AppointmentManagementActivity extends AppCompatActivity
     private DatabaseReference doctorRef;
     private DatabaseReference userRef;
 
+    // Constants for appointment status
+    private static final String STATUS_PAID = "Đã thanh toán";
+    private static final String STATUS_CONFIRMED = "Đã xác nhận";
+    private static final String STATUS_COMPLETED = "Đã trả kết quả";
+    private static final String STATUS_CANCELLED = "Đã hủy";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,10 +108,10 @@ public class AppointmentManagementActivity extends AppCompatActivity
 
     private String getStatusFromChipId(int chipId) {
         if (chipId == binding.chipAll.getId()) return "all";
-        if (chipId == binding.chipPending.getId()) return "pending";
-        if (chipId == binding.chipConfirmed.getId()) return "confirmed";
-        if (chipId == binding.chipCompleted.getId()) return "completed";
-        if (chipId == binding.chipCancelled.getId()) return "cancelled";
+        if (chipId == binding.chipPaid.getId()) return STATUS_PAID;
+        if (chipId == binding.chipConfirmed.getId()) return STATUS_CONFIRMED;
+        if (chipId == binding.chipCompleted.getId()) return STATUS_COMPLETED;
+        if (chipId == binding.chipCancelled.getId()) return STATUS_CANCELLED;
         return "all";
     }
 
@@ -181,7 +187,7 @@ public class AppointmentManagementActivity extends AppCompatActivity
 
     @Override
     public void onApprove(AppointmentModel appointment) {
-        updateAppointmentStatus(appointment, "confirmed");
+        updateAppointmentStatus(appointment, STATUS_CONFIRMED);
     }
 
     @Override
@@ -190,7 +196,7 @@ public class AppointmentManagementActivity extends AppCompatActivity
                 .setTitle("Xác nhận từ chối")
                 .setMessage("Bạn có chắc chắn muốn từ chối lịch hẹn này?")
                 .setPositiveButton("Từ chối", (dialog, which) ->
-                        updateAppointmentStatus(appointment, "cancelled"))
+                        updateAppointmentStatus(appointment, STATUS_CANCELLED))
                 .setNegativeButton("Hủy", null)
                 .show();
     }

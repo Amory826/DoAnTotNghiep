@@ -60,11 +60,11 @@
                 android:text="Tất cả" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip_pending"
+                android:id="@+id/chip_paid"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Chờ xác nhận" />
+                android:text="Đã thanh toán" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_confirmed"
@@ -78,7 +78,7 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Đã hoàn thành" />
+                android:text="Đã trả kết quả" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_cancelled"
