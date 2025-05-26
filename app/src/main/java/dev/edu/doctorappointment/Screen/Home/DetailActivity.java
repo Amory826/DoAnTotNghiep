@@ -217,7 +217,7 @@ public class DetailActivity extends AppCompatActivity {
 
                     if (currentBookings >= doctor.getMaxBookingsPerSlot()) {
                         dialog.dismiss();
-                        TipDialog.show(this, "Slot đã đạt số lượng đặt tối đa! Vui lòng chọn vào thời gian khác!", TipDialog.TYPE.ERROR);
+                        TipDialog.show(this, "Số lượng đặt đã đạt số lượng đặt tối đa! Vui lòng chọn vào thời gian khác!”", TipDialog.TYPE.ERROR);
                         return;
                     }
 
