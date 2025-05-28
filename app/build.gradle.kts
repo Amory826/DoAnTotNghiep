@@ -52,6 +52,10 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation (libs.material.v150)
+    implementation(fileTree(mapOf(
+        "dir" to "D:\\Android\\DoAnTotNghiep",
+        "include" to listOf("*.aar", "*.jar")
+    )))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
@@ -64,4 +68,8 @@ dependencies {
     implementation(libs.volley)
     //picaso
     implementation(libs.picasso)
+
+    //zalopay
+    implementation(libs.okhttp.v460)
+    implementation(libs.commons.codec)
 }
